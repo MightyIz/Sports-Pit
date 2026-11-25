@@ -246,8 +246,16 @@ body.hasdock{padding-bottom:64px}
 .tk.tv.idle .tkbar{visibility:hidden}
 .tk.tv .tkrow.single{font-size:clamp(34px,7vw,120px)}
 .tk.tv.idle,.tk.tv.idle *{cursor:none}
+.tkctl{display:none}.tk.showctl .tkctl{display:flex}
+.tknote{display:none}.tk.showctl .tknote{display:block}
+#tkGear{display:inline-block}#tkClose{display:none}
+.tkbar .tkclk{display:none}.tkbar{gap:10px}.tkbar .scrnav{flex:1}
+header.top{align-items:center}
+.menu{position:relative}
+.menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
+.menubody{position:absolute;right:0;top:calc(100% + 6px);z-index:12;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;width:min(320px,88vw);display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .scrnav{display:flex;gap:8px;flex:1;min-width:0}
-.scrnav button{flex:1;min-width:0;font:700 clamp(14px,3.4vw,22px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:14px 6px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.scrnav button{flex:1;min-width:0;font:700 clamp(12px,3vw,20px) var(--disp);letter-spacing:.02em;text-transform:uppercase;padding:12px 3px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .scrnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .scrnav select,.laysel{width:100%;font:700 clamp(18px,4.6vw,26px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:12px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .laysel{font-size:15px;padding:8px 12px;max-width:260px;text-transform:none;letter-spacing:0}
@@ -275,12 +283,12 @@ body.hasdock{padding-bottom:64px}
 <body>
 <div class="wrap">
   <header class="top">
-    <div>
-      <h1>The Sports Pit</h1>
-      <div class="sub">All times in <select id="tzSel" aria-label="Time zone" style="font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 4px;max-width:210px"></select></div>
-      <div class="sub" id="updAt"></div>
-    </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button></div>
+    <h1>The Sports Pit</h1>
+    <details class="menu" id="menu"><summary class="theme">Menu</summary><div class="menubody">
+      <div class="sub" style="width:100%">All times in <select id="tzSel" aria-label="Time zone" style="font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 4px;max-width:210px"></select></div>
+      <div class="sub" id="updAt" style="width:100%"></div>
+      <button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button" style="display:none">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button>
+    </div></details>
   </header>
 
   <nav class="scrnav" id="scrnav" aria-label="Screens"></nav>
@@ -305,13 +313,13 @@ body.hasdock{padding-bottom:64px}
 
   <div class="board" id="board"><div class="scroller" id="scroller"><div class="grid" id="grid"></div></div></div>
   <div id="alt" style="display:none"></div>
+  <div id="banner" class="bn" style="display:none;margin-top:14px"></div>
+  <div id="strip" class="strip" style="display:none;margin-top:10px" aria-label="Latest scores"></div>
   </div>
 
-  <div id="gamesScr" style="display:none">
-    <h2 class="gh">Games of the Day</h2>
-    <div id="banner" class="bn" style="display:none"></div>
-    <div id="strip" class="strip" style="display:none" aria-label="Latest scores"></div>
-    <div id="gtw"></div>
+  <div id="newsScr" style="display:none">
+    <h2 class="gh">News</h2>
+    <div id="nw"></div>
   </div>
 
   <footer>
@@ -1318,7 +1326,7 @@ function drawFilters(){
   GR.forEach(function(x){if(on.length===x[1].length&&grOn(x[1]))cur="gr:"+x[0]});
   if(n===1)cur="lg:"+on[0];
   var lbl=n===0?"All leagues":(n<=2?on.map(function(k){return LG[k].l||k}).join(" + "):n+" leagues");
-  var h='<button type="button" class="laysel" id="lgBtn" data-lgopen="1" aria-label="Choose leagues">'+esc(lbl)+' \u25BE</button>';
+  var h="";
   var act=(st.fav?1:0)+(st.co?1:0)+(st.can?1:0)+(st.pin?1:0)+(st.svcOpen?1:0);
   h+='<button class="chip" type="button" data-more2="1" aria-pressed="'+st.moreOpen+'">More'+(act?' ('+act+')':'')+' \u25BE</button>';
   h+='<input class="search" id="q" type="search" placeholder="Find a team" value="'+esc(st.q)+'" aria-label="Find a team">';
@@ -1812,7 +1820,7 @@ function drawAlt(keep){
 }
 function renderView(keep){
   if(st.lay==="timeline")draw(keep);else drawAlt(keep);
-  drawStrip();drawBanner();if(SCR==="games")drawGames();
+  drawStrip();drawBanner();if(SCR==="news")drawNews();
 }
 function refresh(keep){
   var L=st.lay,range=(L==="timeline"||L==="list"||L==="cards"),flt=range||L==="wk"||L==="mo";
@@ -1961,7 +1969,7 @@ function tkRender(){
    TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join("");
   var sel=pref("tklg",{}),nsel=Object.keys(sel).filter(function(k){return sel[k]}).length;
   var lgl=nsel===0?"All leagues":(nsel<=2?LGORDER.filter(function(k){return sel[k]}).map(function(k){return lgName(k)}).join(" + "):nsel+" leagues");
-  var lgc='<button type="button" class="laysel" data-tklgopen="1" aria-label="Choose leagues">'+esc(lgl)+' &#9662;</button>';
+  var lgc="";
   $("tkctl").innerHTML=ctl;
   $("tklgs").innerHTML=lgc;
   var h="",none='<section class="tkrow"><div class="tkview"><span class="tki"><small>'+(pref("tklive",false)?'No live games right now. Turn off Live only to see everything.':'Nothing to show right now.')+'</small></span></div></section>';
@@ -2085,7 +2093,7 @@ $("sheet").addEventListener("click",function(e){
   else if((b=t.closest("[data-lggr]"))){var nm=b.getAttribute("data-lggr");GR.forEach(function(x){if(x[0]===nm){var on=grOn(x[1]);x[1].forEach(function(k){st.lg[k]=!on})}})}
   else if((b=t.closest("[data-lgp]"))){var k=b.getAttribute("data-lgp");st.lg[k]=!st.lg[k]}
   else return;
-  st.lim=80;refresh(true);openLeagues();
+  st.lim=80;refresh(true);setPref("tklg",Object.assign({},st.lg));tkAll();drawNav();if(SCR==="news")drawNews();openLeagues();
 });
 $("filters").addEventListener("change",function(e){
   if(e.target.id!=="lgSel")return;
@@ -2432,34 +2440,36 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
   setTimeout(tkDockRender,1200);
   setInterval(tkDockRender,10*60000);
 })();
-var SCR=load("sp_scr","tv");if(SCR!=="games")SCR="tv";
+var SCR=load("sp_scr","tv");if(SCR!=="news")SCR="tv";
+(function(){var s=pref("tklg",{});if(Object.keys(s).some(function(k){return s[k]}))st.lg=Object.assign({},s)})();
+function lgCount(){return Object.keys(st.lg).filter(function(k){return st.lg[k]}).length}
 function drawNav(){
-  var cur=$("ticker").classList.contains("open")?"tk":SCR;
-  var h=[["tv","TV Schedule"],["tk","Sports Ticker"],["games","Games of the Day"]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
+  var cur=$("ticker").classList.contains("open")?"tk":SCR,n=lgCount();
+  var h=[["tv","TV Schedule"],["tk","Ticker"],["news","News"],["lg","Leagues"+(n?" ("+n+")":"")]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
 }
-function drawGames(){
-  var b=bannerList(),el=$("gtw");
-  if(!b.l.length){el.innerHTML='<div class="empty">No games to show right now.</div>';return}
-  el.innerHTML='<h3 style="margin:14px 0 8px">'+(b.lab==="Next up"?"Next up":"Worth watching today")+'</h3>'+b.l.map(function(g){
-    var tm=showSc(g)?logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' \u2013 '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha):logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn);
-    return '<button type="button" class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(tkWhen(g)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'</button>';
+function drawNews(){
+  var el=$("nw"),l=NEWS.filter(function(n){return lgCount()===0||!!st.lg[n.l]});
+  if(!l.length){el.innerHTML='<div class="empty">No news for these leagues right now.</div>';return}
+  el.innerHTML='<p class="note" style="margin:0 0 10px">'+(typeof NEWSLIVE!=="undefined"&&NEWSLIVE.ok?"Checked ":"Gathered ")+esc(tkAt(NEWS_AT))+'</p>'+l.map(function(n){
+    return '<a class="wtc" target="_blank" rel="noopener" href="'+esc(n.u)+'" style="border-left:5px solid var('+(LG[n.l]?LG[n.l].c:"--ink")+');text-decoration:none"><small>'+esc(n.l)+' \u2022 '+esc(n.s)+' \u2022 '+esc(n.d)+'</small><b>'+esc(n.t)+'</b> '+esc(n.x)+'</a>';
   }).join("");
 }
 function showScr(){
-  var g=SCR==="games";
-  $("tvScr").style.display=g?"none":"";$("gamesScr").style.display=g?"":"none";
-  if(g)renderView(true);
+  var nw=SCR==="news";
+  $("tvScr").style.display=nw?"none":"";$("newsScr").style.display=nw?"":"none";
+  if(nw)drawNews();
   drawNav();
 }
 function setScr(k){
+  if(k==="lg"){openLeagues();return}
   if(k==="tk"){openTk();return}
   if($("ticker").classList.contains("open"))closeTk();
   SCR=k;save("sp_scr",k);showScr();
   try{window.scrollTo(0,0)}catch(e){}
 }
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-scr]");if(b)setScr(b.getAttribute("data-scr"))});
-$("gtw").addEventListener("click",function(e){openGame(e.target)});
+$("menu").addEventListener("click",function(e){if(e.target.closest(".menubody button"))$("menu").open=false});
 refresh(false);
 showScr();
 setInterval(function(){drawBanner()},60000);
