@@ -271,8 +271,6 @@ body.hasdock{padding-bottom:64px}
     <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button></div>
   </header>
 
-  <div id="strip" class="strip" style="display:none" aria-label="Latest scores"></div>
-  <div id="banner" class="bn" style="display:none"></div>
   <div class="views" id="views" role="group" aria-label="Layout"></div>
 
   <div class="tabs" role="tablist" id="tabs">
@@ -292,6 +290,9 @@ body.hasdock{padding-bottom:64px}
 
   <div class="board" id="board"><div class="scroller" id="scroller"><div class="grid" id="grid"></div></div></div>
   <div id="alt" style="display:none"></div>
+
+  <div id="banner" class="bn" style="display:none;margin-top:14px"></div>
+  <div id="strip" class="strip" style="display:none;margin-top:10px" aria-label="Latest scores"></div>
 
   <footer>
     Prototype v1.016. Schedules and channels are a snapshot taken on Oct 20, 2026 from the league feed and Sports Media Watch: NFL through Nov 5, MLS through Nov 4, Premier League and La Liga through Oct 25, Liga MX through Oct 25 (channels there are the least certain), college football (top division only, plus Colorado’s full 2026 schedule, plus Northern Colorado’s remaining Big Sky games) through Oct 28, NBA through Oct 30 and NHL through Oct 29 (added Oct 29; channels are blank where no source listed one), and the World Series games listed so far. College rankings are as listed on Oct 20. Channels can change, and CBS and FOX NFL games are regional. Streaming carriage comes from Sports Media Watch and can vary by plan. The Colorado filter covers the Broncos, Nuggets, Avalanche, Rapids, Colorado, Colorado State, Northern Colorado and Air Force. Nuggets, Broncos and Avalanche uniforms are shown where known (Avalanche calls are league-default guesses, not confirmed) (colored dot on the row, details in the game panel). Scores are a snapshot refreshed on request (see the Scores button); last refreshed Nov 24, 2026 at 1:28 PM MST. Games added Nov 6 to Nov 24 (NBA, NHL, college football, MLS, NFL) have no channel listed yet. USMNT and USWNT games come from U.S. Soccer and web listings, not the league feed. Game lengths are estimates. The Ticker’s news row is gathered on request and dated. Favorites, pins, invites you started, options, services and saved groups stay in this browser only.
@@ -1565,7 +1566,7 @@ function logoFor(lg,ab,sz){
   var L=LOGO[lg+"|"+ab]||(logoUrl(lg,ab)?{u:logoUrl(lg,ab),c:""}:null),col=L&&/^[0-9a-fA-F]{6}$/.test(L.c||"")?L.c:"",cl=sz?" "+sz:"";
   var bg=col?"#"+col:"var("+LG[lg].c+")",fg=col?monoText(col):"#fff";
   var mono='<span class="mono'+cl+'" style="background:'+bg+';color:'+fg+'">'+esc(String(ab).slice(0,4))+'</span>';
-  if(L&&L.u&&L.u.indexOf("https://")===0)return mono+'<img class="lgi'+cl+'" alt="" loading="lazy" referrerpolicy="no-referrer" style="display:none" src="'+esc(L.u)+'" onload="window.__lg.ok++;this.style.display=\'\';this.previousSibling.style.display=\'none\'" onerror="window.__lg.bad++;this.remove()">';
+  if(L&&L.u&&L.u.indexOf("https://")===0)return mono+'<img class="lgi'+cl+'" alt="" referrerpolicy="no-referrer" style="display:none" src="'+esc(L.u)+'" onload="window.__lg.ok++;this.style.display=\'\';this.previousSibling.style.display=\'none\'" onerror="window.__lg.bad++;this.remove()">';
   return mono;
 }
 function logoHTML(g,side,sz){return logoFor(g.lg,side?g.ha:g.aa,sz)}
