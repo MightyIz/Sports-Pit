@@ -219,6 +219,12 @@ dd{margin:0}
 .r-news .tki{font-size:15px}.r-det .tki{font-size:16px}.r-soon .tki{font-size:19px}.r-sc .tki{font:700 24px var(--disp)}
 .r-sc .tki small{font:500 14px var(--body)}
 .tknote{color:var(--mute);font-size:12.5px}
+.tkrow.byl{background:var(--lc);border-color:var(--lc);color:#fff}
+.byl .tkhead b{font-size:26px;letter-spacing:.02em}.byl .tkhead small,.byl .tki small{color:inherit;opacity:.88}
+.byl .tki{font-size:17px;border-right-color:rgba(255,255,255,.38)}.byl .tki .lg{background:currentColor!important;opacity:.9}
+.byl a.tki{text-decoration:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tkrow.byl{color:#101315}:root:not([data-theme="light"]) .byl .tki{border-right-color:rgba(0,0,0,.3)}}
+:root[data-theme="dark"] .tkrow.byl{color:#101315}:root[data-theme="dark"] .byl .tki{border-right-color:rgba(0,0,0,.3)}
 @media (prefers-reduced-motion:reduce){.tkview{overflow-x:auto}.tktrack{animation:none}.tkh2{display:none}}
 </style>
 </head>
@@ -1790,7 +1796,8 @@ function tkStamp(k){
 }
 var TKROWS=[["news","News","Longer reads, slowest",28],["det","Game details","More detail",45],["soon","Coming up","Quick schedule",62],["sc","Scores","Basic, fastest",115]];
 function tkMine(g){return isFav(g)||isCO(g)||isPinned(g)}
-function tkLgOn(l){var s=pref("tklg",{}),any=Object.keys(s).some(function(k){return s[k]});return !any||!!s[l]}
+var TKONLY=null;
+function tkLgOn(l){if(TKONLY&&l!==TKONLY)return false;var s=pref("tklg",{}),any=Object.keys(s).some(function(k){return s[k]});return !any||!!s[l]}
 function tkOK(g){return tkLgOn(g.lg)&&(!pref("tkmine",false)||tkMine(g))}
 function tkWhen(g){return fmt(g.s,{weekday:"short",hour:"numeric",minute:"2-digit"})}
 function tkDot(g){return '<span class="lg" style="background:var('+LG[g.lg].c+')"></span>'}
@@ -1831,6 +1838,7 @@ function tkRender(){
   var mult=pref("tkspeed",1),off=pref("tkoff",{});
   var ctl='<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
    [["Slower",0.6],["Normal",1],["Faster",1.7]].map(function(s){return '<button type="button" class="chip" data-tkspeed="'+s[1]+'" aria-pressed="'+(mult===s[1])+'">'+s[0]+'</button>'}).join("")+
+   '<button type="button" class="chip" data-tkby="lg" aria-pressed="'+(pref("tkby","lg")==="lg")+'">By league</button><button type="button" class="chip" data-tkby="type" aria-pressed="'+(pref("tkby","lg")!=="lg")+'">By type</button>'+
    '<button type="button" class="chip" data-tkmine="1" aria-pressed="'+pref("tkmine",false)+'">Mine, Colorado and pinned only</button>'+
    TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join("");
   var sel=pref("tklg",{}),nsel=Object.keys(sel).filter(function(k){return sel[k]}).length;
@@ -1840,6 +1848,17 @@ function tkRender(){
   $("tkctl").innerHTML=ctl;
   $("tklgs").innerHTML=lgc;
   var h="";
+  if(pref("tkby","lg")==="lg"){
+    var ord=["soon","sc","det","news"];
+    LGORDER.forEach(function(L){
+      if(!tkLgOn(L))return;
+      var its=[];TKONLY=L;
+      try{ord.forEach(function(k){if(!off[k])its=its.concat(tkItems(k))})}finally{TKONLY=null}
+      if(!its.length)return;
+      h+='<section class="tkrow byl" style="--lc:var('+LG[L].c+')"><div class="tkhead"><b>'+esc(lgName(L))+'</b><small>'+its.length+' items \u2022 scores '+tkStamp("sc")+'</small></div><div class="tkview" data-sp="62" data-it="'+esc(JSON.stringify(its.join("")))+'"><div class="tktrack"></div></div></section>';
+    });
+    if(!h)h='<section class="tkrow"><div class="tkview"><span class="tki"><small>Nothing to show right now.</small></span></div></section>';
+  }else
   TKROWS.forEach(function(r){
     if(off[r[0]])return;
     var items=tkItems(r[0]);
@@ -2004,6 +2023,7 @@ $("ticker").addEventListener("click",function(e){
   if((b=t.closest("[data-tklg]"))){var k1=b.getAttribute("data-tklg"),s1=pref("tklg",{});if(k1==="ALL")s1={};else s1[k1]=!s1[k1];setPref("tklg",s1);tkRender();return}
   if((b=t.closest("[data-tkgr]"))){var nm=b.getAttribute("data-tkgr"),s2=pref("tklg",{});GR.forEach(function(x){if(x[0]===nm){var on=x[1].every(function(k){return !!s2[k]});x[1].forEach(function(k){s2[k]=!on})}});setPref("tklg",s2);tkRender();return}
   if((b=t.closest("[data-tkspeed]"))){setPref("tkspeed",+b.getAttribute("data-tkspeed"));tkRender();return}
+  if((b=t.closest("[data-tkby]"))){setPref("tkby",b.getAttribute("data-tkby"));tkRender();return}
   if(t.closest("[data-tkmine]")){setPref("tkmine",!pref("tkmine",false));tkRender();return}
   if((b=t.closest("[data-tkrow]"))){var o=pref("tkoff",{}),k=b.getAttribute("data-tkrow");o[k]=!o[k];setPref("tkoff",o);tkRender();return}
   if(t.closest("[data-tkcopy]")){
