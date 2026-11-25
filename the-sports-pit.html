@@ -1960,9 +1960,8 @@ function tkRender(){
    '<button type="button" class="chip" data-tklm="1" aria-pressed="'+pref("tklm",true)+'">Auto ticker when phone is sideways</button>'+
    TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join("");
   var sel=pref("tklg",{}),nsel=Object.keys(sel).filter(function(k){return sel[k]}).length;
-  var lgc='<button type="button" class="chip" data-tklg="ALL" aria-pressed="'+(nsel===0)+'">All leagues</button>'+
-   GR.map(function(x){return '<button type="button" class="chip" data-tkgr="'+x[0]+'" aria-pressed="'+x[1].every(function(k){return !!sel[k]})+'">'+x[0]+'</button>'}).join("")+
-   LGORDER.map(function(k){return '<button type="button" class="chip" data-tklg="'+k+'" aria-pressed="'+(!!sel[k])+'"><i style="background:var('+LG[k].c+')"></i>'+esc(lgName(k))+'</button>'}).join("");
+  var lgl=nsel===0?"All leagues":(nsel<=2?LGORDER.filter(function(k){return sel[k]}).map(function(k){return lgName(k)}).join(" + "):nsel+" leagues");
+  var lgc='<button type="button" class="laysel" data-tklgopen="1" aria-label="Choose leagues">'+esc(lgl)+' &#9662;</button>';
   $("tkctl").innerHTML=ctl;
   $("tklgs").innerHTML=lgc;
   var h="",none='<section class="tkrow"><div class="tkview"><span class="tki"><small>'+(pref("tklive",false)?'No live games right now. Turn off Live only to see everything.':'Nothing to show right now.')+'</small></span></div></section>';
@@ -2053,6 +2052,23 @@ $("svcPanel").addEventListener("click",function(e){
   var v=b.getAttribute("data-sv"),i=mySvc.indexOf(v);
   if(i>-1)mySvc.splice(i,1);else mySvc.push(v);
   save("sp_svc",mySvc);refresh(true);
+});
+function openTkLeagues(){
+  var tp=$("sheet").scrollTop,s=pref("tklg",{}),n=Object.keys(s).filter(function(k){return s[k]}).length;
+  $("sheet").innerHTML='<button class="close" type="button" id="closeSheet">Close</button><h2>Ticker leagues</h2><div class="meta">Tap as many as you like.</div>'+
+    '<div class="watch"><div class="fav"><button class="chip" type="button" data-tpall="1" aria-pressed="'+(n===0)+'">All leagues</button>'+GR.map(function(g){return '<button class="chip" type="button" data-tpgr="'+g[0]+'" aria-pressed="'+g[1].every(function(k){return !!s[k]})+'">'+g[0]+'</button>'}).join("")+'</div></div>'+
+    '<div class="watch"><div class="fav">'+LGORDER.map(function(k){return '<button class="chip" type="button" data-tpp="'+k+'" aria-pressed="'+(!!s[k])+'"><i style="background:var('+LG[k].c+')"></i>'+esc(lgName(k))+'</button>'}).join("")+'</div></div>'+
+    '<div class="actions"><button class="btn" type="button" id="tpDone">Done</button></div>';
+  $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=tp;
+}
+$("sheet").addEventListener("click",function(e){
+  var t=e.target,b,s=pref("tklg",{});
+  if(t.closest("#tpDone")){closeSheet();return}
+  if(t.closest("[data-tpall]")){s={}}
+  else if((b=t.closest("[data-tpgr]"))){var nm=b.getAttribute("data-tpgr");GR.forEach(function(x){if(x[0]===nm){var on=x[1].every(function(k){return !!s[k]});x[1].forEach(function(k){s[k]=!on})}})}
+  else if((b=t.closest("[data-tpp]"))){var k=b.getAttribute("data-tpp");s[k]=!s[k]}
+  else return;
+  setPref("tklg",s);tkRender();openTkLeagues();
 });
 function openLeagues(){
   var tp=$("sheet").scrollTop,n=Object.keys(st.lg).filter(function(k){return st.lg[k]}).length;
@@ -2197,6 +2213,7 @@ $("ticker").addEventListener("click",function(e){
   if(t.closest("[data-tkdock]")){setPref("tkdock",!pref("tkdock",false));if(pref("tkdock",false)){closeTk()}else{tkRender();tkDockRender()}return}
   if(t.closest("[data-tklm]")){setPref("tklm",!pref("tklm",true));tkRender();return}
   if(t.closest("[data-tkpause]")){$("ticker").classList.toggle("paused");tkRender();return}
+  if(t.closest("[data-tklgopen]")){openTkLeagues();return}
   if((b=t.closest("[data-tklg]"))){var k1=b.getAttribute("data-tklg"),s1=pref("tklg",{});if(k1==="ALL")s1={};else s1[k1]=!s1[k1];setPref("tklg",s1);tkRender();return}
   if((b=t.closest("[data-tkgr]"))){var nm=b.getAttribute("data-tkgr"),s2=pref("tklg",{});GR.forEach(function(x){if(x[0]===nm){var on=x[1].every(function(k){return !!s2[k]});x[1].forEach(function(k){s2[k]=!on})}});setPref("tklg",s2);tkRender();return}
   if((b=t.closest("[data-tkspeed]"))){setPref("tkspeed",+b.getAttribute("data-tkspeed"));tkRender();return}
