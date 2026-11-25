@@ -2172,8 +2172,8 @@ setTimeout(newsTick,400);
 /* ---------- catch-up on open: last 8 days of scores and the next 7 days of channels ---------- */
 function liveCatch(){
   if(pref("nolive",false))return;
-  var now=Date.now(),rng=ymd(now-8*86400000)+"-"+ymd(now+7*86400000),ok=0,ch=0;
-  Promise.all(Object.keys(ESPN).map(function(lg){return liveEvents(lg,rng).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)})})).then(function(){
+  var now=Date.now(),days=[],ok=0,ch=0;for(var di=-8;di<=7;di++)days.push(ymd(now+di*86400000));
+  var jobs=[];Object.keys(ESPN).forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)}))})});Promise.all(jobs).then(function(){
     if(ok){LIVE.on=true;LIVE.last=Date.now();SCHED_AT=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(ch)SCORES_AT=Date.now();renderView(true);liveSetBtn();if($("ticker").classList.contains("open"))tkRender()}
   });
 }
