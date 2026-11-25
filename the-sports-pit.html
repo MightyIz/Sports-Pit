@@ -249,6 +249,8 @@ body.hasdock{padding-bottom:64px}
 .scrnav{display:flex;gap:8px;flex:1;min-width:0}
 .scrnav button{flex:1;min-width:0;font:700 clamp(14px,3.4vw,22px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:14px 6px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .scrnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.scrnav select,.laysel{width:100%;font:700 clamp(18px,4.6vw,26px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:12px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.laysel{font-size:15px;padding:8px 12px;max-width:260px;text-transform:none;letter-spacing:0}
 #scrnav{margin:4px 0 14px}
 .tk.tv .scrnav{display:none}
 .gh{font:700 28px var(--disp);margin:0 0 4px}
@@ -1789,7 +1791,7 @@ function viewFriends(){
 
 /* ---------- layout switching ---------- */
 var VIEWS=[["timeline","Timeline"],["list","List"],["wk","Week grid"],["mo","Month grid"],["cards","Cards"],["plan","My plan"],["team","Team"],["friends","Friends"]];
-function drawViews(){$("views").innerHTML=VIEWS.map(function(v){return '<button type="button" class="chip" data-lay="'+v[0]+'" aria-pressed="'+(st.lay===v[0])+'">'+v[1]+'</button>'}).join("")}
+function drawViews(){$("views").innerHTML='<select class="laysel" id="laySel" aria-label="Layout">'+VIEWS.map(function(v){return '<option value="'+v[0]+'"'+(st.lay===v[0]?' selected':'')+'>'+v[1]+'</option>'}).join("")+'</select>'}
 function drawAlt(keep){
   var L=st.lay,r=viewRange(),h="",prev=$("wks"),had=!!prev,pt=prev?prev.scrollTop:0;
   if(L==="list"||L==="cards"){
@@ -2193,9 +2195,9 @@ $("banner").addEventListener("click",function(e){
   if(t.closest("[data-bnext]")){st.bi++;drawBanner();return}
   openGame(t);
 });
-$("views").addEventListener("click",function(e){
-  var b=e.target.closest("[data-lay]");if(!b)return;
-  st.lay=b.getAttribute("data-lay");save("sp_layout",st.lay);st.lim=80;refresh(false);
+$("views").addEventListener("change",function(e){
+  var b=e.target;if(!b||b.id!=="laySel")return;
+  st.lay=b.value;save("sp_layout",st.lay);st.lim=80;refresh(false);
 });
 $("optBtn").addEventListener("click",openOptions);
 $("alt").addEventListener("change",function(e){
@@ -2388,7 +2390,7 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
 var SCR=load("sp_scr","tv");if(SCR!=="games")SCR="tv";
 function drawNav(){
   var cur=$("ticker").classList.contains("open")?"tk":SCR;
-  var h=[["tv","TV Schedule"],["tk","Sports Ticker"],["games","Games of the Day"]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
+  var h='<select class="scrsel" aria-label="Choose screen">'+[["tv","TV Schedule"],["tk","Sports Ticker"],["games","Games of the Day"]].map(function(b){return '<option value="'+b[0]+'"'+(b[0]===cur?' selected':'')+'>'+b[1]+'</option>'}).join("")+'</select>';
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
 }
 function drawGames(){
@@ -2411,7 +2413,7 @@ function setScr(k){
   SCR=k;save("sp_scr",k);showScr();
   try{window.scrollTo(0,0)}catch(e){}
 }
-document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-scr]");if(b)setScr(b.getAttribute("data-scr"))});
+document.addEventListener("change",function(e){var s=e.target;if(s&&s.classList&&s.classList.contains("scrsel"))setScr(s.value)});
 $("gtw").addEventListener("click",function(e){openGame(e.target)});
 refresh(false);
 showScr();
