@@ -223,6 +223,15 @@ dd{margin:0}
 .byl .tkhead b{font-size:26px;letter-spacing:.02em}.byl .tkhead small,.byl .tki small{color:inherit;opacity:.88}
 .byl .tki{font-size:17px;border-right-color:rgba(255,255,255,.38)}.byl .tki .lg{background:currentColor!important;opacity:.9}
 .byl a.tki{text-decoration:none}
+.tkrow.single{margin-top:auto;margin-bottom:auto;font-size:clamp(24px,3.8vw,46px);border:0;border-radius:0;background:transparent}
+.tkrow.single .tkview{padding:0}
+.tkseg{display:inline-block;background:var(--lc);color:#fff;padding:.5em 0}
+.tkseg-t{display:inline-block;font:700 1.5em var(--disp);letter-spacing:.04em;padding:0 .6em;margin-right:.2em;border-right:3px solid rgba(255,255,255,.7)}
+.tkseg .tki{font-size:inherit;border-right-color:rgba(255,255,255,.38)}.tkseg .tki small{color:inherit;opacity:.88;font-size:.6em}.tkseg .tki .lg{background:currentColor!important;opacity:.9}
+.tkseg a.tki{text-decoration:none}
+.tkstamp{max-width:1100px;margin:6px auto 0;color:var(--mute);font-size:12.5px;text-align:center}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tkseg{color:#101315}:root:not([data-theme="light"]) .tkseg-t{border-right-color:rgba(0,0,0,.6)}:root:not([data-theme="light"]) .tkseg .tki{border-right-color:rgba(0,0,0,.3)}}
+:root[data-theme="dark"] .tkseg{color:#101315}:root[data-theme="dark"] .tkseg-t{border-right-color:rgba(0,0,0,.6)}:root[data-theme="dark"] .tkseg .tki{border-right-color:rgba(0,0,0,.3)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tkrow.byl{color:#101315}:root:not([data-theme="light"]) .byl .tki{border-right-color:rgba(0,0,0,.3)}}
 :root[data-theme="dark"] .tkrow.byl{color:#101315}:root[data-theme="dark"] .byl .tki{border-right-color:rgba(0,0,0,.3)}
 @media (prefers-reduced-motion:reduce){.tkview{overflow-x:auto}.tktrack{animation:none}.tkh2{display:none}}
@@ -1838,6 +1847,7 @@ function tkRender(){
   var mult=pref("tkspeed",1),off=pref("tkoff",{});
   var ctl='<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
    [["Slower",0.6],["Normal",1],["Faster",1.7]].map(function(s){return '<button type="button" class="chip" data-tkspeed="'+s[1]+'" aria-pressed="'+(mult===s[1])+'">'+s[0]+'</button>'}).join("")+
+   '<button type="button" class="chip" data-tkview="stacked" aria-pressed="'+(pref("tkview","stacked")!=="single")+'">Stacked</button><button type="button" class="chip" data-tkview="single" aria-pressed="'+(pref("tkview","stacked")==="single")+'">Single</button>'+
    '<button type="button" class="chip" data-tkby="lg" aria-pressed="'+(pref("tkby","lg")==="lg")+'">By league</button><button type="button" class="chip" data-tkby="type" aria-pressed="'+(pref("tkby","lg")!=="lg")+'">By type</button>'+
    '<button type="button" class="chip" data-tkmine="1" aria-pressed="'+pref("tkmine",false)+'">Mine, Colorado and pinned only</button>'+
    TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join("");
@@ -1848,7 +1858,17 @@ function tkRender(){
   $("tkctl").innerHTML=ctl;
   $("tklgs").innerHTML=lgc;
   var h="";
-  if(pref("tkby","lg")==="lg"){
+  if(pref("tkview","stacked")==="single"){
+    var ord1=["soon","sc","det","news"],segs="";
+    LGORDER.forEach(function(L){
+      if(!tkLgOn(L))return;
+      var its=[];TKONLY=L;
+      try{ord1.forEach(function(k){if(!off[k])its=its.concat(tkItems(k))})}finally{TKONLY=null}
+      if(!its.length)return;
+      segs+='<span class="tkseg" style="--lc:var('+LG[L].c+')"><b class="tkseg-t">'+esc(lgName(L))+'</b>'+its.join("")+'</span>';
+    });
+    h=segs?'<section class="tkrow single"><div class="tkview" data-sp="130" data-it="'+esc(JSON.stringify(segs))+'"><div class="tktrack"></div></div></section><div class="tkstamp">Scores '+tkStamp("sc")+' \u2022 hover or tap to pause</div>':'<section class="tkrow"><div class="tkview"><span class="tki"><small>Nothing to show right now.</small></span></div></section>';
+  }else if(pref("tkby","lg")==="lg"){
     var ord=["soon","sc","det","news"];
     LGORDER.forEach(function(L){
       if(!tkLgOn(L))return;
@@ -2023,6 +2043,7 @@ $("ticker").addEventListener("click",function(e){
   if((b=t.closest("[data-tklg]"))){var k1=b.getAttribute("data-tklg"),s1=pref("tklg",{});if(k1==="ALL")s1={};else s1[k1]=!s1[k1];setPref("tklg",s1);tkRender();return}
   if((b=t.closest("[data-tkgr]"))){var nm=b.getAttribute("data-tkgr"),s2=pref("tklg",{});GR.forEach(function(x){if(x[0]===nm){var on=x[1].every(function(k){return !!s2[k]});x[1].forEach(function(k){s2[k]=!on})}});setPref("tklg",s2);tkRender();return}
   if((b=t.closest("[data-tkspeed]"))){setPref("tkspeed",+b.getAttribute("data-tkspeed"));tkRender();return}
+  if((b=t.closest("[data-tkview]"))){setPref("tkview",b.getAttribute("data-tkview"));tkRender();return}
   if((b=t.closest("[data-tkby]"))){setPref("tkby",b.getAttribute("data-tkby"));tkRender();return}
   if(t.closest("[data-tkmine]")){setPref("tkmine",!pref("tkmine",false));tkRender();return}
   if((b=t.closest("[data-tkrow]"))){var o=pref("tkoff",{}),k=b.getAttribute("data-tkrow");o[k]=!o[k];setPref("tkoff",o);tkRender();return}
