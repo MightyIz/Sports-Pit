@@ -246,9 +246,19 @@ body.hasdock{padding-bottom:64px}
 .tk.tv.idle .tkbar{visibility:hidden}
 .tk.tv .tkrow.single{font-size:clamp(34px,7vw,120px)}
 .tk.tv.idle,.tk.tv.idle *{cursor:none}
+.scrnav{display:flex;gap:8px;flex:1;min-width:0}
+.scrnav button{flex:1;min-width:0;font:700 clamp(14px,3.4vw,22px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:14px 6px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.scrnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+#scrnav{margin:4px 0 14px}
+.tk.tv .scrnav{display:none}
+.gh{font:700 28px var(--disp);margin:0 0 4px}
+.wtc{display:block;width:100%;text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.wtc small{display:block;color:var(--mute);font-size:13px;margin-bottom:2px}
+.wtc>b{font-size:19px}
+.wtc .bnw{margin-top:4px}
 @media (orientation:landscape) and (max-height:520px) and (pointer:coarse){
   .tk{padding:6px 10px}
-  .tkbar h2,.tknote{display:none}
+  .tkbar h2,.tknote,.tkbar .scrnav{display:none}
   .tkctl{display:none}
   .tk.showctl .tkctl{display:flex}
   #tkGear{display:inline-block}
@@ -271,6 +281,9 @@ body.hasdock{padding-bottom:64px}
     <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button></div>
   </header>
 
+  <nav class="scrnav" id="scrnav" aria-label="Screens"></nav>
+
+  <div id="tvScr">
   <div class="views" id="views" role="group" aria-label="Layout"></div>
 
   <div class="tabs" role="tablist" id="tabs">
@@ -290,9 +303,14 @@ body.hasdock{padding-bottom:64px}
 
   <div class="board" id="board"><div class="scroller" id="scroller"><div class="grid" id="grid"></div></div></div>
   <div id="alt" style="display:none"></div>
+  </div>
 
-  <div id="banner" class="bn" style="display:none;margin-top:14px"></div>
-  <div id="strip" class="strip" style="display:none;margin-top:10px" aria-label="Latest scores"></div>
+  <div id="gamesScr" style="display:none">
+    <h2 class="gh">Games of the Day</h2>
+    <div id="banner" class="bn" style="display:none"></div>
+    <div id="strip" class="strip" style="display:none" aria-label="Latest scores"></div>
+    <div id="gtw"></div>
+  </div>
 
   <footer>
     Prototype v1.016. Schedules and channels are a snapshot taken on Oct 20, 2026 from the league feed and Sports Media Watch: NFL through Nov 5, MLS through Nov 4, Premier League and La Liga through Oct 25, Liga MX through Oct 25 (channels there are the least certain), college football (top division only, plus Colorado’s full 2026 schedule, plus Northern Colorado’s remaining Big Sky games) through Oct 28, NBA through Oct 30 and NHL through Oct 29 (added Oct 29; channels are blank where no source listed one), and the World Series games listed so far. College rankings are as listed on Oct 20. Channels can change, and CBS and FOX NFL games are regional. Streaming carriage comes from Sports Media Watch and can vary by plan. The Colorado filter covers the Broncos, Nuggets, Avalanche, Rapids, Colorado, Colorado State, Northern Colorado and Air Force. Nuggets, Broncos and Avalanche uniforms are shown where known (Avalanche calls are league-default guesses, not confirmed) (colored dot on the row, details in the game panel). Scores are a snapshot refreshed on request (see the Scores button); last refreshed Nov 24, 2026 at 1:28 PM MST. Games added Nov 6 to Nov 24 (NBA, NHL, college football, MLS, NFL) have no channel listed yet. USMNT and USWNT games come from U.S. Soccer and web listings, not the league feed. Game lengths are estimates. The Ticker’s news row is gathered on request and dated. Favorites, pins, invites you started, options, services and saved groups stay in this browser only.
@@ -300,7 +318,7 @@ body.hasdock{padding-bottom:64px}
 </div>
 
 <div class="tk" id="ticker" role="dialog" aria-label="Sports ticker">
-  <div class="tkbar"><h2>Ticker</h2><span class="tkclk"></span><span style="display:flex;gap:6px"><button class="theme" id="tkGear" type="button" data-tkgear="1">Controls</button><button class="theme" id="tkClose" type="button" data-tkclose="1">Close</button></span></div>
+  <div class="tkbar"><nav class="scrnav" id="scrnavTk" aria-label="Screens"></nav><span class="tkclk"></span><span style="display:flex;gap:6px"><button class="theme" id="tkGear" type="button" data-tkgear="1">Controls</button><button class="theme" id="tkClose" type="button" data-tkclose="1">Close</button></span></div>
   <div class="tkctl" id="tkctl"></div>
   <div class="tkctl" id="tklgs" aria-label="League filters"></div>
   <div id="tkrows"></div>
@@ -1790,7 +1808,7 @@ function drawAlt(keep){
 }
 function renderView(keep){
   if(st.lay==="timeline")draw(keep);else drawAlt(keep);
-  drawStrip();drawBanner();
+  drawStrip();drawBanner();if(SCR==="games")drawGames();
 }
 function refresh(keep){
   var L=st.lay,range=(L==="timeline"||L==="list"||L==="cards"),flt=range||L==="wk"||L==="mo";
@@ -2000,8 +2018,8 @@ function tkWake(on){
   }catch(e){}
 }
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&$("ticker").classList.contains("open"))tkWake(true)});
-function openTk(){$("ticker").classList.add("open");document.body.style.overflow="hidden";tkRender();tkWake(true);$("tkClose").focus()}
-function closeTk(){$("ticker").classList.remove("open","showctl","tv","idle");TKAUTO=false;TKTV=false;document.body.style.overflow="";tkWake(false);tkDockRender()}
+function openTk(){$("ticker").classList.add("open");drawNav();document.body.style.overflow="hidden";tkRender();tkWake(true);$("tkClose").focus()}
+function closeTk(){$("ticker").classList.remove("open","showctl","tv","idle");TKAUTO=false;TKTV=false;document.body.style.overflow="";tkWake(false);tkDockRender();drawNav()}
 
 /* ---------- events ---------- */
 $("tabs").addEventListener("click",function(e){
@@ -2367,7 +2385,36 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
   setTimeout(tkDockRender,1200);
   setInterval(tkDockRender,10*60000);
 })();
+var SCR=load("sp_scr","tv");if(SCR!=="games")SCR="tv";
+function drawNav(){
+  var cur=$("ticker").classList.contains("open")?"tk":SCR;
+  var h=[["tv","TV Schedule"],["tk","Sports Ticker"],["games","Games of the Day"]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
+  document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
+}
+function drawGames(){
+  var b=bannerList(),el=$("gtw");
+  if(!b.l.length){el.innerHTML='<div class="empty">No games to show right now.</div>';return}
+  el.innerHTML='<h3 style="margin:14px 0 8px">'+(b.lab==="Next up"?"Next up":"Worth watching today")+'</h3>'+b.l.map(function(g){
+    var tm=showSc(g)?logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' \u2013 '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha):logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn);
+    return '<button type="button" class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(tkWhen(g)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'</button>';
+  }).join("");
+}
+function showScr(){
+  var g=SCR==="games";
+  $("tvScr").style.display=g?"none":"";$("gamesScr").style.display=g?"":"none";
+  if(g)renderView(true);
+  drawNav();
+}
+function setScr(k){
+  if(k==="tk"){openTk();return}
+  if($("ticker").classList.contains("open"))closeTk();
+  SCR=k;save("sp_scr",k);showScr();
+  try{window.scrollTo(0,0)}catch(e){}
+}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-scr]");if(b)setScr(b.getAttribute("data-scr"))});
+$("gtw").addEventListener("click",function(e){openGame(e.target)});
 refresh(false);
+showScr();
 setInterval(function(){drawBanner()},60000);
 })();
 </script>
