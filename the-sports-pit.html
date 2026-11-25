@@ -250,6 +250,10 @@ body.hasdock{padding-bottom:64px}
 .tknote{display:none}.tk.showctl .tknote{display:block}
 #tkGear{display:inline-block}#tkClose{display:none}
 .tkbar .tkclk{display:none}.tkbar{gap:10px}.tkbar .scrnav{flex:1}
+#tkctl{flex-direction:column;gap:0}
+.tkgrp{display:flex;align-items:center;gap:10px;width:100%;padding:8px 0;border-bottom:1px solid var(--line)}
+.tkgl{flex:0 0 78px;font-weight:700;font-size:13px;color:var(--mute)}
+.tkgb{display:flex;flex-wrap:wrap;gap:6px}
 header.top{align-items:center}
 .menu{position:relative}
 .menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
@@ -1957,16 +1961,17 @@ function tkRender(){
   var mult=pref("tkspeed",1),off=pref("tkoff",{}),single=tkIsSingle();
   el.classList.toggle("tv",TKTV);
   var vw=pref("tkview","stacked")==="single";
-  var ctl='<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
-   [["Slower",0.6],["Normal",1],["Faster",1.7]].map(function(s){return '<button type="button" class="chip" data-tkspeed="'+s[1]+'" aria-pressed="'+(mult===s[1])+'">'+s[0]+'</button>'}).join("")+
-   '<button type="button" class="chip" data-tkview="stacked" aria-pressed="'+(!vw)+'">Stacked</button><button type="button" class="chip" data-tkview="single" aria-pressed="'+vw+'">Single</button>'+
-   '<button type="button" class="chip" data-tkby="lg" aria-pressed="'+(pref("tkby","lg")==="lg")+'">By league</button><button type="button" class="chip" data-tkby="type" aria-pressed="'+(pref("tkby","lg")!=="lg")+'">By type</button>'+
-   '<button type="button" class="chip" data-tklive="1" aria-pressed="'+pref("tklive",false)+'">Live only</button>'+
-   '<button type="button" class="chip" data-tkmine="1" aria-pressed="'+pref("tkmine",false)+'">Mine, Colorado and pinned only</button>'+
-   '<button type="button" class="chip" data-tvon="1">TV mode</button><button type="button" class="chip" data-tvcopy="1">Copy TV link</button>'+
-   '<button type="button" class="chip" data-tkdock="1" aria-pressed="'+pref("tkdock",false)+'">Bottom bar on the page</button>'+
-   '<button type="button" class="chip" data-tklm="1" aria-pressed="'+pref("tklm",true)+'">Auto ticker when phone is sideways</button>'+
-   TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join("");
+  function grp(l,h){return '<div class="tkgrp"><span class="tkgl">'+l+'</span><span class="tkgb">'+h+'</span></div>'}
+  var ctl=grp("Speed",'<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
+    [["Slower",0.6],["Normal",1],["Faster",1.7]].map(function(s){return '<button type="button" class="chip" data-tkspeed="'+s[1]+'" aria-pressed="'+(mult===s[1])+'">'+s[0]+'</button>'}).join(""))+
+    grp("Layout",'<button type="button" class="chip" data-tkview="stacked" aria-pressed="'+(!vw)+'">Stacked</button><button type="button" class="chip" data-tkview="single" aria-pressed="'+vw+'">Single</button>')+
+    grp("Group by",'<button type="button" class="chip" data-tkby="lg" aria-pressed="'+(pref("tkby","lg")==="lg")+'">By league</button><button type="button" class="chip" data-tkby="type" aria-pressed="'+(pref("tkby","lg")!=="lg")+'">By type</button>')+
+    grp("Show only",'<button type="button" class="chip" data-tklive="1" aria-pressed="'+pref("tklive",false)+'">Live only</button>'+
+    '<button type="button" class="chip" data-tkmine="1" aria-pressed="'+pref("tkmine",false)+'">Mine, Colorado and pinned</button>')+
+    grp("Include",TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join(""))+
+    grp("TV",'<button type="button" class="chip" data-tvon="1">TV mode</button><button type="button" class="chip" data-tvcopy="1">Copy TV link</button>')+
+    grp("Extras",'<button type="button" class="chip" data-tkdock="1" aria-pressed="'+pref("tkdock",false)+'">Bottom bar on the page</button>'+
+    '<button type="button" class="chip" data-tklm="1" aria-pressed="'+pref("tklm",true)+'">Auto ticker when phone is sideways</button>');
   var sel=pref("tklg",{}),nsel=Object.keys(sel).filter(function(k){return sel[k]}).length;
   var lgl=nsel===0?"All leagues":(nsel<=2?LGORDER.filter(function(k){return sel[k]}).map(function(k){return lgName(k)}).join(" + "):nsel+" leagues");
   var lgc="";
