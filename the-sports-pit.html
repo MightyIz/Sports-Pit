@@ -1314,9 +1314,10 @@ var GR=[["Pro",["NFL","NBA","NHL","MLB"]],["College",["CFB"]],["Soccer",["MLS","
 function grOn(a){return a.every(function(k){return !!st.lg[k]})}
 function drawFilters(){
   var n=Object.keys(st.lg).filter(function(k){return st.lg[k]}).length;
-  var h='<button class="chip" type="button" data-lg="ALL" aria-pressed="'+(n===0)+'">All</button>';
-  GR.forEach(function(x){h+='<button class="chip" type="button" data-gr="'+x[0]+'" aria-pressed="'+grOn(x[1])+'">'+x[0]+'</button>'});
-  h+='<button class="chip" type="button" data-lgopen="1" aria-pressed="'+st.lgOpen+'">Leagues'+(n?' ('+n+')':'')+' \u25BE</button>';
+  var on=Object.keys(st.lg).filter(function(k){return st.lg[k]}),cur=n===0?"ALL":"custom";
+  GR.forEach(function(x){if(on.length===x[1].length&&grOn(x[1]))cur="gr:"+x[0]});
+  if(n===1)cur="lg:"+on[0];
+  var h='<select class="laysel" id="lgSel" aria-label="League">'+(cur==="custom"?'<option value="custom" selected>Custom ('+n+' leagues)</option>':'')+'<option value="ALL"'+(cur==="ALL"?' selected':'')+'>All leagues</option>'+GR.map(function(x){return '<option value="gr:'+x[0]+'"'+(cur==="gr:"+x[0]?' selected':'')+'>'+x[0]+'</option>'}).join("")+Object.keys(LG).map(function(k){return '<option value="lg:'+k+'"'+(cur==="lg:"+k?' selected':'')+'>'+(LG[k].l||k)+'</option>'}).join("")+'</select>';
   var act=(st.fav?1:0)+(st.co?1:0)+(st.can?1:0)+(st.pin?1:0)+(st.svcOpen?1:0);
   h+='<button class="chip" type="button" data-more2="1" aria-pressed="'+st.moreOpen+'">More'+(act?' ('+act+')':'')+' \u25BE</button>';
   h+='<input class="search" id="q" type="search" placeholder="Find a team" value="'+esc(st.q)+'" aria-label="Find a team">';
@@ -2052,6 +2053,15 @@ $("svcPanel").addEventListener("click",function(e){
   if(i>-1)mySvc.splice(i,1);else mySvc.push(v);
   save("sp_svc",mySvc);refresh(true);
 });
+$("filters").addEventListener("change",function(e){
+  if(e.target.id!=="lgSel")return;
+  var v=e.target.value;
+  if(v==="custom")return;
+  if(v==="ALL")st.lg={};
+  else if(v.indexOf("gr:")===0){st.lg={};GR.forEach(function(x){if(x[0]===v.slice(3))x[1].forEach(function(k){st.lg[k]=true})})}
+  else{st.lg={};st.lg[v.slice(3)]=true}
+  st.lim=80;refresh(true);
+});
 $("filters").addEventListener("input",function(e){
   if(e.target.id==="q"){st.q=e.target.value;st.lim=80;renderView(true)}
 });
@@ -2390,7 +2400,7 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
 var SCR=load("sp_scr","tv");if(SCR!=="games")SCR="tv";
 function drawNav(){
   var cur=$("ticker").classList.contains("open")?"tk":SCR;
-  var h='<select class="scrsel" aria-label="Choose screen">'+[["tv","TV Schedule"],["tk","Sports Ticker"],["games","Games of the Day"]].map(function(b){return '<option value="'+b[0]+'"'+(b[0]===cur?' selected':'')+'>'+b[1]+'</option>'}).join("")+'</select>';
+  var h=[["tv","TV Schedule"],["tk","Sports Ticker"],["games","Games of the Day"]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
 }
 function drawGames(){
@@ -2413,7 +2423,7 @@ function setScr(k){
   SCR=k;save("sp_scr",k);showScr();
   try{window.scrollTo(0,0)}catch(e){}
 }
-document.addEventListener("change",function(e){var s=e.target;if(s&&s.classList&&s.classList.contains("scrsel"))setScr(s.value)});
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-scr]");if(b)setScr(b.getAttribute("data-scr"))});
 $("gtw").addEventListener("click",function(e){openGame(e.target)});
 refresh(false);
 showScr();
