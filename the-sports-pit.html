@@ -1317,7 +1317,8 @@ function drawFilters(){
   var on=Object.keys(st.lg).filter(function(k){return st.lg[k]}),cur=n===0?"ALL":"custom";
   GR.forEach(function(x){if(on.length===x[1].length&&grOn(x[1]))cur="gr:"+x[0]});
   if(n===1)cur="lg:"+on[0];
-  var h='<select class="laysel" id="lgSel" aria-label="League">'+(cur==="custom"?'<option value="custom" selected>Custom ('+n+' leagues)</option>':'')+'<option value="ALL"'+(cur==="ALL"?' selected':'')+'>All leagues</option>'+GR.map(function(x){return '<option value="gr:'+x[0]+'"'+(cur==="gr:"+x[0]?' selected':'')+'>'+x[0]+'</option>'}).join("")+Object.keys(LG).map(function(k){return '<option value="lg:'+k+'"'+(cur==="lg:"+k?' selected':'')+'>'+(LG[k].l||k)+'</option>'}).join("")+'</select>';
+  var lbl=n===0?"All leagues":(n<=2?on.map(function(k){return LG[k].l||k}).join(" + "):n+" leagues");
+  var h='<button type="button" class="laysel" id="lgBtn" data-lgopen="1" aria-label="Choose leagues">'+esc(lbl)+' \u25BE</button>';
   var act=(st.fav?1:0)+(st.co?1:0)+(st.can?1:0)+(st.pin?1:0)+(st.svcOpen?1:0);
   h+='<button class="chip" type="button" data-more2="1" aria-pressed="'+st.moreOpen+'">More'+(act?' ('+act+')':'')+' \u25BE</button>';
   h+='<input class="search" id="q" type="search" placeholder="Find a team" value="'+esc(st.q)+'" aria-label="Find a team">';
@@ -2037,7 +2038,7 @@ $("filters").addEventListener("click",function(e){
   else if(b.hasAttribute("data-co")){st.co=!st.co}
   else if(b.hasAttribute("data-can")){st.can=!st.can}
   else if(b.hasAttribute("data-pinf")){st.pin=!st.pin}
-  else if(b.hasAttribute("data-lgopen")){st.lgOpen=!st.lgOpen}
+  else if(b.hasAttribute("data-lgopen")){openLeagues();return}
   else if(b.hasAttribute("data-more2")){st.moreOpen=!st.moreOpen}
   else if(b.hasAttribute("data-svc")){st.svcOpen=!st.svcOpen}
   else if(b.hasAttribute("data-gr")){var nm=b.getAttribute("data-gr");GR.forEach(function(x){if(x[0]===nm){var on=grOn(x[1]);x[1].forEach(function(k){st.lg[k]=!on})}})}
@@ -2052,6 +2053,23 @@ $("svcPanel").addEventListener("click",function(e){
   var v=b.getAttribute("data-sv"),i=mySvc.indexOf(v);
   if(i>-1)mySvc.splice(i,1);else mySvc.push(v);
   save("sp_svc",mySvc);refresh(true);
+});
+function openLeagues(){
+  var tp=$("sheet").scrollTop,n=Object.keys(st.lg).filter(function(k){return st.lg[k]}).length;
+  $("sheet").innerHTML='<button class="close" type="button" id="closeSheet">Close</button><h2>Leagues</h2><div class="meta">Tap as many as you like.</div>'+
+    '<div class="watch"><div class="fav"><button class="chip" type="button" data-lgall="1" aria-pressed="'+(n===0)+'">All leagues</button>'+GR.map(function(g){return '<button class="chip" type="button" data-lggr="'+g[0]+'" aria-pressed="'+grOn(g[1])+'">'+g[0]+'</button>'}).join("")+'</div></div>'+
+    '<div class="watch"><div class="fav">'+Object.keys(LG).map(function(k){return '<button class="chip" type="button" data-lgp="'+k+'" aria-pressed="'+(!!st.lg[k])+'"><i style="background:var('+LG[k].c+')"></i>'+(LG[k].l||k)+'</button>'}).join("")+'</div></div>'+
+    '<div class="actions"><button class="btn" type="button" id="lgDone">Done</button></div>';
+  $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=tp;
+}
+$("sheet").addEventListener("click",function(e){
+  var t=e.target,b;
+  if(t.closest("#lgDone")){closeSheet();return}
+  if(t.closest("[data-lgall]")){st.lg={}}
+  else if((b=t.closest("[data-lggr]"))){var nm=b.getAttribute("data-lggr");GR.forEach(function(x){if(x[0]===nm){var on=grOn(x[1]);x[1].forEach(function(k){st.lg[k]=!on})}})}
+  else if((b=t.closest("[data-lgp]"))){var k=b.getAttribute("data-lgp");st.lg[k]=!st.lg[k]}
+  else return;
+  st.lim=80;refresh(true);openLeagues();
 });
 $("filters").addEventListener("change",function(e){
   if(e.target.id!=="lgSel")return;
