@@ -227,7 +227,7 @@ dd{margin:0}
   <header class="top">
     <div>
       <h1>The Sports Pit</h1>
-      <div class="sub">All times in Denver (Mountain)</div>
+      <div class="sub">All times in <select id="tzSel" aria-label="Time zone" style="font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 4px;max-width:210px"></select></div>
       <div class="sub" id="updAt"></div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button">Ticker</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button></div>
@@ -273,7 +273,7 @@ dd{margin:0}
 <script>
 (function(){
 "use strict";
-var TZ="America/Denver";
+var TZ=(function(){try{var z=localStorage.getItem("sp_tz");if(z){new Intl.DateTimeFormat("en-US",{timeZone:z});return z}}catch(e){}return "America/Denver"})();
 var LG={NFL:{c:"--nfl",dur:195},CFB:{c:"--cfb",dur:210},NBA:{c:"--nba",dur:150},NHL:{c:"--nhl",dur:150},MLB:{c:"--mlb",dur:190},MLS:{c:"--mls",dur:120},EPL:{c:"--epl",dur:120},LALIGA:{c:"--laliga",dur:120,l:"La Liga"},LIGAMX:{c:"--ligamx",dur:120,l:"Liga MX"},USMNT:{c:"--usmnt",dur:120,l:"USMNT"},USWNT:{c:"--uswnt",dur:120,l:"USWNT"}};
 
 /* [league, start UTC, away abbr, away name, home abbr, home name, title, network, service keys, local TV, note] */
@@ -1175,6 +1175,7 @@ function tzOffset(ms){var p=parts(ms);return Date.UTC(p.year,p.month-1,p.day,p.h
 function dayStart(ms){var p=parts(ms);var g=Date.UTC(p.year,p.month-1,p.day);var s=g-tzOffset(g);s=g-tzOffset(s);return s}
 function nextDay(s){return dayStart(s+26*3600000)}
 function addDays(s,n){for(var i=0;i<n;i++)s=nextDay(s);return s}
+function tzAb(ms){var p=new Intl.DateTimeFormat("en-US",{timeZone:TZ,timeZoneName:"short"}).formatToParts(new Date(ms)).filter(function(x){return x.type==="timeZoneName"})[0];return p?p.value:""}
 function fmt(ms,o){o.timeZone=TZ;return new Intl.DateTimeFormat("en-US",o).format(new Date(ms))}
 function tStr(ms){return fmt(ms,{hour:"numeric",minute:"2-digit"})}
 function dStr(ms){return fmt(ms,{weekday:"short",month:"short",day:"numeric"})}
@@ -1371,7 +1372,7 @@ function parseEmails(s){
   return s.split(/[\s,;]+/).filter(function(x){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x)});
 }
 function inviteText(g,note){
-  return "Want to watch "+g.an+" at "+g.hn+" ("+g.lg+") with me? "+dStr(g.s)+", "+tStr(g.s)+" Denver time"+(g.net?", on "+g.net:"")+"."+(note?" "+note:"");
+  return "Want to watch "+g.an+" at "+g.hn+" ("+g.lg+") with me? "+dStr(g.s)+", "+tStr(g.s)+" "+tzAb(g.s)+(tzAb(g.s)?"":"")+" time"+(g.net?", on "+g.net:"")+"."+(note?" "+note:"");
 }
 var cur=null;
 function openSheet(id){
@@ -1386,7 +1387,7 @@ function openSheet(id){
    '<h2>'+logoHTML(g,0,'lg')+esc(g.an)+' at '+logoHTML(g,1,'lg')+esc(g.hn)+'</h2>'+
    '<div class="meta"><span class="badge" style="background:var('+LG[g.lg].c+')">'+(LG[g.lg].l||g.lg)+'</span>'+(g.title?esc(g.title)+' \u2022 ':'')+status+'</div>'+
    (g.sc&&!showSc(g)?'<div class="watch"><h3>Score hidden</h3><p><button type="button" class="btn" data-reveal="'+g.id+'">Show score</button></p></div>':g.sc?'<div class="watch"><h3>'+logoHTML(g,0,'sm')+esc(g.aa)+' '+g.sc.a+' \u2013 '+g.sc.h+' '+logoHTML(g,1,'sm')+esc(g.ha)+'</h3><p>'+esc(g.sc.t)+'. Score as of '+tStr(SCORES_AT)+' Denver ('+ago()+').'+(g.sc.s==="l"&&stale()?' This game may have moved on since.':'')+'</p></div>':'')+
-   '<dl><dt>Starts</dt><dd>'+dStr(g.s)+', '+tStr(g.s)+' Denver</dd>'+
+   '<dl><dt>Starts</dt><dd>'+dStr(g.s)+', '+tStr(g.s)+' '+tzAb(g.s)+'</dd>'+
    '<dt>Ends (est.)</dt><dd>'+tStr(g.e)+'</dd>'+
    '<dt>Watch on</dt><dd><b>'+(g.net?esc(g.net):'Not listed yet')+'</b></dd>'+
    (g.loc?'<dt>Local TV</dt><dd>'+esc(g.loc)+'<br><span class="note">A = away team\u2019s broadcast, H = home team\u2019s. Local feeds are for in-market viewers.</span></dd>':'')+
@@ -1902,6 +1903,19 @@ $("backdrop").addEventListener("click",closeSheet);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){if($("sheet").classList.contains("open"))closeSheet();else closeTk()}});
 $("scoreBtn").addEventListener("click",openScoreInfo);
 $("jerseyBtn").addEventListener("click",openJerseyInfo);
+/* time zone picker */
+(function(){
+  var sel=$("tzSel");if(!sel)return;
+  var dev="";try{dev=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+  var L=[["America/Denver","Denver (Mountain)"],["America/New_York","New York (Eastern)"],["America/Chicago","Chicago (Central)"],["America/Phoenix","Arizona (no DST)"],["America/Los_Angeles","Los Angeles (Pacific)"],["America/Anchorage","Alaska"],["Pacific/Honolulu","Hawaii"],["America/Toronto","Toronto"],["America/Vancouver","Vancouver"],["America/Mexico_City","Mexico City"],["America/Sao_Paulo","S\u00e3o Paulo"],["Europe/London","London"],["Europe/Paris","Paris / Madrid / Berlin"],["Europe/Moscow","Moscow"],["Asia/Dubai","Dubai"],["Asia/Kolkata","India"],["Asia/Shanghai","China"],["Asia/Tokyo","Tokyo"],["Australia/Sydney","Sydney"],["Pacific/Auckland","Auckland"]];
+  var seen={},h="";
+  function add(v,n){if(seen[v])return;seen[v]=1;h+='<option value="'+v+'">'+n+'</option>'}
+  if(dev)add(dev,"My device ("+dev.replace(/_/g," ")+")");
+  L.forEach(function(x){add(x[0],x[1])});
+  if(!seen[TZ])add(TZ,TZ.replace(/_/g," "));
+  sel.innerHTML=h;sel.value=TZ;
+  sel.addEventListener("change",function(){try{localStorage.setItem("sp_tz",sel.value)}catch(e){}location.reload()});
+})();
 $("themeBtn").addEventListener("click",function(){
   var el=document.documentElement;
   var dark=el.getAttribute("data-theme")==="dark"||(!el.getAttribute("data-theme")&&window.matchMedia("(prefers-color-scheme: dark)").matches);
