@@ -278,7 +278,9 @@ body.hasdock{padding-bottom:64px}
 .tkgl{flex:0 0 78px;font-weight:700;font-size:13px;color:var(--mute)}
 .tkgb{display:flex;flex-wrap:wrap;gap:6px}
 header.top{align-items:center}
-.hdrR{display:flex;gap:8px;align-items:center}.gear{font-size:20px;line-height:1;padding:5px 10px}
+.hdrR{display:flex;gap:8px;align-items:center}
+.favbar{display:flex;flex-direction:column;gap:6px;margin:8px 0}.favbar button{text-align:left;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--pit);border-radius:10px;padding:8px 10px;color:var(--ink);font-size:14px}
+.toast{position:fixed;left:12px;right:12px;top:12px;z-index:60;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:12px;font-weight:600;max-width:560px;margin:0 auto}.gear{font-size:20px;line-height:1;padding:5px 10px}
 .ulh{font:700 14px var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin:16px 0 4px}.ulog{list-style:none;margin:0;padding:0}.ulog li{padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}.ulog small{display:block;color:var(--mute);font-size:12px}
 .menu{position:relative}
 .menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
@@ -323,6 +325,7 @@ header.top{align-items:center}
   <nav class="scrnav" id="scrnav" aria-label="Screens"></nav>
 
   <div id="tvScr">
+  <div id="favBar" class="favbar" style="display:none"></div>
   <div id="lnuWrap"><div class="lnuh">Live &amp; next up</div><div class="lnu" id="lnu"></div></div>
   <div class="views" id="views" role="group" aria-label="Layout"></div>
 
@@ -341,6 +344,7 @@ header.top{align-items:center}
 
   <div class="summary"><strong id="sumMain"></strong><span id="sumSub"></span></div>
 
+  <div id="nowRow" style="text-align:right;margin:0 0 6px"><button class="mini" id="nowBtn" type="button">Jump to now</button></div>
   <div class="board" id="board"><div class="scroller" id="scroller"><div class="grid" id="grid"></div></div></div>
   <div id="alt" style="display:none"></div>
   <div id="banner" class="bn" style="display:none;margin-top:14px"></div>
@@ -1293,6 +1297,7 @@ var CO=["NFL:DEN","NBA:DEN","NHL:COL","MLS:COL","CFB:COLO","CFB:CSU","CFB:AFA","
 function isCO(g){return CO.indexOf(g.lg+":"+g.aa)>-1||CO.indexOf(g.lg+":"+g.ha)>-1}
 var st={view:"today",lg:{},fav:false,co:false,can:false,q:"",svcOpen:false,pin:false,lgOpen:false,moreOpen:false,lay:load("sp_layout","timeline"),lim:80,wkOff:0,wkTop:210,moOff:0,selDay:null,tl:"",tt:"",bi:0,rev:{},hd:false,grp:"day"};
 if(["timeline","list","wk","mo","cards","plan","team","friends"].indexOf(st.lay)<0)st.lay="timeline";
+(function(){var v=load("sp_view",null);if(v&&typeof v==="object"){if(["today","tomorrow","yesterday","lastweek","week","month","year"].indexOf(v.view)>-1)st.view=v.view;["fav","co","can","pin"].forEach(function(k){if(v[k]===true)st[k]=true})}})();
 var $=function(id){return document.getElementById(id)};
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
@@ -1358,6 +1363,7 @@ function drawFilters(){
   if(n===1)cur="lg:"+on[0];
   var lbl=n===0?"All leagues":(n<=2?on.map(function(k){return LG[k].l||k}).join(" + "):n+" leagues");
   var h='<button class="chip" type="button" data-fav="1" aria-pressed="'+st.fav+'">\u2605 My teams</button>';
+  h+=mySvc.length?'<button class="chip" type="button" data-can="1" aria-pressed="'+st.can+'">\u2713 Can watch</button>':'<button class="chip" type="button" data-svc="1" aria-pressed="'+st.svcOpen+'">\u2713 Where I can watch</button>';
   var act=(st.fav?1:0)+(st.co?1:0)+(st.can?1:0)+(st.pin?1:0)+(st.svcOpen?1:0);
   h+='<button class="chip" type="button" data-more2="1" aria-pressed="'+st.moreOpen+'">More'+(act?' ('+act+')':'')+' \u25BE</button>';
   h+='<input class="search" id="q" type="search" placeholder="Find a team" value="'+esc(st.q)+'" aria-label="Find a team">';
@@ -1509,7 +1515,7 @@ function openSheet(id){
       return h2+'</div>';
    })()+
    '<div class="fav"><button class="chip" type="button" data-favteam="'+g.lg+':'+g.aa+'" aria-pressed="'+favA+'">'+logoHTML(g,0,'xs')+'\u2605 '+esc(g.aa)+'</button><button class="chip" type="button" data-favteam="'+g.lg+':'+g.ha+'" aria-pressed="'+favH+'">\u2605 '+esc(g.ha)+'</button><button class="chip" type="button" data-pingame="'+g.id+'" aria-pressed="'+isPinned(g)+'">Pin as must-watch</button></div>'+
-   '<div class="actions"><a class="btn primary" id="addMine" target="_blank" rel="noopener" href="'+esc(gcalLink(g,[]))+'">Add to my Google Calendar</a></div>'+
+   '<div class="actions"><a class="btn primary" id="addMine" target="_blank" rel="noopener" href="'+esc(gcalLink(g,[]))+'">Add to my Google Calendar</a><button type="button" class="btn" data-rem="'+g.id+'">'+(isRem(g)?'Reminder on \u2713':'Remind me 15 min before')+'</button><button type="button" class="btn" data-share="'+g.id+'">Share</button></div>'+
    '<div class="invite"><h3>Invite people to this game?</h3>'+
    '<label for="grpSel">Saved group</label><select id="grpSel">'+gopts+'</select>'+
    '<label for="emails">Guest emails (comma or space separated)</label><textarea id="emails" placeholder="friend@example.com, other@example.com"></textarea>'+
@@ -1864,13 +1870,15 @@ function drawAlt(keep){
 }
 function renderView(keep){
   if(st.lay==="timeline")draw(keep);else drawAlt(keep);
-  drawStrip();drawBanner();drawWeekPicks();drawLNU();if(SCR==="news")drawNews();
+  drawStrip();drawBanner();drawWeekPicks();drawLNU();drawFavBar();if(SCR==="news")drawNews();
 }
 function refresh(keep){
+  save("sp_view",{view:st.view,fav:st.fav,co:st.co,can:st.can,pin:st.pin});
+  Array.prototype.forEach.call($("tabs").children,function(x){x.setAttribute("aria-selected",x.getAttribute("data-v")===st.view?"true":"false")});
   var L=st.lay,range=(L==="timeline"||L==="list"||L==="cards"),flt=range||L==="wk"||L==="mo";
   $("tabs").style.display=range?"":"none";
   $("filters").style.display=flt?"":"none";
-  $("board").style.display=L==="timeline"?"":"none";
+  $("board").style.display=L==="timeline"?"":"none";$("nowRow").style.display=L==="timeline"?"":"none";
   $("alt").style.display=L==="timeline"?"none":"";
   drawViews();drawFilters();renderView(keep);
 }
@@ -2081,6 +2089,7 @@ function closeTk(){$("ticker").classList.remove("open","showctl","tv","idle");TK
 $("tabs").addEventListener("click",function(e){
   var b=e.target.closest("button[data-v]");if(!b)return;
   st.view=b.getAttribute("data-v");
+  save("sp_view",{view:st.view,fav:st.fav,co:st.co,can:st.can,pin:st.pin});
   Array.prototype.forEach.call($("tabs").children,function(x){x.setAttribute("aria-selected",x===b?"true":"false")});
   st.lim=80;renderView(false);
 });
@@ -2474,9 +2483,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-26b";
+var BUILD="2026-11-26c";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(Object.keys(ESPN).map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function openSettings(){
@@ -2484,17 +2493,18 @@ function openSettings(){
   $("sheet").innerHTML='<button class="close" type="button" id="closeSheet">Close</button><h2>Settings</h2><div class="ulh" style="margin-top:10px">Update</div>'+
     '<div class="actions"><button class="btn" type="button" id="updNow">Update now</button></div>'+
     '<div class="meta" style="margin-top:8px">Pulls the latest schedule, scores, channels and news, and loads the newest version of the site if there is one. Last update: '+esc(last)+'. Version '+BUILD+'.</div>'+
-    '<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
+    '<div class="ulh">Appearance</div><div class="actions"><button class="btn" type="button" id="themeSet">Switch light / dark</button></div>'+'<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
     '<div class="ulh">What changed on the site</div><ul class="ulog">'+SITELOG.map(function(s){return '<li><small>'+esc(s[0])+'</small>'+esc(s[1])+'</li>'}).join("")+'</ul>';
   $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=0;
 }
 function doUpdate(){
   var b=$("updNow");if(!b)return;b.disabled=true;b.textContent="Updating...";
   var x0=XADD;save("sp_fwd",0);
-  Promise.all([liveCatch(true).catch(function(){return 0}),siteBuild().catch(function(){return ""}),newsOnce().catch(function(){return 0})]).then(function(r){
+  Promise.all([liveCatch(true).catch(function(){return 0}),siteBuild().catch(function(){return ""}),newsOnce().catch(function(){return 0}),updStand(true).catch(function(){return 0})]).then(function(r){
     var added=XADD-x0,other=Math.max(0,(r[0]||0)-added),msg=[added?added+" new game"+(added>1?"s":""):"no new games"];
     if(other)msg.push(other+" score/channel update"+(other>1?"s":""));
     if(r[2])msg.push(r[2]+" headlines");
+    if(r[3])msg.push("standings for "+r[3]+" teams");
     ulog("Update now: "+msg.join(", "));
     if(r[1]&&r[1]!==BUILD){ulog("New site version "+r[1]+" found, reloading");b.textContent="New version, reloading...";setTimeout(function(){location.href=location.pathname+"?v="+Date.now()},900);return}
     openSettings();
@@ -2502,6 +2512,87 @@ function doUpdate(){
 }
 $("gearBtn").addEventListener("click",openSettings);
 $("sheet").addEventListener("click",function(e){if(e.target.closest("#updNow"))doUpdate()});
+$("sheet").addEventListener("click",function(e){var b;
+  if(e.target.closest("#themeSet")){$("themeBtn").click();return}
+  if((b=e.target.closest("[data-rem]"))){var g=GID[b.getAttribute("data-rem")];if(g){remToggle(g);b.textContent=isRem(g)?"Reminder on ✓":"Remind me 15 min before"}return}
+  if((b=e.target.closest("[data-share]"))){shareGame(GID[b.getAttribute("data-share")]);return}
+});
+/* ---------- reminders (work while the page is open), share, favorite alerts, now button, swipe ---------- */
+var REM=load("sp_rem",[]);
+function isRem(g){return REM.some(function(r){return r.k===g.key})}
+function toast(m){var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.remove()},12000);d.addEventListener("click",function(){d.remove()})}
+function remToggle(g){
+  if(isRem(g))REM=REM.filter(function(r){return r.k!==g.key});
+  else{REM.push({k:g.key,s:g.s,t:g.an+" at "+g.hn,n:g.net||""});try{if(window.Notification&&Notification.permission==="default")Notification.requestPermission()}catch(e){}}
+  save("sp_rem",REM);
+}
+setInterval(function(){
+  var now=Date.now(),n0=REM.length,ch=0;
+  REM.forEach(function(r){if(!r.f&&now>=r.s-15*60000&&now<r.s+30*60000){
+    r.f=1;ch=1;var m="Starts "+tStr(r.s)+": "+r.t+(r.n?" on "+r.n:"");
+    try{if(window.Notification&&Notification.permission==="granted")new Notification("Game starting soon",{body:m})}catch(e){}
+    toast("⏰ "+m)}});
+  REM=REM.filter(function(r){return r.s>now-3600000});
+  if(ch||n0!==REM.length)save("sp_rem",REM);
+},30000);
+function shareGame(g){
+  if(!g)return;
+  var url=location.origin+location.pathname,txt=g.an+" at "+g.hn+" ("+g.lg+"), "+dStr(g.s)+" "+tStr(g.s)+" "+tzAb(g.s)+(g.net?", on "+g.net:"");
+  if(navigator.share){navigator.share({title:"The Sports Pit",text:txt,url:url}).catch(function(){});return}
+  var full=txt+" "+url;
+  try{navigator.clipboard.writeText(full).then(function(){toast("Copied to share: "+full)},function(){toast(full)})}catch(e){toast(full)}
+}
+function drawFavBar(){
+  var el=$("favBar");if(!el)return;
+  var now=Date.now(),ds=dayStart(now),l=[];
+  if(favs.length)l=G.filter(function(g){return isFav(g)&&(isLive(g)||(g.s>=ds&&g.s<nextDay(ds)&&!isDone(g))||(g.sc&&g.sc.s==="f"&&g.s<now&&now-g.s<16*3600000))});
+  l.sort(function(a,b){return a.s-b.s});l=l.slice(0,3);
+  if(!l.length){el.style.display="none";el.innerHTML="";return}
+  el.style.display="";
+  el.innerHTML=l.map(function(g){
+    var m=g.aa+" @ "+g.ha,t;
+    if(g.sc&&g.sc.s==="f")t="Final: "+(showSc(g)?g.aa+" "+g.sc.a+", "+g.ha+" "+g.sc.h:m);
+    else if(isLive(g))t="LIVE now: "+m+(showSc(g)&&g.sc?" ("+g.sc.a+"-"+g.sc.h+")":"")+(g.net?" on "+g.net:"");
+    else t="Plays today: "+m+" at "+tStr(g.s)+(g.net?" on "+g.net:"");
+    return '<button type="button" data-id="'+g.id+'">★ '+esc(t)+'</button>';
+  }).join("");
+}
+$("favBar").addEventListener("click",function(e){openGame(e.target)});
+$("nowBtn").addEventListener("click",function(){st.view="today";refresh(false)});
+(function(){
+  var x0=null,y0=0,el=$("banner");
+  el.addEventListener("touchstart",function(e){var t=e.touches[0];x0=t.clientX;y0=t.clientY},{passive:true});
+  el.addEventListener("touchend",function(e){if(x0===null)return;var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){st.bi+=dx<0?1:-1;drawBanner()}},{passive:true});
+})();
+drawFavBar();
+/* ---------- standings update themselves (NFL, NHL, NBA) ---------- */
+(function(){var s=load("sp_stand",null);if(s&&s.d&&s.at>STAND_AT){STAND=s.d;STAND_AT=s.at;renderView(true)}})();
+var STAND_URL={NFL:"football/nfl",NHL:"hockey/nhl",NBA:"basketball/nba"};
+function updStand(force){
+  if(!force&&Date.now()-load("sp_stand_try",0)<6*3600000)return Promise.resolve(0);
+  save("sp_stand_try",Date.now());
+  return Promise.all(Object.keys(STAND_URL).map(function(lg){
+    return fetch("https://site.api.espn.com/apis/v2/sports/"+STAND_URL[lg]+"/standings?level=3").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+      var out={};
+      (j.children||[]).forEach(function(c){
+        var conf=lg==="NFL"?(c.abbreviation||""):(/east/i.test(c.name||"")?"E":"W");
+        (c.children||[]).forEach(function(d){
+          var dn=String(d.name||"").replace(/ Division$/,""),rows=[];
+          ((d.standings||{}).entries||[]).forEach(function(e){var m={};(e.stats||[]).forEach(function(s){m[s.name]=s.value});if(e.team&&m.wins!=null)rows.push({n:e.team.displayName,w:m.wins,l:m.losses,s:m.playoffSeed||99})});
+          rows.sort(function(a,b){return a.s-b.s});
+          rows.forEach(function(r,i){out[lg+"|"+r.n]=[r.w,r.l,i+1,r.s,dn,conf]});
+        });
+      });
+      return out;
+    }).catch(function(){return null});
+  })).then(function(rs){
+    var n=0,NS=Object.assign({},STAND);
+    rs.forEach(function(o){if(o)Object.keys(o).forEach(function(k){NS[k]=o[k];n++})});
+    if(n>20){STAND=NS;STAND_AT=Date.now();save("sp_stand",{at:STAND_AT,d:STAND});renderView(true);return n}
+    return 0;
+  });
+}
+setTimeout(function(){updStand(false)},3000);
 
 
 $("tkdock").addEventListener("click",function(e){
