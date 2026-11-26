@@ -150,6 +150,8 @@ dd{margin:0}
 .bnt span,.cteams .at{color:var(--mute);font:500 15px var(--body)}
 .bnm{color:var(--mute);font-size:14px;margin-top:4px}
 .bna{display:flex;flex-wrap:wrap;gap:6px}
+.bnav{flex:0 0 100%;display:flex;align-items:center;justify-content:center;gap:16px;padding-top:8px;border-top:1px solid var(--line)}
+.bnav button{width:48px;height:40px;font-size:22px;line-height:1;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}.bnav span{font:600 14px var(--body);color:var(--mute);min-width:70px;text-align:center}
 .mini{display:inline-block;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;font-weight:600;font-size:13px;text-decoration:none}
 .mini.primary,.mini[aria-pressed="true"]{background:var(--pit);color:var(--pit-ink);border-color:var(--pit)}
 .tools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
@@ -1678,7 +1680,7 @@ function drawBanner(){
   var teams=showSc(g)?logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' <span>–</span> '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha):logoHTML(g,0)+esc(g.an)+' <span>at</span> '+logoHTML(g,1)+esc(g.hn);
   el.style.display="flex";
   el.style.borderLeft="6px solid var("+LG[g.lg].c+")";
-  el.innerHTML='<div class="bnl"><div class="bnk">'+(isLive(g)?'Live now':esc(b.lab))+' <span class="badge" style="background:var('+LG[g.lg].c+')">'+esc(lgName(g.lg))+'</span>'+(g.title?esc(g.title):'')+'</div><div class="bnt">'+teams+'</div><div class="bnm">'+dStr(g.s)+', '+tStr(g.s)+' • '+esc(g.net||"Channel not listed yet")+' • <b id="cd">'+cdTxt(g)+'</b>'+(ways(g).length?' • ✓ you can watch':'')+'</div>'+whyHTML(g)+'</div><div class="bna"><button type="button" class="mini primary" data-id="'+g.id+'">Details</button><a class="mini" target="_blank" rel="noopener" data-cal="'+g.id+'" href="'+esc(gcalLink(g,[]))+'">Add to calendar</a><button type="button" class="mini" data-pin="'+g.id+'" '+pinBtnCls(g)+'>'+(isPinned(g)?'Pinned':'Pin')+'</button>'+(b.l.length>1?'<button type="button" class="mini" data-bnext="1">Next pick ('+(i+1)+' of '+b.l.length+')</button>':'')+'</div>';
+  el.innerHTML='<div class="bnl"><div class="bnk">'+(isLive(g)?'Live now':esc(b.lab))+' <span class="badge" style="background:var('+LG[g.lg].c+')">'+esc(lgName(g.lg))+'</span>'+(g.title?esc(g.title):'')+'</div><div class="bnt">'+teams+'</div><div class="bnm">'+dStr(g.s)+', '+tStr(g.s)+' • '+esc(g.net||"Channel not listed yet")+' • <b id="cd">'+cdTxt(g)+'</b>'+(ways(g).length?' • ✓ you can watch':'')+'</div>'+whyHTML(g)+'</div><div class="bna"><button type="button" class="mini primary" data-id="'+g.id+'">Details</button><a class="mini" target="_blank" rel="noopener" data-cal="'+g.id+'" href="'+esc(gcalLink(g,[]))+'">Add to calendar</a><button type="button" class="mini" data-pin="'+g.id+'" '+pinBtnCls(g)+'>'+(isPinned(g)?'Pinned':'Pin')+'</button>'+'</div>'+(b.l.length>1?'<div class="bnav"><button type="button" data-bprev="1" aria-label="Previous pick">&#9664;</button><span>'+(i+1)+' of '+b.l.length+'</span><button type="button" data-bnext="1" aria-label="Next pick">&#9654;</button></div>':'');
 }
 
 /* ---------- list + cards ---------- */
@@ -2289,6 +2291,7 @@ $("banner").addEventListener("click",function(e){
   if((b=t.closest("[data-pin]"))){togglePin(GID[b.getAttribute("data-pin")]);renderView(true);return}
   if(recAdded(t)){setTimeout(function(){renderView(true)},200);return}
   if(t.closest("[data-bnext]")){st.bi++;drawBanner();return}
+  if(t.closest("[data-bprev]")){st.bi--;drawBanner();return}
   openGame(t);
 });
 $("views").addEventListener("change",function(e){
@@ -2471,9 +2474,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-26a";
+var BUILD="2026-11-26b";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 26","Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(Object.keys(ESPN).map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function openSettings(){
