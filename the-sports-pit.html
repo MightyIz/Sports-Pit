@@ -77,9 +77,19 @@ h1{font:700 34px/0.95 var(--disp);letter-spacing:.2px;margin:0}
 .lab small{font-size:11.5px;color:var(--mute);white-space:nowrap}
 .track{position:relative;flex:none}
 .bar{position:absolute;top:9px;height:32px;border-radius:7px;color:var(--onbar);display:flex;align-items:center;padding:0 7px;font:600 12px var(--body);overflow:hidden;white-space:nowrap;min-width:7px}
-.bar.live{box-shadow:0 0 0 3px var(--pit)}
+.bar.live{box-shadow:none}
+.bar b{margin-right:8px}.bnet{opacity:.88;font-weight:500}
+.lvdot{width:8px;height:8px;border-radius:50%;background:#ff3b30;margin-right:6px;flex:none;box-shadow:0 0 0 2px rgba(255,255,255,.7);animation:lvp 1.4s infinite}
+@keyframes lvp{50%{opacity:.35}}
+.lnu{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;-webkit-overflow-scrolling:touch}
+.lnuc{flex:none;min-width:150px;text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.lnuc small{display:block;color:var(--mute);font-size:12px}
+.lnuc b{font:700 16px var(--disp);white-space:nowrap}
+.lnuc.live{border-color:#ff3b30}
+.lnuh{font:700 13px var(--body);color:var(--mute);margin:8px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+.oldtag{font:600 11px var(--body);color:var(--mute);border:1px solid var(--line);border-radius:6px;padding:0 5px;margin-left:6px}
 .bar.done{opacity:.4}
-.now{position:absolute;top:30px;bottom:0;width:2px;background:var(--pit);z-index:2;pointer-events:none}
+.now{position:absolute;top:30px;bottom:0;width:2px;background:var(--pit);opacity:.55;z-index:2;pointer-events:none}
 .now::before{content:"";position:absolute;top:-6px;left:-4px;width:10px;height:10px;border-radius:50%;background:var(--pit)}
 .row:hover .lab,.row:focus-visible .lab{background:color-mix(in srgb,var(--pit) 18%,var(--surface))}
 
@@ -121,6 +131,7 @@ dd{margin:0}
 .inline button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;font-weight:600;white-space:nowrap}
 .note{font-size:12.5px;color:var(--mute);margin:6px 0 0}
 .close{position:sticky;top:0;float:right;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 10px;font-weight:600}
+@media (min-width:900px){:root{--lab:210px}}
 @media (min-width:700px){:root{--lab:150px} .wrap{padding:22px 18px 50px} h1{font-size:44px}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 /* views, strip, banner */
@@ -268,9 +279,9 @@ header.top{align-items:center}
 .menu{position:relative}
 .menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
 .menubody{position:absolute;right:0;top:calc(100% + 6px);z-index:12;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;width:min(320px,88vw);display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-.scrnav{display:flex;gap:8px;flex:1;min-width:0}
-.scrnav button{flex:1;min-width:0;font:700 clamp(12px,3vw,20px) var(--disp);letter-spacing:.02em;text-transform:uppercase;padding:12px 3px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
-.scrnav button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.scrnav{display:flex;gap:0;flex:1;min-width:0;border-bottom:2px solid var(--line)}
+.scrnav button{flex:1;min-width:0;font:700 clamp(13px,3.5vw,17px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:10px 2px;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;border-radius:0;background:transparent;color:var(--mute);cursor:pointer}
+.scrnav button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--pit)}
 .scrnav select,.laysel{width:100%;font:700 clamp(18px,4.6vw,26px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:12px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .laysel{font-size:15px;padding:8px 12px;max-width:260px;text-transform:none;letter-spacing:0}
 #scrnav{margin:4px 0 14px}
@@ -308,6 +319,7 @@ header.top{align-items:center}
   <nav class="scrnav" id="scrnav" aria-label="Screens"></nav>
 
   <div id="tvScr">
+  <div id="lnuWrap"><div class="lnuh">Live &amp; next up</div><div class="lnu" id="lnu"></div></div>
   <div class="views" id="views" role="group" aria-label="Layout"></div>
 
   <div class="tabs" role="tablist" id="tabs">
@@ -338,7 +350,7 @@ header.top{align-items:center}
   </div>
 
   <footer>
-    Prototype v1.016. Schedules and channels are a snapshot taken on Oct 20, 2026 from the league feed and Sports Media Watch: NFL through Nov 5, MLS through Nov 4, Premier League and La Liga through Oct 25, Liga MX through Oct 25 (channels there are the least certain), college football (top division only, plus Colorado’s full 2026 schedule, plus Northern Colorado’s remaining Big Sky games) through Oct 28, NBA through Oct 30 and NHL through Oct 29 (added Oct 29; channels are blank where no source listed one), and the World Series games listed so far. College rankings are as listed on Oct 20. Channels can change, and CBS and FOX NFL games are regional. Streaming carriage comes from Sports Media Watch and can vary by plan. The Colorado filter covers the Broncos, Nuggets, Avalanche, Rapids, Colorado, Colorado State, Northern Colorado and Air Force. Nuggets, Broncos and Avalanche uniforms are shown where known (Avalanche calls are league-default guesses, not confirmed) (colored dot on the row, details in the game panel). Scores are a snapshot refreshed on request (see the Scores button); last refreshed Nov 24, 2026 at 1:28 PM MST. Games added Nov 6 to Nov 24 (NBA, NHL, college football, MLS, NFL) have no channel listed yet. USMNT and USWNT games come from U.S. Soccer and web listings, not the league feed. Game lengths are estimates. The Ticker’s news row is gathered on request and dated. Favorites, pins, invites you started, options, services and saved groups stay in this browser only.
+    Prototype v1.017. Schedules, scores and channels load live from ESPN each time you open the page, and new games are added automatically as the leagues publish them. The built-in snapshot from Oct 20, 2026 (League feeds and Sports Media Watch) is only a fallback, so a few channels may be blank until the networks announce them. Standings are a snapshot. Not affiliated with any league or network.
   </footer>
 </div>
 
@@ -1341,13 +1353,13 @@ function drawFilters(){
   GR.forEach(function(x){if(on.length===x[1].length&&grOn(x[1]))cur="gr:"+x[0]});
   if(n===1)cur="lg:"+on[0];
   var lbl=n===0?"All leagues":(n<=2?on.map(function(k){return LG[k].l||k}).join(" + "):n+" leagues");
-  var h="";
+  var h='<button class="chip" type="button" data-fav="1" aria-pressed="'+st.fav+'">\u2605 My teams</button>';
   var act=(st.fav?1:0)+(st.co?1:0)+(st.can?1:0)+(st.pin?1:0)+(st.svcOpen?1:0);
   h+='<button class="chip" type="button" data-more2="1" aria-pressed="'+st.moreOpen+'">More'+(act?' ('+act+')':'')+' \u25BE</button>';
   h+='<input class="search" id="q" type="search" placeholder="Find a team" value="'+esc(st.q)+'" aria-label="Find a team">';
   if(st.moreOpen){
     h+='<div class="lgrow">';
-    h+='<button class="chip" type="button" data-fav="1" aria-pressed="'+st.fav+'">\u2605 Mine</button>';
+
     h+='<button class="chip" type="button" data-co="1" aria-pressed="'+st.co+'">Colorado</button>';
     h+='<button class="chip" type="button" data-can="1" aria-pressed="'+st.can+'">\u2713 I can watch</button>';
     h+='<button class="chip" type="button" data-pinf="1" aria-pressed="'+st.pin+'">Pinned</button>';
@@ -1374,6 +1386,8 @@ function draw(keepScroll){
   }
   var LAB=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lab"))||118;
   var W=Math.round((r.b-r.a)/3600000*r.h);
+  var LABw=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--lab"))||118,availW=($("scroller").clientWidth||0)-LABw;
+  if(r.u==="hour"&&availW>W+40){r.h=r.h*availW/W;W=Math.round(availW)}
   var live=list.filter(function(g){return now>=g.s&&now<g.e}).length;
   $("sumMain").textContent=list.length+(list.length===1?" game":" games");
   $("sumSub").textContent=r.label+(live?" \u2022 "+live+" live now":"");
@@ -1413,7 +1427,7 @@ function draw(keepScroll){
     var isLive=g.sc?g.sc.s==="l":(now>=g.s&&now<g.e),done=g.sc?g.sc.s==="f":now>=g.e;
     var star=(isFav(g)?"\u2605 ":"")+(isPinned(g)?"\uD83D\uDCCC ":"");
     var okw=ways(g).length?"\u2713 ":"";
-    var inBar=r.u==="hour"?esc(g.net||g.lg):"";
+    var inBar=r.u==="hour"?(isLive?'<i class="lvdot"></i>':"")+"<b>"+esc(g.aa)+" @ "+esc(g.ha)+"</b>"+(g.net?'<span class="bnet">'+esc(g.net)+"</span>":""):"";
     html+='<button type="button" class="row" data-id="'+g.id+'">'+
       '<div class="lab" style="border-left:5px solid var('+LG[g.lg].c+')"><b>'+star+logoHTML(g,0,'sm')+esc(g.aa)+(showSc(g)?' '+g.sc.a:'')+' @ '+logoHTML(g,1,'sm')+esc(g.ha)+(showSc(g)?' '+g.sc.h:'')+(g.un?' <span class="sw" style="background:'+g.un.c+'" title="'+esc(g.un.j)+'"></span>':'')+'</b><small>'+okw+(g.sc?esc(showSc(g)?g.sc.t:(g.sc.s==="f"?"Final":"Live"))+(g.sc.s==="l"&&showSc(g)&&stale()?' (as of '+tStr(SCORES_AT)+')':''):(r.u==="hour"?"":dStr(g.s)+" ")+tStr(g.s))+' \u2022 '+esc(g.net||g.lg)+(isLive&&!g.sc?' \u2022 LIVE':'')+'</small></div>'+
       '<div class="track" style="width:'+W+'px"><div class="bar'+(isLive?" live":"")+(done?" done":"")+'" style="left:'+x+'px;width:'+w+'px;background:var('+LG[g.lg].c+')">'+inBar+'</div></div>'+
@@ -1520,6 +1534,17 @@ function pref(k,d){return prefs[k]===undefined?d:prefs[k]}
 function setPref(k,v){prefs[k]=v;save("sp_prefs",prefs)}
 var GID={},GKEY={},LGORDER=Object.keys(LG);
 G.forEach(function(g){GID[g.id]=g;g.key=g.lg+"|"+g.aa+"|"+g.ha+"|"+new Date(g.s).toISOString().slice(0,16);GKEY[g.key]=g});
+var XTRA=load("sp_extra",[]),XDIRTY=0;
+function mkExtra(x){
+  var key=x.lg+"|"+x.aa+"|"+x.ha+"|"+new Date(x.s).toISOString().slice(0,16);
+  if(GKEY[key]||!LG[x.lg])return null;
+  var g={un:null,sc:null,id:"x"+x.s.toString(36)+x.lg+x.aa,lg:x.lg,s:x.s,e:x.s+LG[x.lg].dur*60000,aa:x.aa,an:x.an,ha:x.ha,hn:x.hn,title:x.title||"",net:x.net||"",k:[],loc:"",note:"",key:key,x:1};
+  G.push(g);GID[g.id]=g;GKEY[key]=g;XDIRTY=1;return g;
+}
+XTRA=XTRA.filter(function(x){return x&&x.s>Date.now()-3*86400000});
+XTRA.forEach(mkExtra);
+function flushX(){if(!XDIRTY)return;XDIRTY=0;G.sort(function(a,b){return a.s-b.s||a.lg.localeCompare(b.lg)});save("sp_extra",XTRA.slice(-500))}
+flushX();
 function isPinned(g){return pins.indexOf(g.key)>-1}
 function togglePin(g){if(!g)return;var i=pins.indexOf(g.key);if(i>-1)pins.splice(i,1);else pins.push(g.key);save("sp_pins",pins)}
 function showSc(g){return !!g.sc&&(!pref("hide",false)||!!st.rev[g.id])}
@@ -1835,7 +1860,7 @@ function drawAlt(keep){
 }
 function renderView(keep){
   if(st.lay==="timeline")draw(keep);else drawAlt(keep);
-  drawStrip();drawBanner();drawWeekPicks();if(SCR==="news")drawNews();
+  drawStrip();drawBanner();drawWeekPicks();drawLNU();if(SCR==="news")drawNews();
 }
 function refresh(keep){
   var L=st.lay,range=(L==="timeline"||L==="list"||L==="cards"),flt=range||L==="wk"||L==="mo";
@@ -2329,10 +2354,11 @@ function applyEv(lg,ev){
   var c=ev.competitions&&ev.competitions[0];if(!c||!c.competitors)return 0;
   var home,away;c.competitors.forEach(function(x){if(x.homeAway==="home")home=x;else away=x});
   if(!home||!away)return 0;
-  ev0=ev;var t=Date.parse(ev.date),stt=(c.status||ev.status||{}).type||{},bc=bcNames(c),hit=0;
+  ev0=ev;var t=Date.parse(ev.date),stt=(c.status||ev.status||{}).type||{},bc=bcNames(c),hit=0,matched=false;
   G.forEach(function(g){
     if(g.lg!==lg||Math.abs(g.s-t)>8*3600000)return;
     if(!tmEq(g.aa,g.an,away.team)||!tmEq(g.ha,g.hn,home.team))return;
+    matched=true;
     [[away,g.aa],[home,g.ha]].forEach(function(p){var tm=p[0].team||{},k=g.lg+"|"+p[1],lu=tm.logo,lc=tm.color;
       if(lu&&String(lu).indexOf("https://")===0&&(!LOGO[k]||LOGO[k].u!==lu||LOGO[k].c!==lc)){LOGO[k]={u:lu,c:lc||""};hit++;LOGO_DIRTY=1}});
     if(bc.length&&!g.net){g.net=bc.join(", ");hit++;LIVE.chan=(LIVE.chan||0)+1}
@@ -2343,7 +2369,16 @@ function applyEv(lg,ev){
     var n={a:a,h:h,s:fin?"f":"l",t:fin?"Final":(stt.shortDetail||stt.detail||"Live")};
     if(!g.sc||g.sc.a!==n.a||g.sc.h!==n.h||g.sc.s!==n.s||g.sc.t!==n.t){g.sc=n;hit++}
   });
+  if(!matched)hit+=addGame(lg,away,home,t,bc,c);
   return hit;
+}
+function addGame(lg,away,home,t,bc,c){
+  var now=Date.now(),at=away.team||{},ht=home.team||{};
+  if(!t||t<now-36*3600000||t>now+30*86400000||!at.abbreviation||!ht.abbreviation||!LG[lg])return 0;
+  if(lg==="CFB"){var rkd=function(x){return x.curatedRank&&x.curatedRank.current&&x.curatedRank.current<=25},co=function(a){return a==="COLO"||a==="UNCO"};if(!rkd(away)&&!rkd(home)&&!co(at.abbreviation)&&!co(ht.abbreviation))return 0}
+  var x={lg:lg,s:t,aa:at.abbreviation,an:at.displayName||at.abbreviation,ha:ht.abbreviation,hn:ht.displayName||ht.abbreviation,title:(c.notes&&c.notes[0]&&c.notes[0].headline)||"",net:bc.join(", ")};
+  var g=mkExtra(x);if(!g)return 0;
+  XTRA.push(x);return 1;
 }
 function liveFetch(lg,date){
   var u="https://site.api.espn.com/apis/site/v2/sports/"+ESPN[lg]+"/scoreboard?dates="+date+(lg==="CFB"?"&groups=80&limit=500":"&limit=300");
@@ -2393,7 +2428,7 @@ function liveTick(){
   var jobs=[];lgs.forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){return{lg:lg,evs:evs}}))})});
   var ok=0,changed=0;
   Promise.all(jobs.map(function(p){return p.then(function(x){ok++;x.evs.forEach(function(ev){changed+=applyEv(x.lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)})})).then(function(){
-    if(ok){LIVE.fails=0;LIVE.on=true;LIVE.last=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(changed){SCORES_AT=Date.now();renderView(true);tkAll()}liveSetBtn();liveNext(60000)}
+    if(ok){flushX();LIVE.fails=0;LIVE.on=true;LIVE.last=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(changed){SCORES_AT=Date.now();renderView(true);tkAll()}liveSetBtn();liveNext(60000)}
     else{LIVE.fails++;LIVE.on=false;liveSetBtn();liveNext(LIVE.fails>=2?15*60000:60000)}
   });
 }
@@ -2425,9 +2460,9 @@ setTimeout(newsTick,400);
 /* ---------- catch-up on open: last 8 days of scores and the next 7 days of channels ---------- */
 function liveCatch(){
   if(pref("nolive",false))return;
-  var now=Date.now(),days=[],ok=0,ch=0;for(var di=-8;di<=7;di++)days.push(ymd(now+di*86400000));
+  var now=Date.now(),days=[],ok=0,ch=0;var farAt=load("sp_fwd",0),far=now-farAt>6*3600000;for(var di=-8;di<=(far?25:7);di++)days.push(ymd(now+di*86400000));
   var jobs=[];Object.keys(ESPN).forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)}))})});Promise.all(jobs).then(function(){
-    if(ok){LIVE.on=true;LIVE.last=Date.now();SCHED_AT=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(ch)SCORES_AT=Date.now();renderView(true);liveSetBtn();tkAll()}
+    if(ok){if(far)save("sp_fwd",Date.now());flushX();LIVE.on=true;LIVE.last=Date.now();SCHED_AT=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(ch)SCORES_AT=Date.now();renderView(true);liveSetBtn();tkAll()}
   });
 }
 setTimeout(liveCatch,800);
@@ -2465,10 +2500,12 @@ function drawNav(){
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
 }
 function drawNews(){
-  var el=$("nw"),l=NEWS.filter(function(n){return lgCount()===0||!!st.lg[n.l]});
+  var nowN=Date.now();
+  function nTime(n){if(n.p)return n.p;var m=/^([A-Z][a-z]{2}) (\d{1,2})$/.exec(n.d||"");if(m){var y=new Date().getFullYear(),d=Date.parse(m[1]+" "+m[2]+", "+y);if(d>nowN+2*86400000)d=Date.parse(m[1]+" "+m[2]+", "+(y-1));return d||0}var m2=/^([A-Z][a-z]{2}) (\d{4})$/.exec(n.d||"");if(m2)return Date.parse(m2[1]+" 1, "+m2[2])||0;return 0}
+  var el=$("nw"),l=NEWS.filter(function(n){return lgCount()===0||!!st.lg[n.l]}).map(function(n){return {n:n,t:nTime(n)}}).sort(function(a,b){return b.t-a.t}).map(function(o){o.n._old=o.t&&nowN-o.t>10*86400000;return o.n});
   if(!l.length){el.innerHTML='<div class="empty">No news for these leagues right now.</div>';return}
   el.innerHTML='<p class="note" style="margin:0 0 10px">'+(typeof NEWSLIVE!=="undefined"&&NEWSLIVE.ok?"Checked ":"Gathered ")+esc(tkAt(NEWS_AT))+'</p>'+l.map(function(n){
-    return '<a class="wtc" target="_blank" rel="noopener" href="'+esc(n.u)+'" style="border-left:5px solid var('+(LG[n.l]?LG[n.l].c:"--ink")+');text-decoration:none"><small>'+esc(n.l)+' \u2022 '+esc(n.s)+' \u2022 '+esc(n.d)+'</small><b>'+esc(n.t)+'</b> '+esc(n.x)+'</a>';
+    return '<a class="wtc" target="_blank" rel="noopener" href="'+esc(n.u)+'" style="border-left:5px solid var('+(LG[n.l]?LG[n.l].c:"--ink")+');text-decoration:none"><small>'+esc(n.l)+' \u2022 '+esc(n.s)+' \u2022 '+esc(n.d)+(n._old?'<span class="oldtag">older</span>':'')+'</small><b>'+esc(n.t)+'</b> '+esc(n.x)+'</a>';
   }).join("");
 }
 function showScr(){
@@ -2485,6 +2522,19 @@ function setScr(k){
   try{window.scrollTo(0,0)}catch(e){}
 }
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-scr]");if(b)setScr(b.getAttribute("data-scr"))});
+function drawLNU(){
+  var w=$("lnuWrap"),el=$("lnu");if(!w||!el)return;
+  var now=Date.now(),l=visible({a:now-5*3600000,b:now+8*3600000}).filter(function(g){return isLive(g)||(g.s>now&&!isDone(g))});
+  l.sort(function(a,b){return (isLive(b)?1:0)-(isLive(a)?1:0)||a.s-b.s});
+  l=l.slice(0,14);
+  if(!l.length){w.style.display="none";return}
+  w.style.display="";
+  el.innerHTML=l.map(function(g){
+    var lv=isLive(g),tm=showSc(g)&&g.sc?logoHTML(g,0,"sm")+esc(g.aa)+" "+g.sc.a+" "+logoHTML(g,1,"sm")+esc(g.ha)+" "+g.sc.h:logoHTML(g,0,"sm")+esc(g.aa)+" @ "+logoHTML(g,1,"sm")+esc(g.ha);
+    return '<button type="button" class="lnuc'+(lv?" live":"")+'" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+(lv?'<i class="lvdot"></i>LIVE':esc(tStr(g.s)))+" "+String.fromCharCode(8226)+" "+esc(lgName(g.lg))+(g.net?" "+String.fromCharCode(8226)+" "+esc(g.net):"")+'</small><b>'+tm+'</b></button>';
+  }).join("");
+}
+$("lnu").addEventListener("click",function(e){openGame(e.target)});
 function drawWeekPicks(){
   var el=$("wkPicks");if(!el)return;
   var now=Date.now(),ds=dayStart(now);
@@ -2494,10 +2544,10 @@ function drawWeekPicks(){
   if(!l.length){el.innerHTML="";return}
   el.innerHTML='<h2 class="gh" style="margin-top:22px">Games of the week</h2>'+l.map(function(g){
     var tm=logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn);
-    return '<button type="button" class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(tkWhen(g)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'</button>';
+    return '<div class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(tkWhen(g)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'<div style="margin-top:8px"><a class="mini" target="_blank" rel="noopener" data-cal="'+g.id+'" href="'+esc(gcalLink(g,[]))+'">Add to calendar</a></div></div>';
   }).join("");
 }
-$("wkPicks").addEventListener("click",function(e){openGame(e.target)});
+$("wkPicks").addEventListener("click",function(e){if(e.target.closest("a[data-cal]")){recAdded(e.target);return}openGame(e.target)});
 $("menu").addEventListener("click",function(e){if(e.target.closest(".menubody button"))$("menu").open=false});
 refresh(false);
 showScr();
