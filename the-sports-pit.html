@@ -329,6 +329,7 @@ header.top{align-items:center}
   <div id="alt" style="display:none"></div>
   <div id="banner" class="bn" style="display:none;margin-top:14px"></div>
   <div id="strip" class="strip" style="display:none;margin-top:10px" aria-label="Latest scores"></div>
+  <div id="wkPicks"></div>
   </div>
 
   <div id="newsScr" style="display:none">
@@ -1834,7 +1835,7 @@ function drawAlt(keep){
 }
 function renderView(keep){
   if(st.lay==="timeline")draw(keep);else drawAlt(keep);
-  drawStrip();drawBanner();if(SCR==="news")drawNews();
+  drawStrip();drawBanner();drawWeekPicks();if(SCR==="news")drawNews();
 }
 function refresh(keep){
   var L=st.lay,range=(L==="timeline"||L==="list"||L==="cards"),flt=range||L==="wk"||L==="mo";
@@ -2484,6 +2485,19 @@ function setScr(k){
   try{window.scrollTo(0,0)}catch(e){}
 }
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-scr]");if(b)setScr(b.getAttribute("data-scr"))});
+function drawWeekPicks(){
+  var el=$("wkPicks");if(!el)return;
+  var now=Date.now(),ds=dayStart(now);
+  var l=visible({a:now,b:addN(ds,7)}).filter(function(g){return !isDone(g)});
+  l.sort(function(a,b){return rk(a)-rk(b)||a.s-b.s});
+  l=l.slice(0,10).sort(function(a,b){return a.s-b.s});
+  if(!l.length){el.innerHTML="";return}
+  el.innerHTML='<h2 class="gh" style="margin-top:22px">Games of the week</h2>'+l.map(function(g){
+    var tm=logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn);
+    return '<button type="button" class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(tkWhen(g)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'</button>';
+  }).join("");
+}
+$("wkPicks").addEventListener("click",function(e){openGame(e.target)});
 $("menu").addEventListener("click",function(e){if(e.target.closest(".menubody button"))$("menu").open=false});
 refresh(false);
 showScr();
