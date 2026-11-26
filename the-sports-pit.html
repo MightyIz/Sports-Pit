@@ -276,6 +276,8 @@ body.hasdock{padding-bottom:64px}
 .tkgl{flex:0 0 78px;font-weight:700;font-size:13px;color:var(--mute)}
 .tkgb{display:flex;flex-wrap:wrap;gap:6px}
 header.top{align-items:center}
+.hdrR{display:flex;gap:8px;align-items:center}.gear{font-size:20px;line-height:1;padding:5px 10px}
+.ulh{font:700 14px var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin:16px 0 4px}.ulog{list-style:none;margin:0;padding:0}.ulog li{padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}.ulog small{display:block;color:var(--mute);font-size:12px}
 .menu{position:relative}
 .menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
 .menubody{position:absolute;right:0;top:calc(100% + 6px);z-index:12;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;width:min(320px,88vw);display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
@@ -309,11 +311,11 @@ header.top{align-items:center}
 <div class="wrap">
   <header class="top">
     <h1>The Sports Pit</h1>
-    <details class="menu" id="menu"><summary class="theme">Menu</summary><div class="menubody">
+    <div class="hdrR"><details class="menu" id="menu"><summary class="theme">Menu</summary><div class="menubody">
       <div class="sub" style="width:100%">All times in <select id="tzSel" aria-label="Time zone" style="font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 4px;max-width:210px"></select></div>
       <div class="sub" id="updAt" style="width:100%"></div>
       <button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button" style="display:none">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button>
-    </div></details>
+    </div></details><button class="theme gear" id="gearBtn" type="button" aria-label="Settings">&#9881;</button></div>
   </header>
 
   <nav class="scrnav" id="scrnav" aria-label="Screens"></nav>
@@ -1534,7 +1536,7 @@ function pref(k,d){return prefs[k]===undefined?d:prefs[k]}
 function setPref(k,v){prefs[k]=v;save("sp_prefs",prefs)}
 var GID={},GKEY={},LGORDER=Object.keys(LG);
 G.forEach(function(g){GID[g.id]=g;g.key=g.lg+"|"+g.aa+"|"+g.ha+"|"+new Date(g.s).toISOString().slice(0,16);GKEY[g.key]=g});
-var XTRA=load("sp_extra",[]),XDIRTY=0;
+var XTRA=load("sp_extra",[]),XDIRTY=0,XADD=0,ULOG=load("sp_ulog",[]),ULIVE=0;
 function mkExtra(x){
   var key=x.lg+"|"+x.aa+"|"+x.ha+"|"+new Date(x.s).toISOString().slice(0,16);
   if(GKEY[key]||!LG[x.lg])return null;
@@ -2378,7 +2380,7 @@ function addGame(lg,away,home,t,bc,c){
   if(lg==="CFB"){var rkd=function(x){return x.curatedRank&&x.curatedRank.current&&x.curatedRank.current<=25},co=function(a){return a==="COLO"||a==="UNCO"};if(!rkd(away)&&!rkd(home)&&!co(at.abbreviation)&&!co(ht.abbreviation))return 0}
   var x={lg:lg,s:t,aa:at.abbreviation,an:at.displayName||at.abbreviation,ha:ht.abbreviation,hn:ht.displayName||ht.abbreviation,title:(c.notes&&c.notes[0]&&c.notes[0].headline)||"",net:bc.join(", ")};
   var g=mkExtra(x);if(!g)return 0;
-  XTRA.push(x);return 1;
+  XADD++;XTRA.push(x);return 1;
 }
 function liveFetch(lg,date){
   var u="https://site.api.espn.com/apis/site/v2/sports/"+ESPN[lg]+"/scoreboard?dates="+date+(lg==="CFB"?"&groups=80&limit=500":"&limit=300");
@@ -2428,7 +2430,7 @@ function liveTick(){
   var jobs=[];lgs.forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){return{lg:lg,evs:evs}}))})});
   var ok=0,changed=0;
   Promise.all(jobs.map(function(p){return p.then(function(x){ok++;x.evs.forEach(function(ev){changed+=applyEv(x.lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)})})).then(function(){
-    if(ok){flushX();LIVE.fails=0;LIVE.on=true;LIVE.last=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(changed){SCORES_AT=Date.now();renderView(true);tkAll()}liveSetBtn();liveNext(60000)}
+    if(ok){flushX();LIVE.fails=0;LIVE.on=true;LIVE.last=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(changed){SCORES_AT=Date.now();renderView(true);tkAll();if(Date.now()-ULIVE>15*60000){ULIVE=Date.now();ulog("Live scores updated ("+changed+")")}}liveSetBtn();liveNext(60000)}
     else{LIVE.fails++;LIVE.on=false;liveSetBtn();liveNext(LIVE.fails>=2?15*60000:60000)}
   });
 }
@@ -2458,14 +2460,46 @@ function newsTick(){
 setTimeout(newsTick,400);
 
 /* ---------- catch-up on open: last 8 days of scores and the next 7 days of channels ---------- */
-function liveCatch(){
-  if(pref("nolive",false))return;
+function liveCatch(manual){
+  if(pref("nolive",false))return Promise.resolve(0);
   var now=Date.now(),days=[],ok=0,ch=0;var farAt=load("sp_fwd",0),far=now-farAt>6*3600000;for(var di=-8;di<=(far?25:7);di++)days.push(ymd(now+di*86400000));
-  var jobs=[];Object.keys(ESPN).forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)}))})});Promise.all(jobs).then(function(){
-    if(ok){if(far)save("sp_fwd",Date.now());flushX();LIVE.on=true;LIVE.last=Date.now();SCHED_AT=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(ch)SCORES_AT=Date.now();renderView(true);liveSetBtn();tkAll()}
+  var jobs=[];Object.keys(ESPN).forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)}))})});return Promise.all(jobs).then(function(){
+    if(ok){if(far)save("sp_fwd",Date.now());flushX();LIVE.on=true;LIVE.last=Date.now();SCHED_AT=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(ch)SCORES_AT=Date.now();renderView(true);liveSetBtn();tkAll();if(ch&&!manual)ulog("Opened page: "+(XADD?XADD+" new games, ":"")+ch+" schedule/score changes")}
+    return ch;
   });
 }
 setTimeout(liveCatch,800);
+
+/* ---------- settings: Update button and log ---------- */
+var BUILD="2026-11-26a";
+function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
+var SITELOG=[["Nov 26","Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
+function newsOnce(){return Promise.all(Object.keys(ESPN).map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
+function openSettings(){
+  var last=ULOG.length?dStr(ULOG[0].t)+" "+tStr(ULOG[0].t):"never";
+  $("sheet").innerHTML='<button class="close" type="button" id="closeSheet">Close</button><h2>Settings</h2><div class="ulh" style="margin-top:10px">Update</div>'+
+    '<div class="actions"><button class="btn" type="button" id="updNow">Update now</button></div>'+
+    '<div class="meta" style="margin-top:8px">Pulls the latest schedule, scores, channels and news, and loads the newest version of the site if there is one. Last update: '+esc(last)+'. Version '+BUILD+'.</div>'+
+    '<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
+    '<div class="ulh">What changed on the site</div><ul class="ulog">'+SITELOG.map(function(s){return '<li><small>'+esc(s[0])+'</small>'+esc(s[1])+'</li>'}).join("")+'</ul>';
+  $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=0;
+}
+function doUpdate(){
+  var b=$("updNow");if(!b)return;b.disabled=true;b.textContent="Updating...";
+  var x0=XADD;save("sp_fwd",0);
+  Promise.all([liveCatch(true).catch(function(){return 0}),siteBuild().catch(function(){return ""}),newsOnce().catch(function(){return 0})]).then(function(r){
+    var added=XADD-x0,other=Math.max(0,(r[0]||0)-added),msg=[added?added+" new game"+(added>1?"s":""):"no new games"];
+    if(other)msg.push(other+" score/channel update"+(other>1?"s":""));
+    if(r[2])msg.push(r[2]+" headlines");
+    ulog("Update now: "+msg.join(", "));
+    if(r[1]&&r[1]!==BUILD){ulog("New site version "+r[1]+" found, reloading");b.textContent="New version, reloading...";setTimeout(function(){location.href=location.pathname+"?v="+Date.now()},900);return}
+    openSettings();
+  });
+}
+$("gearBtn").addEventListener("click",openSettings);
+$("sheet").addEventListener("click",function(e){if(e.target.closest("#updNow"))doUpdate()});
+
 
 $("tkdock").addEventListener("click",function(e){
   var t=e.target,b;
