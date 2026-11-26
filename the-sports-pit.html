@@ -1299,6 +1299,10 @@ var st={view:"today",lg:{},fav:false,co:false,can:false,q:"",svcOpen:false,pin:f
 if(["timeline","list","wk","mo","cards","plan","team","friends"].indexOf(st.lay)<0)st.lay="timeline";
 (function(){var v=load("sp_view",null);if(v&&typeof v==="object"){if(["today","tomorrow","yesterday","lastweek","week","month","year"].indexOf(v.view)>-1)st.view=v.view;["fav","co","can","pin"].forEach(function(k){if(v[k]===true)st[k]=true})}})();
 var $=function(id){return document.getElementById(id)};
+/* ---------- data provider: everything that talks to a sports data feed goes through PROV (see architecture doc) ---------- */
+var PROVIDERS={espn:{name:"ESPN (unofficial public feed)",leagues:["NFL","NBA","NHL","MLS","CFB"],standLeagues:["NFL","NHL","NBA"],scoreboard:function(lg,d){return espnScoreboard(lg,d)},news:function(lg){return espnNews(lg)},standings:function(lg){return espnStandings(lg)},logo:function(lg,ab){return espnLogo(lg,ab)},backup:function(lg,d){return backupEvents(lg,d)}}};
+function registerProvider(id,p){PROVIDERS[id]=p}
+var PROV=PROVIDERS[load("sp_prov","espn")]||PROVIDERS.espn;
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
 function stale(){return Date.now()-SCORES_AT>15*60000}
@@ -1636,7 +1640,8 @@ function monoText(hex){
 }
 var SLUG={NBA:{GSW:"gs",NYK:"ny",SAS:"sa",NOP:"no",UTA:"utah",WAS:"wsh"},NHL:{NJ:"nj",SJ:"sj",TB:"tb",LA:"la",UTA:"utah",WAS:"wsh"},NFL:{JAC:"jax",LA:"lar",WAS:"wsh"}};
 var LOGOLG={NBA:"nba",NHL:"nhl",NFL:"nfl"};
-function logoUrl(lg,ab){
+function logoUrl(lg,ab){return PROV.logo?PROV.logo(lg,ab):""}
+function espnLogo(lg,ab){
   var p=LOGOLG[lg];if(!p)return "";
   var sl=(SLUG[lg]&&SLUG[lg][ab])||String(ab).toLowerCase();
   return "https://a.espncdn.com/i/teamlogos/"+p+"/500/scoreboard/"+sl+".png";
@@ -2352,7 +2357,7 @@ function ymd(ms){var p=parts(ms);return p.year+("0"+p.month).slice(-2)+("0"+p.da
 function liveNeed(){
   var now=Date.now(),need={};
   G.forEach(function(g){
-    if(!ESPN[g.lg])return;
+    if(PROV.leagues.indexOf(g.lg)<0)return;
     if(now>=g.s-20*60000&&now<=g.e+3*3600000&&!(g.sc&&g.sc.s==="f"))need[g.lg]=1;
   });
   return Object.keys(need);
@@ -2394,7 +2399,8 @@ function addGame(lg,away,home,t,bc,c){
   var g=mkExtra(x);if(!g)return 0;
   XADD++;XTRA.push(x);return 1;
 }
-function liveFetch(lg,date){
+function liveFetch(lg,date){return PROV.scoreboard(lg,date)}
+function espnScoreboard(lg,date){
   var u="https://site.api.espn.com/apis/site/v2/sports/"+ESPN[lg]+"/scoreboard?dates="+date+(lg==="CFB"?"&groups=80&limit=500":"&limit=300");
   var c=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(c)c.abort()},9000);
   return fetch(u,c?{signal:c.signal}:{}).then(function(r){clearTimeout(tm);if(!r.ok)throw new Error("http "+r.status);return r.json()});
@@ -2430,7 +2436,7 @@ function backupEvents(lg,d){
   return Promise.reject(new Error("no backup"));
 }
 function liveEvents(lg,d){
-  return liveFetch(lg,d).then(function(j){return j.events||[]}).catch(function(){return backupEvents(lg,d).then(function(e){LIVE.backup=lg;return e})});
+  return liveFetch(lg,d).then(function(j){return j.events||[]}).catch(function(){return (PROV.backup?PROV.backup(lg,d):Promise.reject(new Error("no backup"))).then(function(e){LIVE.backup=lg;return e})});
 }
 function liveSetBtn(){updStamp();var b=$("scoreBtn");if(b)b.textContent=LIVE.on?"Scores ● live":"Scores"}
 function liveTick(){
@@ -2451,7 +2457,8 @@ setTimeout(liveTick,1500);
 
 /* ---------- live news: checks ESPN headlines once an hour ---------- */
 var NEWSLIVE={ok:false},NEWS_KEEP=NEWS.slice();
-function newsFetch(lg){
+function newsFetch(lg){return PROV.news(lg)}
+function espnNews(lg){
   var c=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(c)c.abort()},9000);
   return fetch("https://site.api.espn.com/apis/site/v2/sports/"+ESPN[lg]+"/news?limit=6",c?{signal:c.signal}:{}).then(function(r){clearTimeout(tm);if(!r.ok)throw new Error("http "+r.status);return r.json()}).then(function(j){
     var out=[];(j.articles||[]).forEach(function(a){
@@ -2463,7 +2470,7 @@ function newsFetch(lg){
 }
 function newsTick(){
   if(pref("nolive",false))return setTimeout(newsTick,3600000);
-  Promise.all(Object.keys(ESPN).map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){
+  Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){
     var got=[],ok=0;rs.forEach(function(r){if(r){ok++;got=got.concat(r)}});
     if(ok&&got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();NEWSLIVE.ok=true;tkAll();setTimeout(newsTick,3600000)}
     else setTimeout(newsTick,ok?3600000:600000);
@@ -2475,7 +2482,7 @@ setTimeout(newsTick,400);
 function liveCatch(manual){
   if(pref("nolive",false))return Promise.resolve(0);
   var now=Date.now(),days=[],ok=0,ch=0;var farAt=load("sp_fwd",0),far=now-farAt>6*3600000;for(var di=-8;di<=(far?25:7);di++)days.push(ymd(now+di*86400000));
-  var jobs=[];Object.keys(ESPN).forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)}))})});return Promise.all(jobs).then(function(){
+  var jobs=[];PROV.leagues.forEach(function(lg){days.forEach(function(d){jobs.push(liveEvents(lg,d).then(function(evs){ok++;evs.forEach(function(ev){ch+=applyEv(lg,ev)})},function(e){LIVE.err=String(e&&e.message||e).slice(0,80)}))})});return Promise.all(jobs).then(function(){
     if(ok){if(far)save("sp_fwd",Date.now());flushX();LIVE.on=true;LIVE.last=Date.now();SCHED_AT=Date.now();if(LOGO_DIRTY){save("sp_logos",LOGO);LOGO_DIRTY=0}if(ch)SCORES_AT=Date.now();renderView(true);liveSetBtn();tkAll();if(ch&&!manual)ulog("Opened page: "+(XADD?XADD+" new games, ":"")+ch+" schedule/score changes")}
     return ch;
   });
@@ -2483,17 +2490,17 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-26c";
+var BUILD="2026-11-26d";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
-function newsOnce(){return Promise.all(Object.keys(ESPN).map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
+function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function openSettings(){
   var last=ULOG.length?dStr(ULOG[0].t)+" "+tStr(ULOG[0].t):"never";
   $("sheet").innerHTML='<button class="close" type="button" id="closeSheet">Close</button><h2>Settings</h2><div class="ulh" style="margin-top:10px">Update</div>'+
     '<div class="actions"><button class="btn" type="button" id="updNow">Update now</button></div>'+
     '<div class="meta" style="margin-top:8px">Pulls the latest schedule, scores, channels and news, and loads the newest version of the site if there is one. Last update: '+esc(last)+'. Version '+BUILD+'.</div>'+
-    '<div class="ulh">Appearance</div><div class="actions"><button class="btn" type="button" id="themeSet">Switch light / dark</button></div>'+'<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
+    '<div class="ulh">Data source</div><div class="meta">'+esc(PROV.name)+'. Schedule, scores, channels, news and standings all come through one data layer, so the source can be swapped without touching the screens.</div>'+'<div class="ulh">Appearance</div><div class="actions"><button class="btn" type="button" id="themeSet">Switch light / dark</button></div>'+'<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
     '<div class="ulh">What changed on the site</div><ul class="ulog">'+SITELOG.map(function(s){return '<li><small>'+esc(s[0])+'</small>'+esc(s[1])+'</li>'}).join("")+'</ul>';
   $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=0;
 }
@@ -2568,10 +2575,7 @@ drawFavBar();
 /* ---------- standings update themselves (NFL, NHL, NBA) ---------- */
 (function(){var s=load("sp_stand",null);if(s&&s.d&&s.at>STAND_AT){STAND=s.d;STAND_AT=s.at;renderView(true)}})();
 var STAND_URL={NFL:"football/nfl",NHL:"hockey/nhl",NBA:"basketball/nba"};
-function updStand(force){
-  if(!force&&Date.now()-load("sp_stand_try",0)<6*3600000)return Promise.resolve(0);
-  save("sp_stand_try",Date.now());
-  return Promise.all(Object.keys(STAND_URL).map(function(lg){
+function espnStandings(lg){
     return fetch("https://site.api.espn.com/apis/v2/sports/"+STAND_URL[lg]+"/standings?level=3").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
       var out={};
       (j.children||[]).forEach(function(c){
@@ -2585,6 +2589,12 @@ function updStand(force){
       });
       return out;
     }).catch(function(){return null});
+}
+function updStand(force){
+  if(!force&&Date.now()-load("sp_stand_try",0)<6*3600000)return Promise.resolve(0);
+  save("sp_stand_try",Date.now());
+  return Promise.all(PROV.standLeagues.map(function(lg){
+    return PROV.standings(lg);
   })).then(function(rs){
     var n=0,NS=Object.assign({},STAND);
     rs.forEach(function(o){if(o)Object.keys(o).forEach(function(k){NS[k]=o[k];n++})});
