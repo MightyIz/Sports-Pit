@@ -207,6 +207,8 @@ dd{margin:0}
 .scrow{display:block;width:100%;text-align:left;border:1px solid var(--line);border-left-width:5px;background:var(--surface);border-radius:10px;padding:8px 10px;margin-bottom:6px}
 .scrow .t{display:flex;align-items:center;gap:6px;font-size:15px;padding:1px 0}.scrow .t span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scrow .t b{font:700 20px var(--led)}.scrow .t.lo{opacity:.62}.scrow .t.w span{font-weight:700}
 .scrow small{display:block;color:var(--mute);font-size:12px;margin-top:3px}
+.pl{display:flex;gap:10px;align-items:center}.pl img{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--row-alt);flex:none}.pl div{min-width:0}.pl b{display:block}.pl small{display:block;color:var(--mute);font-size:12.5px}
+.bgh{margin:8px 0 0;font-size:13.5px;line-height:1.4}.bgh a{font-weight:600}
 .tbl{width:100%;border-collapse:collapse;font-size:14px}
 .tbl th,.tbl td{text-align:right;padding:6px 6px;border-bottom:1px solid var(--line)}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
@@ -289,7 +291,7 @@ header.top{align-items:center}
 .menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
 .menubody{position:absolute;right:0;top:calc(100% + 6px);z-index:12;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;width:min(320px,88vw);display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .scrnav{display:flex;gap:0;flex:1;min-width:0;border-bottom:2px solid var(--line)}
-.scrnav button{flex:1;min-width:0;font:700 clamp(12px,3.1vw,17px) var(--disp);letter-spacing:.01em;text-transform:uppercase;padding:10px 1px;white-space:nowrap;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;border-radius:0;background:transparent;color:var(--mute);cursor:pointer}
+.scrnav button{flex:1;min-width:0;font:700 clamp(9.5px,2.6vw,17px) var(--disp);letter-spacing:0;text-transform:uppercase;padding:8px 1px;line-height:1.05;white-space:normal;display:flex;align-items:center;justify-content:center;text-align:center;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;border-radius:0;background:transparent;color:var(--mute);cursor:pointer}
 .scrnav button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--pit)}
 .scrnav select,.laysel{width:100%;font:700 clamp(18px,4.6vw,26px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:12px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .laysel{font-size:15px;padding:8px 12px;max-width:260px;text-transform:none;letter-spacing:0}
@@ -377,6 +379,12 @@ header.top{align-items:center}
     <h2 class="gh">Scores</h2>
     <div class="views" id="scTabs"></div>
     <div id="scBody"></div>
+  </div>
+
+  <div id="bigScr" style="display:none">
+    <h2 class="gh">Big games</h2>
+    <div class="views" id="bgTabs"></div>
+    <div id="bgBody"></div>
   </div>
 
   <div id="newsScr" style="display:none">
@@ -2559,9 +2567,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-28a";
+var BUILD="2026-11-28b";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -2712,12 +2720,12 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
   setTimeout(tkDockRender,1200);
   setInterval(tkDockRender,10*60000);
 })();
-var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores")SCR="tv";
+var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores"&&SCR!=="big")SCR="tv";
 (function(){var s=pref("tklg",{});if(Object.keys(s).some(function(k){return s[k]}))st.lg=Object.assign({},s)})();
 function lgCount(){return Object.keys(st.lg).filter(function(k){return st.lg[k]}).length}
 function drawNav(){
   var cur=$("ticker").classList.contains("open")?"tk":SCR,n=lgCount();
-  var h=[["tv","Schedule"],["scores","Scores"],["tk","Ticker"],["news","News"],["lg","Leagues"+(n?" ("+n+")":"")]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
+  var h=[["tv","Schedule"],["scores","Scores"],["big","Big Games"],["tk","Ticker"],["news","News"],["lg","Leagues"+(n?" ("+n+")":"")]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
 }
 function drawNews(){
@@ -2778,10 +2786,125 @@ $("scoresScr").addEventListener("click",function(e){var b;
   openGame(e.target);
 });
 setInterval(function(){if(SCR==="scores"&&!$("sheet").classList.contains("open"))drawScores()},60000);
+var BGT=load("sp_bgt","yesterday"),BGEV=[],BGAT=0,BGBUSY=false;
+function bgLoad(){
+  if(BGBUSY||(BGAT&&Date.now()-BGAT<900000))return;
+  BGBUSY=true;var ds=dayStart(Date.now()),days=[],jobs=[];
+  for(var i=0;i<=7;i++)days.push(addN(ds,-i));
+  ["NFL","NBA","NHL","CFB","MLS"].forEach(function(lg){if(PROV.leagues.indexOf(lg)<0)return;days.forEach(function(d){jobs.push(liveFetch(lg,ymd(d+12*3600000)).then(function(j){return {lg:lg,ev:(j&&j.events)||[]}}).catch(function(){return {lg:lg,ev:[]}}))})});
+  Promise.all(jobs).then(function(rs){
+    var seen={},out=[];rs.forEach(function(r){r.ev.forEach(function(e){var k=r.lg+e.id;if(e.id&&!seen[k]){seen[k]=1;out.push({lg:r.lg,ev:e})}})});
+    BGEV=out;BGAT=Date.now();BGBUSY=false;if(SCR==="big")drawBig();
+  });
+}
+function bgFind(g){
+  var r=null;
+  BGEV.forEach(function(x){
+    if(r||x.lg!==g.lg)return;var e=x.ev,c=e.competitions&&e.competitions[0];if(!c||!c.competitors)return;
+    var h,a;c.competitors.forEach(function(k){if(k.homeAway==="home")h=k;else a=k});if(!h||!a)return;
+    if(Math.abs(Date.parse(e.date)-g.s)>8*3600000)return;
+    if(tmEq(g.aa,g.an,a.team)&&tmEq(g.ha,g.hn,h.team))r=e;
+  });
+  return r;
+}
+function bgLink(u){return u&&String(u).indexOf("https://")===0?u:""}
+function bgHi(e){
+  var c=e.competitions[0],hd=(c.headlines||[])[0]||null,lk="",vd="";
+  (e.links||[]).forEach(function(l){var r=(l.rel||[]).join(" ");if(!lk&&/recap|summary|gamecast/.test(r))lk=l.href});
+  if(hd&&hd.video&&hd.video[0]){var v=hd.video[0];vd=(v.links&&v.links.web&&v.links.web.href)||""}
+  var tx=hd?(hd.description||hd.shortLinkText||""):"",h="";
+  if(tx)h+=esc(tx.length>220?tx.slice(0,220).replace(/\s+\S*$/,"")+"\u2026":tx)+" ";
+  if(bgLink(vd))h+='<a target="_blank" rel="noopener" href="'+esc(vd)+'">Watch highlight</a> ';
+  if(bgLink(lk))h+='<a target="_blank" rel="noopener" href="'+esc(lk)+'">Game page on ESPN</a>';
+  return h;
+}
+function bgTop(e){
+  var c=e.competitions[0],o=[];
+  (c.competitors||[]).forEach(function(k){var L=(k.leaders||[])[0];if(L&&L.leaders&&L.leaders[0]){var p=L.leaders[0],a=p.athlete||{};o.push(esc(a.displayName||a.shortName||"")+" ("+esc((k.team||{}).abbreviation||"")+") "+esc(p.displayValue||""))}});
+  return o;
+}
+function bgResultWhy(g,e){
+  var o=[],d=Math.abs(Number(g.sc.a)-Number(g.sc.h)),lim={NFL:3,NBA:5,NHL:1,CFB:3,MLS:1}[g.lg]||2;
+  var det=e&&e.competitions&&e.competitions[0]&&((e.competitions[0].status||e.status||{}).type||{}).detail||"";
+  if(/OT|SO|overtime/i.test(det))o.push("Went to overtime");
+  if(d<=lim)o.push(d===0?"Ended tied":"Close finish, decided by "+d);
+  else if(g.lg==="NBA"&&d>=25||g.lg==="NFL"&&d>=28||g.lg==="CFB"&&d>=35)o.push("Lopsided result, "+d+" points");
+  return o;
+}
+function bgPick(a,b,n,upcoming){
+  var l=G.filter(function(g){return g.s>=a&&g.s<b&&(lgCount()===0||st.lg[g.lg])&&(upcoming?!isDone(g):(g.sc&&isDone(g)))});
+  l.sort(function(x,y){return rk(x)-rk(y)||x.s-y.s});
+  return l.slice(0,n);
+}
+function bgUpCard(g){
+  var tm=logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn);
+  return '<div class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(dStr(g.s)+" "+tStr(g.s)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'<div style="margin-top:8px"><a class="mini" target="_blank" rel="noopener" data-cal="'+g.id+'" href="'+esc(gcalLink(g,[]))+'">Add to calendar</a></div></div>';
+}
+function bgYCard(g){
+  var e=bgFind(g),sh=showSc(g);
+  var tm=sh?logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' <span>\u2013</span> '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha):logoHTML(g,0)+esc(g.an)+' <span>at</span> '+logoHTML(g,1)+esc(g.hn);
+  var why=whyList(g).filter(function(x){return x!=="In progress now"}).concat(bgResultWhy(g,e));
+  if(!why.length)why=["One of the biggest games on the board in "+lgName(g.lg)];
+  var h='<div class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 Final'+(g.net?' \u2022 '+esc(g.net):'')+' \u2022 '+esc(tStr(g.s))+'</small><b>'+tm+'</b>';
+  h+='<div class="bnw"><b>Why it was big:</b> '+why.slice(0,5).map(esc).join(" \u2022 ")+'</div>';
+  if(e){var hi=bgHi(e),tp=bgTop(e);
+    if(hi)h+='<div class="bgh"><b>Highlights:</b> '+hi+'</div>';
+    if(tp.length)h+='<div class="bgh"><b>Top performers:</b> '+tp.join(" \u2022 ")+'</div>'}
+  else if(!BGAT)h+='<div class="bgh"><small class="note">Loading highlights\u2026</small></div>';
+  return h+'</div>';
+}
+function bgPlayers(){
+  var best={},ord=[];
+  BGEV.forEach(function(x){
+    if(["NFL","NBA","NHL","CFB"].indexOf(x.lg)<0)return;
+    var e=x.ev,c=e.competitions&&e.competitions[0];if(!c||!((c.status||e.status||{}).type||{}).completed)return;
+    (c.competitors||[]).forEach(function(k){
+      var opp=(c.competitors||[]).filter(function(o){return o!==k})[0]||{};
+      (k.leaders||[]).forEach(function(L){
+        var p=(L.leaders||[])[0];if(!p||!p.athlete)return;var v=Number(p.value);if(isNaN(v))return;
+        var key=x.lg+"|"+L.name;
+        if(!best[key]){best[key]={lg:x.lg,name:L.name,cat:L.displayName||L.name,v:-1};ord.push(key)}
+        if(v>best[key].v)best[key]={lg:x.lg,name:L.name,cat:L.displayName||L.name,v:v,p:p,tm:(k.team||{}).abbreviation||"",op:(opp.team||{}).abbreviation||"",ha:k.homeAway,t:Date.parse(e.date)};
+      });
+    });
+  });
+  var out="",by={};ord.forEach(function(k){if(best[k].p)(by[best[k].lg]=by[best[k].lg]||[]).push(best[k])});
+  ["NFL","NBA","NHL","CFB"].forEach(function(lg){
+    var l=by[lg];if(!l||!l.length)return;if(lgCount()&&!st.lg[lg])return;
+    out+='<h3 class="dayh">'+esc(lgName(lg))+'</h3>'+l.slice(0,5).map(function(b){
+      var a=b.p.athlete||{},img=bgLink(a.headshot&&(a.headshot.href||a.headshot));
+      return '<div class="wtc" style="border-left:5px solid var('+LG[lg].c+')"><div class="pl">'+(img?'<img alt="" loading="lazy" src="'+esc(img)+'">':'')+'<div><small>'+esc(b.cat)+' leader \u2022 '+esc(dStr(b.t))+'</small><b>'+esc(a.displayName||a.shortName||"")+'</b><small>'+esc(b.p.displayValue||"")+' \u2022 '+esc(b.tm)+(b.op?(b.ha==="home"?' vs ':' at ')+esc(b.op):'')+'</small></div></div></div>';
+    }).join("");
+  });
+  return out||(BGAT?'<div class="empty">No standout player lines found yet.</div>':'<div class="empty">Loading players of the week\u2026</div>');
+}
+function drawBig(){
+  var T=[["yesterday","Yesterday"],["today","Today"],["week","This week"],["players","Players of the week"]];
+  $("bgTabs").innerHTML=T.map(function(t){return '<button type="button" class="chip" data-bgt="'+t[0]+'" aria-pressed="'+(BGT===t[0])+'">'+t[1]+'</button>'}).join("");
+  var el=$("bgBody"),ds=dayStart(Date.now()),h="",l;
+  bgLoad();
+  if(BGT==="yesterday"){
+    l=bgPick(prevDay(ds),ds,6,false);
+    h=l.length?'<p class="note" style="margin:0 0 8px">The biggest games from '+esc(dStr(prevDay(ds)))+', with scores, highlights and why they mattered.</p>'+l.map(bgYCard).join(""):'<div class="empty">No big games with final scores yesterday for these leagues.</div>';
+  }else if(BGT==="today"){
+    l=bgPick(ds,nextDay(ds),8,false).length||true?G.filter(function(g){return g.s>=ds&&g.s<nextDay(ds)&&(lgCount()===0||st.lg[g.lg])}).sort(function(x,y){return rk(x)-rk(y)||x.s-y.s}).slice(0,8):[];
+    h=l.length?'<p class="note" style="margin:0 0 8px">Today\u2019s biggest games and why they matter.</p>'+l.map(function(g){return isDone(g)&&g.sc?bgYCard(g):bgUpCard(g)}).join(""):'<div class="empty">No big games today for these leagues.</div>';
+  }else if(BGT==="week"){
+    l=bgPick(nextDay(ds),addDays(ds,7),10,true).sort(function(x,y){return x.s-y.s});
+    h=l.length?'<p class="note" style="margin:0 0 8px">The biggest games over the next few days and why they matter.</p>'+l.map(bgUpCard).join(""):'<div class="empty">No big games found for the rest of the week for these leagues.</div>';
+  }else h='<p class="note" style="margin:0 0 8px">Top single-game performances from the last 7 days, from ESPN game leaders.</p>'+bgPlayers();
+  el.innerHTML=h;
+}
+$("bigScr").addEventListener("click",function(e){var b;
+  if((b=e.target.closest("[data-bgt]"))){BGT=b.getAttribute("data-bgt");save("sp_bgt",BGT);drawBig();return}
+  if(e.target.closest("a"))return;
+  openGame(e.target);
+});
 function showScr(){
-  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";
+  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";$("bigScr").style.display=SCR==="big"?"":"none";
   if(SCR==="news")drawNews();
   if(SCR==="scores")drawScores();
+  if(SCR==="big")drawBig();
   drawNav();
 }
 function setScr(k){
