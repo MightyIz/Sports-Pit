@@ -273,6 +273,7 @@ body.hasdock{padding-bottom:64px}
 .tk.tv .tkrow.crawl .tki,.tk.tv .tkrow.crawl small{color:#fff}
 .tk.tv .tkbar{position:absolute;top:8px;left:12px;right:12px;z-index:3;max-width:none}
 .tk.tv .tkbar{left:auto;right:14px;width:auto;justify-content:flex-end}.tk.tv #tkClose{display:inline-block;background:rgba(0,0,0,.45);color:#fff;border:1px solid rgba(255,255,255,.5);font-size:0;width:34px;height:34px;padding:0;border-radius:50%;line-height:34px;text-align:center;opacity:.55}.tk.tv #tkClose::before{content:"\2715";font-size:16px}.tk.tv.idle #tkClose{opacity:.25}
+.tk.tv.strip .tkrow.single{font-size:clamp(24px,50vh,200px)}.tk.tv.strip #tkClose{display:none}.tk.tv.strip{overflow:hidden;height:100vh}
 .tk.tv.idle,.tk.tv.idle *{cursor:none}
 .tkctl{display:none}.tk.showctl .tkctl{display:flex}
 .tknote{display:none}.tk.showctl .tknote{display:block}
@@ -2090,7 +2091,7 @@ function tkRender(){
   var el=$("ticker");if(!el.classList.contains("open"))return;
   tkTrack();
   var mult=pref("tkspeed",1),off=pref("tkoff",{}),single=tkIsSingle();
-  el.classList.toggle("tv",TKTV);
+  el.classList.toggle("tv",TKTV);el.classList.toggle("strip",STRIP);
   var vw=pref("tkview","stacked")==="single";
   function grp(l,h){return '<div class="tkgrp"><span class="tkgl">'+l+'</span><span class="tkgb">'+h+'</span></div>'}
   var ctl=grp("Speed",'<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
@@ -2100,7 +2101,7 @@ function tkRender(){
     grp("Show only",'<button type="button" class="chip" data-tklive="1" aria-pressed="'+pref("tklive",false)+'">Live only</button>'+
     '<button type="button" class="chip" data-tkmine="1" aria-pressed="'+pref("tkmine",false)+'">Mine, Colorado and pinned</button>')+
     grp("Include",TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join(""))+
-    grp("TV",'<button type="button" class="chip" data-tvon="1">TV mode (full screen)</button><button type="button" class="chip" data-tvcopy="1">Copy TV link</button>')+
+    grp("TV",'<button type="button" class="chip" data-tvon="1">TV mode (full screen)</button><button type="button" class="chip" data-tvwin="1">Ticker window (small strip)</button><button type="button" class="chip" data-tvcopy="1">Copy TV link</button>')+
     grp("Extras",'<button type="button" class="chip" data-tkdock="1" aria-pressed="'+pref("tkdock",false)+'">Anchored ticker bar</button>'+
     '<button type="button" class="chip" data-tklm="1" aria-pressed="'+pref("tklm",true)+'">Auto ticker when phone is sideways</button>');
   var sel=pref("tklg",{}),nsel=Object.keys(sel).filter(function(k){return sel[k]}).length;
@@ -2148,7 +2149,7 @@ function tkDockRender(){
 }
 var TVIDLE=null;
 function tvWake(){var el=$("ticker");el.classList.remove("idle");clearTimeout(TVIDLE);TVIDLE=setTimeout(function(){el.classList.add("idle")},3000)}
-function tvOn(){TKTV=true;openTk();tvWake();try{var d=document.documentElement;if(d.requestFullscreen&&!document.fullscreenElement)d.requestFullscreen().catch(function(){})}catch(e){}}
+function tvOn(){TKTV=true;openTk();tvWake();if(STRIP)return;try{var d=document.documentElement;if(d.requestFullscreen&&!document.fullscreenElement)d.requestFullscreen().catch(function(){})}catch(e){}}
 ["mousemove","keydown","touchstart"].forEach(function(ev){document.addEventListener(ev,function(){if(TKTV)tvWake()})});
 function tvCopy(b){
   var u="";try{u=location.origin+location.pathname+"?tv=1"}catch(e){}
@@ -2156,6 +2157,12 @@ function tvCopy(b){
   try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u);ok=true}}catch(e5){}
   if(!ok){try{var ta=document.createElement("textarea");ta.value=u;document.body.appendChild(ta);ta.select();ok=document.execCommand("copy");document.body.removeChild(ta)}catch(e6){}}
   b.textContent=ok?"TV link copied":"Copy failed: "+u;
+}
+var STRIP=false;try{STRIP=/[?&]strip=1/.test(location.search)}catch(e){}
+function tvWin(){
+  var W=Math.min(screen.availWidth||1280,1400),H=150,w=null;
+  try{w=window.open(location.origin+location.pathname+"?tv=1&strip=1","spstrip","popup=yes,width="+W+",height="+H+",left=0,top="+Math.max(0,(screen.availHeight||800)-H-40))}catch(e){}
+  if(!w)toast("The ticker window was blocked. Allow pop-ups for this site and try again.");
 }
 function tkAll(){if($("ticker").classList.contains("open"))tkRender();tkDockRender()}
 function tkWake(on){
@@ -2352,6 +2359,7 @@ $("ticker").addEventListener("click",function(e){
   var t=e.target,b;
   if(t.closest("[data-tkclose]")){closeTk();return}
   if(t.closest("[data-tvon]")){tvOn();return}
+  if(t.closest("[data-tvwin]")){tvWin();return}
   if((b=t.closest("[data-tvcopy]"))){tvCopy(b);return}
   if(t.closest("[data-tkgear]")){$("ticker").classList.toggle("showctl");return}
   if(t.closest("[data-tklive]")){setPref("tklive",!pref("tklive",false));tkRender();return}
@@ -2568,9 +2576,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-28e";
+var BUILD="2026-11-28f";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
