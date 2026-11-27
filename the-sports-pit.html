@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Sports Pit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 :root{
   box-sizing:border-box;
@@ -309,6 +309,24 @@ header.top{align-items:center}
 }
 .tkstamp{max-width:1100px;margin:6px auto 0;color:var(--mute);font-size:12.5px;text-align:center}
 @media (prefers-reduced-motion:reduce){.tkview{overflow-x:auto}.tktrack{animation:none}.tkh2{display:none}}
+/* palettes + scoreboard accents */
+:root{--led:var(--disp)}
+:root[data-pal]{--led:"Share Tech Mono","Courier New",monospace}
+:root[data-pal] header.top{background:var(--hdr);color:var(--hdrink);padding:12px 14px;border-radius:12px;align-items:center}
+:root[data-pal] header.top .sub,:root[data-pal] header.top h1{color:var(--hdrink)}
+:root[data-pal] header.top .theme{background:transparent;color:var(--hdrink);border-color:var(--hdrink)}
+:root[data-pal] .bn{border-top:4px solid var(--pit)}
+:root[data-pal] .bnav{border-top:2px dashed var(--line)}
+:root[data-pal] .tabs button[aria-selected="true"],:root[data-pal] .mini.primary,:root[data-pal] .mini[aria-pressed="true"],:root[data-pal] .pin[aria-pressed="true"]{color:var(--pit-ink)}
+.agt,.bnav span,.bnk,.sc b,.cscore,.dn{font-family:var(--led)}
+:root[data-pal] .agt,:root[data-pal] .bnk{text-transform:uppercase;letter-spacing:.04em}
+:root[data-pal] .bnav span{font-size:16px;letter-spacing:.08em}
+.palg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:8px}
+.palb{display:flex;flex-direction:column;gap:6px;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:8px}
+.palb[aria-pressed="true"]{border-color:var(--pit);box-shadow:0 0 0 2px var(--pit)}
+.palb b{font:700 15px var(--disp)}
+.palb span{display:flex;height:16px;border-radius:4px;overflow:hidden}.palb span i{flex:1}
+.palc{display:flex;gap:12px;align-items:center;margin-top:8px;flex-wrap:wrap}.palc label{font-size:13px;color:var(--mute);display:flex;gap:6px;align-items:center}.palc input{width:44px;height:32px;padding:0;border:1px solid var(--line);background:transparent}
 </style>
 </head>
 <body>
@@ -1291,6 +1309,36 @@ var groups=load("sp_groups",{});
 var mySvc=load("sp_svc",[]);
 var theme=load("sp_theme","");
 if(theme)document.documentElement.setAttribute("data-theme",theme);
+
+var PALS=[
+["classic","Classic Yellow",null],
+["blured","Blue & Red",["#080B14","#111A2C","#0D1424","#22304A","#F2F5FA","#9AA9C2","#E4002B","#ffffff","#1F6FEB","#ffffff"]],
+["led","Scoreboard Green",["#020A04","#0A1A0E","#07120A","#14602A","#CFFFE0","#6FBF86","#39FF6A","#020A04","#39FF6A","#020A04"]],
+["violet","Violet & Gold",["#0B0814","#171228","#120E22","#2E2552","#F1ECFF","#A79CC4","#FFD400","#1A1400","#7C3AED","#ffffff"]],
+["broncos","Broncos colors",["#00152B","#002244","#001B38","#0F3A6B","#F5F7FA","#A9BBD1","#FB4F14","#ffffff","#FB4F14","#ffffff"]],
+["nuggets","Nuggets colors",["#091526","#0E2240","#0B1B33","#1D428A","#F4F6FA","#A3B3CC","#FEC524","#1A1300","#1D428A","#ffffff"]],
+["avs","Avalanche colors",["#12070C","#2A0F1A","#200B14","#5A1F33","#F6EEF1","#C3A6B0","#5FA8E6","#06121C","#6F263D","#ffffff"]],
+["rockies","Rockies colors",["#0A0A14","#17172B","#121224","#333366","#F0F1F6","#A9AEC0","#C4CED4","#121224","#333366","#ffffff"]],
+["rapids","Rapids colors",["#0D0709","#220F14","#190B0F","#55202B","#F7EFF1","#C6A9B0","#8BB8E8","#0A1520","#862633","#ffffff"]],
+["buffs","CU Buffs colors",["#0A0A0A","#151515","#101010","#333333","#F2F2F2","#A8A8A8","#CFB87C","#141000","#CFB87C","#000000"]],
+["custom","Custom",null]
+];
+var PVARS=["--bg","--surface","--row-alt","--line","--ink","--mute","--pit","--pit-ink","--hdr","--hdrink"];
+var PLG={"--onbar":"#0b0e10","--nfl":"#6a9ff2","--nba":"#f58444","--nhl":"#35bfca","--mlb":"#f06578","--cfb":"#6fcf73","--mls":"#b98af0","--epl":"#f07ac0","--laliga":"#f2c24a","--ligamx":"#d9a066","--usmnt":"#7fa0f0","--uswnt":"#f07aa8"};
+function palMix(a,b,t){function h(x){return [1,3,5].map(function(i){return parseInt(x.substr(i,2),16)})}var p=h(a),q=h(b);return "#"+p.map(function(v,i){var r=Math.round(v+(q[i]-v)*t).toString(16);return (r.length<2?"0":"")+r}).join("")}
+function palCustom(){var c=load("sp_palc",{a:"#E4002B",h:"#1F6FEB"});var bg=palMix(c.h,"#000000",.9);return [bg,palMix(c.h,"#000000",.78),palMix(c.h,"#000000",.84),palMix(c.h,"#000000",.6),"#F2F5FA","#9AA9C2",c.a,"#ffffff",c.h,"#ffffff"]}
+function applyPal(id){
+  var r=document.documentElement,st=r.style,v=null,k;
+  PALS.forEach(function(p){if(p[0]===id)v=p[2]});
+  if(id==="custom")v=palCustom();
+  PVARS.forEach(function(n){st.removeProperty(n)});Object.keys(PLG).forEach(function(n){st.removeProperty(n)});
+  if(!v){r.removeAttribute("data-pal");if(!theme||1)st.removeProperty("color-scheme");return}
+  PVARS.forEach(function(n,i){st.setProperty(n,v[i])});
+  for(k in PLG)st.setProperty(k,PLG[k]);
+  st.setProperty("color-scheme","dark");r.setAttribute("data-pal",id);
+}
+var palId=load("sp_pal","classic");
+applyPal(palId);
 
 /* ---------- state ---------- */
 var CO=["NFL:DEN","NBA:DEN","NHL:COL","MLS:COL","CFB:COLO","CFB:CSU","CFB:AFA","CFB:UNCO"];
@@ -2490,17 +2538,23 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-26d";
+var BUILD="2026-11-27a";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
+function palHtml(){
+  var h='<div class="palg">'+PALS.filter(function(p){return p[0]!=="custom"}).map(function(p){var v=p[2]||["#101315","#181c1f","","#2a3136","","","#f5c400"];return '<button class="palb" type="button" data-pal="'+p[0]+'" aria-pressed="'+(palId===p[0])+'"><b>'+esc(p[1])+'</b><span><i style="background:'+v[0]+'"></i><i style="background:'+v[1]+'"></i><i style="background:'+(p[2]?v[8]:"#f5c400")+'"></i><i style="background:'+v[6]+'"></i></span></button>'}).join("")+'<button class="palb" type="button" data-pal="custom" aria-pressed="'+(palId==="custom")+'"><b>Custom</b><span><i style="background:'+load("sp_palc",{a:"#E4002B",h:"#1F6FEB"}).h+'"></i><i style="background:'+load("sp_palc",{a:"#E4002B",h:"#1F6FEB"}).a+'"></i></span></button></div>';
+  var c=load("sp_palc",{a:"#E4002B",h:"#1F6FEB"});
+  h+='<div class="palc"><label>Header <input type="color" id="palH" value="'+c.h+'"></label><label>Accent <input type="color" id="palA" value="'+c.a+'"></label></div>';
+  return h;
+}
 function openSettings(){
   var last=ULOG.length?dStr(ULOG[0].t)+" "+tStr(ULOG[0].t):"never";
   $("sheet").innerHTML='<button class="close" type="button" id="closeSheet">Close</button><h2>Settings</h2><div class="ulh" style="margin-top:10px">Update</div>'+
     '<div class="actions"><button class="btn" type="button" id="updNow">Update now</button></div>'+
     '<div class="meta" style="margin-top:8px">Pulls the latest schedule, scores, channels and news, and loads the newest version of the site if there is one. Last update: '+esc(last)+'. Version '+BUILD+'.</div>'+
-    '<div class="ulh">Data source</div><div class="meta">'+esc(PROV.name)+'. Schedule, scores, channels, news and standings all come through one data layer, so the source can be swapped without touching the screens.</div>'+'<div class="ulh">Appearance</div><div class="actions"><button class="btn" type="button" id="themeSet">Switch light / dark</button></div>'+'<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
+    '<div class="ulh">Data source</div><div class="meta">'+esc(PROV.name)+'. Schedule, scores, channels, news and standings all come through one data layer, so the source can be swapped without touching the screens.</div>'+'<div class="ulh">Appearance</div><div class="actions"><button class="btn" type="button" id="themeSet">Switch light / dark</button></div><div class="meta" style="margin-top:8px">Color palette. Pick one that matches your team. Palettes are dark; Classic Yellow follows light / dark.</div>'+palHtml()+'<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
     '<div class="ulh">What changed on the site</div><ul class="ulog">'+SITELOG.map(function(s){return '<li><small>'+esc(s[0])+'</small>'+esc(s[1])+'</li>'}).join("")+'</ul>';
   $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=0;
 }
@@ -2518,9 +2572,11 @@ function doUpdate(){
   });
 }
 $("gearBtn").addEventListener("click",openSettings);
+$("sheet").addEventListener("input",function(e){if(e.target.id==="palH"||e.target.id==="palA"){save("sp_palc",{h:$("palH").value,a:$("palA").value});palId="custom";save("sp_pal",palId);applyPal("custom")}});
 $("sheet").addEventListener("click",function(e){if(e.target.closest("#updNow"))doUpdate()});
 $("sheet").addEventListener("click",function(e){var b;
   if(e.target.closest("#themeSet")){$("themeBtn").click();return}
+  if((b=e.target.closest("[data-pal]"))){palId=b.getAttribute("data-pal");save("sp_pal",palId);applyPal(palId);var sy=$("sheet").scrollTop;openSettings();$("sheet").scrollTop=sy;return}
   if((b=e.target.closest("[data-rem]"))){var g=GID[b.getAttribute("data-rem")];if(g){remToggle(g);b.textContent=isRem(g)?"Reminder on ✓":"Remind me 15 min before"}return}
   if((b=e.target.closest("[data-share]"))){shareGame(GID[b.getAttribute("data-share")]);return}
 });
