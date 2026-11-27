@@ -204,6 +204,9 @@ dd{margin:0}
 .wl{display:inline-block;min-width:24px;text-align:center;border-radius:5px;font:700 13px var(--disp);padding:1px 4px;color:#fff;margin-right:3px}
 .wl.W{background:#2b7a33}.wl.L{background:#b92337}.wl.D{background:#6d7a84}
 .resrow{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 4px}
+.scrow{display:block;width:100%;text-align:left;border:1px solid var(--line);border-left-width:5px;background:var(--surface);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+.scrow .t{display:flex;align-items:center;gap:6px;font-size:15px;padding:1px 0}.scrow .t span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scrow .t b{font:700 20px var(--led)}.scrow .t.lo{opacity:.62}.scrow .t.w span{font-weight:700}
+.scrow small{display:block;color:var(--mute);font-size:12px;margin-top:3px}
 .tbl{width:100%;border-collapse:collapse;font-size:14px}
 .tbl th,.tbl td{text-align:right;padding:6px 6px;border-bottom:1px solid var(--line)}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
@@ -286,7 +289,7 @@ header.top{align-items:center}
 .menu summary{list-style:none;cursor:pointer;display:inline-block}.menu summary::-webkit-details-marker{display:none}
 .menubody{position:absolute;right:0;top:calc(100% + 6px);z-index:12;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;width:min(320px,88vw);display:flex;flex-wrap:wrap;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .scrnav{display:flex;gap:0;flex:1;min-width:0;border-bottom:2px solid var(--line)}
-.scrnav button{flex:1;min-width:0;font:700 clamp(13px,3.5vw,17px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:10px 2px;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;border-radius:0;background:transparent;color:var(--mute);cursor:pointer}
+.scrnav button{flex:1;min-width:0;font:700 clamp(12px,3.1vw,17px) var(--disp);letter-spacing:.01em;text-transform:uppercase;padding:10px 1px;white-space:nowrap;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;border-radius:0;background:transparent;color:var(--mute);cursor:pointer}
 .scrnav button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--pit)}
 .scrnav select,.laysel{width:100%;font:700 clamp(18px,4.6vw,26px) var(--disp);letter-spacing:.03em;text-transform:uppercase;padding:12px 14px;border-radius:12px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .laysel{font-size:15px;padding:8px 12px;max-width:260px;text-transform:none;letter-spacing:0}
@@ -336,7 +339,7 @@ header.top{align-items:center}
     <div class="hdrR"><details class="menu" id="menu"><summary class="theme">Menu</summary><div class="menubody">
       <div class="sub" style="width:100%">All times in <select id="tzSel" aria-label="Time zone" style="font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 4px;max-width:210px"></select></div>
       <div class="sub" id="updAt" style="width:100%"></div>
-      <button class="theme" id="scoreBtn" type="button">Scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button" style="display:none">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button>
+      <button class="theme" id="scoreBtn" type="button">Live scores</button><button class="theme" id="jerseyBtn" type="button">Jerseys</button><button class="theme" id="tkBtn" type="button" style="display:none">Ticker</button><button class="theme" id="tvBtn" type="button">TV mode</button><button class="theme" id="optBtn" type="button">Options</button><button class="theme" id="themeBtn" type="button">Light / dark</button>
     </div></details><button class="theme gear" id="gearBtn" type="button" aria-label="Settings">&#9881;</button></div>
   </header>
 
@@ -368,6 +371,12 @@ header.top{align-items:center}
   <div id="banner" class="bn" style="display:none;margin-top:14px"></div>
   <div id="strip" class="strip" style="display:none;margin-top:10px" aria-label="Latest scores"></div>
   <div id="wkPicks"></div>
+  </div>
+
+  <div id="scoresScr" style="display:none">
+    <h2 class="gh">Scores</h2>
+    <div class="views" id="scTabs"></div>
+    <div id="scBody"></div>
   </div>
 
   <div id="newsScr" style="display:none">
@@ -2498,7 +2507,7 @@ function backupEvents(lg,d){
 function liveEvents(lg,d){
   return liveFetch(lg,d).then(function(j){return j.events||[]}).catch(function(){return (PROV.backup?PROV.backup(lg,d):Promise.reject(new Error("no backup"))).then(function(e){LIVE.backup=lg;return e})});
 }
-function liveSetBtn(){updStamp();var b=$("scoreBtn");if(b)b.textContent=LIVE.on?"Scores ● live":"Scores"}
+function liveSetBtn(){updStamp();var b=$("scoreBtn");if(b)b.textContent=LIVE.on?"Live scores ● on":"Live scores"}
 function liveTick(){
   if(pref("nolive",false)||document.hidden){return liveNext(60000)}
   var lgs=liveNeed();
@@ -2550,9 +2559,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-27d";
+var BUILD="2026-11-28a";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -2703,12 +2712,12 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
   setTimeout(tkDockRender,1200);
   setInterval(tkDockRender,10*60000);
 })();
-var SCR=load("sp_scr","tv");if(SCR!=="news")SCR="tv";
+var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores")SCR="tv";
 (function(){var s=pref("tklg",{});if(Object.keys(s).some(function(k){return s[k]}))st.lg=Object.assign({},s)})();
 function lgCount(){return Object.keys(st.lg).filter(function(k){return st.lg[k]}).length}
 function drawNav(){
   var cur=$("ticker").classList.contains("open")?"tk":SCR,n=lgCount();
-  var h=[["tv","TV Schedule"],["tk","Ticker"],["news","News"],["lg","Leagues"+(n?" ("+n+")":"")]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
+  var h=[["tv","Schedule"],["scores","Scores"],["tk","Ticker"],["news","News"],["lg","Leagues"+(n?" ("+n+")":"")]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
 }
 function drawNews(){
@@ -2720,10 +2729,59 @@ function drawNews(){
     return '<a class="wtc" target="_blank" rel="noopener" href="'+esc(n.u)+'" style="border-left:5px solid var('+(LG[n.l]?LG[n.l].c:"--ink")+');text-decoration:none"><small>'+esc(n.l)+' \u2022 '+esc(n.s)+' \u2022 '+esc(n.d)+(n._old?'<span class="oldtag">older</span>':'')+'</small><b>'+esc(n.t)+'</b> '+esc(n.x)+'</a>';
   }).join("");
 }
+var SCT=load("sp_sct","yesterday"),SCL="NFL",SCF=false,SC_ST=0;
+function scoreRow(g){
+  var sh=showSc(g),a=Number(g.sc.a),h=Number(g.sc.h),wa=sh&&a>h,wh=sh&&h>a;
+  function line(side,w){var nm=side?g.hn:g.an;return '<div class="t'+(sh&&!w&&a!==h?' lo':'')+(w?' w':'')+'">'+logoHTML(g,side,"sm")+'<span>'+esc(nm)+'</span><b>'+(sh?(side?g.sc.h:g.sc.a):'')+'</b></div>'}
+  return '<button type="button" class="scrow" data-id="'+g.id+'" style="border-left-color:var('+LG[g.lg].c+')">'+line(0,wa)+line(1,wh)+'<small>'+(sh?'Final':'Final \u2022 tap to reveal score')+' \u2022 '+esc(lgName(g.lg))+(g.net?' \u2022 '+esc(g.net):'')+' \u2022 '+esc(tStr(g.s))+'</small></button>';
+}
+function scGames(a,b){
+  return G.filter(function(g){return g.sc&&g.s>=a&&g.s<b&&isDone(g)&&(lgCount()===0||st.lg[g.lg])&&(!SCF||isFav(g))});
+}
+function scStand(){
+  var out='',L=["NFL","NBA","NHL"];
+  out+='<div class="views">'+L.map(function(k){return '<button type="button" class="chip" data-scl="'+k+'" aria-pressed="'+(SCL===k)+'">'+k+'</button>'}).join("")+'</div>';
+  var keys=Object.keys(STAND).filter(function(k){return k.indexOf(SCL+"|")===0});
+  if(!keys.length)return out+'<div class="empty">Standings are loading. Check back in a moment.</div>';
+  var grp={};
+  keys.forEach(function(k){var v=STAND[k],gk=SCL==="NBA"?(v[5]==="E"?"Eastern Conference":"Western Conference"):v[4];(grp[gk]=grp[gk]||[]).push({n:k.slice(k.indexOf("|")+1),w:v[0],l:v[1],r:v[2],s:v[3]})});
+  Object.keys(grp).sort().forEach(function(gk){
+    var rows=grp[gk].sort(function(a,b){return SCL==="NBA"?a.s-b.s:a.r-b.r});
+    out+='<h3 class="dayh">'+esc(gk)+'</h3><table class="tbl"><tr><th>Team</th><th>W</th><th>L</th></tr>'+rows.map(function(r,i){return '<tr><td>'+(i+1)+'. '+esc(r.n)+'</td><td>'+r.w+'</td><td>'+r.l+'</td></tr>'}).join("")+'</table>';
+  });
+  return out+'<p class="note">Standings as of '+esc(STAND_AT?dStr(STAND_AT)+" "+tStr(STAND_AT):"now")+'. Available for NFL, NBA and NHL.</p>';
+}
+function drawScores(){
+  var T=[["yesterday","Yesterday"],["week","Last 7 days"],["stand","Standings"]];
+  $("scTabs").innerHTML=T.map(function(t){return '<button type="button" class="chip" data-sct="'+t[0]+'" aria-pressed="'+(SCT===t[0])+'">'+t[1]+'</button>'}).join("")+(SCT==="stand"?'':'<button type="button" class="chip" data-scf="1" aria-pressed="'+SCF+'">\u2605 My teams</button>');
+  var el=$("scBody"),ds=dayStart(Date.now()),h="";
+  if(SCT==="stand"){
+    el.innerHTML=scStand();
+    if(!SC_ST||Date.now()-SC_ST>600000){SC_ST=Date.now();var at=STAND_AT;Promise.resolve(updStand(false)).then(function(){if(SCR==="scores"&&SCT==="stand"&&STAND_AT!==at)drawScores()}).catch(function(){})}
+    return;
+  }
+  function byLg(l){return l.sort(function(a,b){return a.lg<b.lg?-1:a.lg>b.lg?1:b.s-a.s})}
+  if(SCT==="yesterday"){
+    var l=byLg(scGames(prevDay(ds),ds));
+    h=l.length?'<h3 class="dayh">'+esc(dStr(prevDay(ds)))+'</h3>'+l.map(scoreRow).join(""):'<div class="empty">No final scores for yesterday with these filters.</div>';
+  }else{
+    var w=ds,days=[];for(var i=0;i<7;i++){var e=w;w=prevDay(w);days.push([w,e])}
+    days.forEach(function(d){var l=byLg(scGames(d[0],d[1]));if(l.length)h+='<h3 class="dayh">'+esc(dStr(d[0]))+' <small class="note">'+l.length+(l.length===1?' game':' games')+'</small></h3>'+l.map(scoreRow).join("")});
+    if(!h)h='<div class="empty">No final scores in the last 7 days with these filters.</div>';
+  }
+  el.innerHTML=h;
+}
+$("scoresScr").addEventListener("click",function(e){var b;
+  if((b=e.target.closest("[data-sct]"))){SCT=b.getAttribute("data-sct");save("sp_sct",SCT);drawScores();return}
+  if((b=e.target.closest("[data-scl]"))){SCL=b.getAttribute("data-scl");drawScores();return}
+  if(e.target.closest("[data-scf]")){SCF=!SCF;drawScores();return}
+  openGame(e.target);
+});
+setInterval(function(){if(SCR==="scores"&&!$("sheet").classList.contains("open"))drawScores()},60000);
 function showScr(){
-  var nw=SCR==="news";
-  $("tvScr").style.display=nw?"none":"";$("newsScr").style.display=nw?"":"none";
-  if(nw)drawNews();
+  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";
+  if(SCR==="news")drawNews();
+  if(SCR==="scores")drawScores();
   drawNav();
 }
 function setScr(k){
