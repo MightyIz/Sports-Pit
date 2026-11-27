@@ -261,7 +261,7 @@ dd{margin:0}
 .tkdock .tkseg{padding:.3em 0}
 body.hasdock{padding-bottom:64px}
 .tk.tv .tkctl,.tk.tv .tknote,.tk.tv .tkbar h2,.tk.tv #tkGear,.tk.tv .tkstamp{display:none}
-.tk.tv.idle .tkbar{visibility:hidden}
+
 .tk.tv{padding:0;background:#0b0d0e}
 .tk.tv #tkrows{flex:1;display:flex;flex-direction:column;width:100%;min-height:0}
 .tk.tv .tkrow{max-width:none;width:100%;margin:0;border-radius:0;border-left:0;border-right:0}
@@ -272,7 +272,7 @@ body.hasdock{padding-bottom:64px}
 .tk.tv .tkrow.crawl{position:absolute;left:0;right:0;bottom:0;z-index:2;font-size:clamp(20px,4vh,56px);color:#fff;background:rgba(0,0,0,.78);border:0;padding:1vh 0}
 .tk.tv .tkrow.crawl .tki,.tk.tv .tkrow.crawl small{color:#fff}
 .tk.tv .tkbar{position:absolute;top:8px;left:12px;right:12px;z-index:3;max-width:none}
-.tk.tv .tkbar{justify-content:flex-end}.tk.tv #tkClose{display:inline-block}
+.tk.tv .tkbar{left:auto;right:14px;width:auto;justify-content:flex-end}.tk.tv #tkClose{display:inline-block;background:rgba(0,0,0,.45);color:#fff;border:1px solid rgba(255,255,255,.5);font-size:0;width:34px;height:34px;padding:0;border-radius:50%;line-height:34px;text-align:center;opacity:.55}.tk.tv #tkClose::before{content:"\2715";font-size:16px}.tk.tv.idle #tkClose{opacity:.25}
 .tk.tv.idle,.tk.tv.idle *{cursor:none}
 .tkctl{display:none}.tk.showctl .tkctl{display:flex}
 .tknote{display:none}.tk.showctl .tknote{display:block}
@@ -398,13 +398,13 @@ header.top{align-items:center}
 </div>
 
 <div class="tk" id="ticker" role="dialog" aria-label="Sports ticker">
-  <div class="tkbar"><nav class="scrnav" id="scrnavTk" aria-label="Screens"></nav><span class="tkclk"></span><span style="display:flex;gap:6px"><button class="theme" id="tkGear" type="button" data-tkgear="1">Controls</button><button class="theme" id="tkClose" type="button" data-tkclose="1">Close</button></span></div>
+  <div class="tkbar"><nav class="scrnav" id="scrnavTk" aria-label="Screens"></nav><span class="tkclk"></span><span style="display:flex;gap:6px"><button class="theme" id="tkGear" type="button" data-tkgear="1">Controls</button><button class="theme" id="tkClose" type="button" data-tkclose="1" aria-label="Close">Close</button></span></div>
   <div class="tkctl" id="tkctl"></div>
   <div class="tkctl" id="tklgs" aria-label="League filters"></div>
   <div id="tkrows"></div>
   <p class="tknote">Slowest at the top, fastest at the bottom. Tap a game to open it; hover or touch a row to pause it. News is gathered when you ask Claude: say “Update news in The Sports Pit” <button type="button" class="mini" data-tkcopy="1">Copy that</button> <span id="tkMsg"></span></p>
 </div>
-<div class="tkdock" id="tkdock" hidden><div class="tkview" data-sp="95"><div class="tktrack"></div></div><span class="tkclk"></span><button type="button" class="theme" data-dockx="1" aria-label="Hide bottom bar">&#10005;</button></div>
+<div class="tkdock" id="tkdock" hidden><div class="tkview" data-sp="95"><div class="tktrack"></div></div><span class="tkclk"></span><button type="button" class="theme" data-dockx="1" aria-label="Hide ticker bar">&#10005;</button></div>
 <div class="backdrop" id="backdrop"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Game details"></div>
 
@@ -2100,8 +2100,8 @@ function tkRender(){
     grp("Show only",'<button type="button" class="chip" data-tklive="1" aria-pressed="'+pref("tklive",false)+'">Live only</button>'+
     '<button type="button" class="chip" data-tkmine="1" aria-pressed="'+pref("tkmine",false)+'">Mine, Colorado and pinned</button>')+
     grp("Include",TKROWS.map(function(r){return '<button type="button" class="chip" data-tkrow="'+r[0]+'" aria-pressed="'+(!off[r[0]])+'">'+r[1]+'</button>'}).join(""))+
-    grp("TV",'<button type="button" class="chip" data-tvon="1">TV mode</button><button type="button" class="chip" data-tvcopy="1">Copy TV link</button>')+
-    grp("Extras",'<button type="button" class="chip" data-tkdock="1" aria-pressed="'+pref("tkdock",false)+'">Bottom bar on the page</button>'+
+    grp("TV",'<button type="button" class="chip" data-tvon="1">TV mode (full screen)</button><button type="button" class="chip" data-tvcopy="1">Copy TV link</button>')+
+    grp("Extras",'<button type="button" class="chip" data-tkdock="1" aria-pressed="'+pref("tkdock",false)+'">Anchored ticker bar</button>'+
     '<button type="button" class="chip" data-tklm="1" aria-pressed="'+pref("tklm",true)+'">Auto ticker when phone is sideways</button>');
   var sel=pref("tklg",{}),nsel=Object.keys(sel).filter(function(k){return sel[k]}).length;
   var lgl=nsel===0?"All leagues":(nsel<=2?LGORDER.filter(function(k){return sel[k]}).map(function(k){return lgName(k)}).join(" + "):nsel+" leagues");
@@ -2148,7 +2148,7 @@ function tkDockRender(){
 }
 var TVIDLE=null;
 function tvWake(){var el=$("ticker");el.classList.remove("idle");clearTimeout(TVIDLE);TVIDLE=setTimeout(function(){el.classList.add("idle")},3000)}
-function tvOn(){TKTV=true;openTk();tvWake()}
+function tvOn(){TKTV=true;openTk();tvWake();try{var d=document.documentElement;if(d.requestFullscreen&&!document.fullscreenElement)d.requestFullscreen().catch(function(){})}catch(e){}}
 ["mousemove","keydown","touchstart"].forEach(function(ev){document.addEventListener(ev,function(){if(TKTV)tvWake()})});
 function tvCopy(b){
   var u="";try{u=location.origin+location.pathname+"?tv=1"}catch(e){}
@@ -2166,7 +2166,7 @@ function tkWake(on){
 }
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&$("ticker").classList.contains("open"))tkWake(true)});
 function openTk(){$("ticker").classList.add("open");drawNav();document.body.style.overflow="hidden";tkRender();tkWake(true);$("tkClose").focus()}
-function closeTk(){$("ticker").classList.remove("open","showctl","tv","idle");TKAUTO=false;TKTV=false;document.body.style.overflow="";tkWake(false);tkDockRender();drawNav()}
+function closeTk(){try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}$("ticker").classList.remove("open","showctl","tv","idle");TKAUTO=false;TKTV=false;document.body.style.overflow="";tkWake(false);tkDockRender();drawNav()}
 
 /* ---------- events ---------- */
 $("tabs").addEventListener("click",function(e){
@@ -2568,9 +2568,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-28d";
+var BUILD="2026-11-28e";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
