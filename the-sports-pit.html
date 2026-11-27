@@ -209,6 +209,20 @@ dd{margin:0}
 .scrow small{display:block;color:var(--mute);font-size:12px;margin-top:3px}
 .pl{display:flex;gap:10px;align-items:center}.pl img{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--row-alt);flex:none}.pl div{min-width:0}.pl b{display:block}.pl small{display:block;color:var(--mute);font-size:12.5px}
 .bgh{margin:8px 0 0;font-size:13.5px;line-height:1.4}.bgh a{font-weight:600}
+
+.bud{position:fixed;left:10px;bottom:10px;z-index:16;display:flex;align-items:flex-end;gap:4px;max-width:calc(100vw - 84px);pointer-events:none}
+.bud img{width:84px;height:auto;image-rendering:pixelated;flex:none;pointer-events:auto;cursor:pointer}
+.bud .bal{pointer-events:auto;background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:14px;padding:10px 12px;font-size:14.5px;line-height:1.35;box-shadow:0 6px 20px rgba(0,0,0,.35);margin-bottom:28px}
+.bud .bk{display:flex;gap:10px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.bud .bk a{font-size:12.5px;color:var(--mute);text-decoration:underline;cursor:pointer}
+.mag{position:fixed;right:12px;bottom:12px;z-index:16;width:56px;height:56px;border-radius:50%;border:3px solid var(--ink);background:var(--pit);color:var(--pit-ink);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.35);cursor:pointer;padding:0;animation:magbob 3.2s ease-in-out infinite}
+.mag svg{width:30px;height:30px}
+@keyframes magbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media (prefers-reduced-motion:reduce){.mag{animation:none}}
+body.hasdock .mag,body.hasdock .bud{bottom:76px}
+body.inspect,body.inspect *{cursor:help!important}
+body.inspect .mag{animation:none;box-shadow:0 0 0 5px var(--pit),0 6px 16px rgba(0,0,0,.4)}
+body.tvmode .mag,body.tvmode .bud{display:none}
 .tbl{width:100%;border-collapse:collapse;font-size:14px}
 .tbl th,.tbl td{text-align:right;padding:6px 6px;border-bottom:1px solid var(--line)}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
@@ -2091,7 +2105,7 @@ function tkRender(){
   var el=$("ticker");if(!el.classList.contains("open"))return;
   tkTrack();
   var mult=pref("tkspeed",1),off=pref("tkoff",{}),single=tkIsSingle();
-  el.classList.toggle("tv",TKTV);el.classList.toggle("strip",STRIP);
+  el.classList.toggle("tv",TKTV);el.classList.toggle("strip",STRIP);document.body.classList.toggle("tvmode",TKTV);
   var vw=pref("tkview","stacked")==="single";
   function grp(l,h){return '<div class="tkgrp"><span class="tkgl">'+l+'</span><span class="tkgb">'+h+'</span></div>'}
   var ctl=grp("Speed",'<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
@@ -2172,8 +2186,8 @@ function tkWake(on){
   }catch(e){}
 }
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&$("ticker").classList.contains("open"))tkWake(true)});
-function openTk(){$("ticker").classList.add("open");drawNav();document.body.style.overflow="hidden";tkRender();tkWake(true);$("tkClose").focus()}
-function closeTk(){try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}$("ticker").classList.remove("open","showctl","tv","idle");TKAUTO=false;TKTV=false;document.body.style.overflow="";tkWake(false);tkDockRender();drawNav()}
+function openTk(){if(!TKTV&&!TKAUTO)budTip("tk");$("ticker").classList.add("open");drawNav();document.body.style.overflow="hidden";tkRender();tkWake(true);$("tkClose").focus()}
+function closeTk(){document.body.classList.remove("tvmode");try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}$("ticker").classList.remove("open","showctl","tv","idle");TKAUTO=false;TKTV=false;document.body.style.overflow="";tkWake(false);tkDockRender();drawNav()}
 
 /* ---------- events ---------- */
 $("tabs").addEventListener("click",function(e){
@@ -2576,9 +2590,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-28f";
+var BUILD="2026-11-29a";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -2595,7 +2609,7 @@ function openSettings(){
     '<div class="actions"><button class="btn" type="button" id="updNow">Update now</button></div>'+
     '<div class="meta" style="margin-top:8px">Pulls the latest schedule, scores, channels and news, and loads the newest version of the site if there is one. Last update: '+esc(last)+'. Version '+BUILD+'.</div>'+
     '<div class="ulh">Data source</div><div class="meta">'+esc(PROV.name)+'. Schedule, scores, channels, news and standings all come through one data layer, so the source can be swapped without touching the screens.</div>'+'<div class="ulh">Appearance</div><div class="actions"><button class="btn" type="button" id="themeSet">Switch light / dark</button></div><div class="meta" style="margin-top:8px">Color palette. Pick one that matches your team. Palettes are dark; Classic Yellow follows light / dark.</div>'+palHtml()+'<div class="ulh">Update log</div>'+(ULOG.length?'<ul class="ulog">'+ULOG.map(function(u){return '<li><small>'+esc(dStr(u.t)+" "+tStr(u.t))+'</small>'+esc(u.m)+'</li>'}).join("")+'</ul>':'<div class="meta">Nothing yet. Updates will be listed here.</div>')+
-    '<div class="ulh">What changed on the site</div><ul class="ulog">'+SITELOG.map(function(s){return '<li><small>'+esc(s[0])+'</small>'+esc(s[1])+'</li>'}).join("")+'</ul>';
+    ''+budHtml()+'<div class="ulh">What changed on the site</div><ul class="ulog">'+SITELOG.map(function(s){return '<li><small>'+esc(s[0])+'</small>'+esc(s[1])+'</li>'}).join("")+'</ul>';
   $("sheet").classList.add("open");$("backdrop").classList.add("open");$("sheet").scrollTop=0;
 }
 function doUpdate(){
@@ -2909,12 +2923,102 @@ $("bigScr").addEventListener("click",function(e){var b;
   if(e.target.closest("a"))return;
   openGame(e.target);
 });
+/* ---------- Buddy the helper + magnifying glass ---------- */
+var BUD={"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgQJFTw0qKgdEYUEh76+vrWlhTsbnjIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADSFfjJAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAO/SURBVHja7dvReqIwEAXg0ioW2O2+/9uuON80ZHImAUU9QOamNkj4bZIxgfTjo0aNGjVqvC3Ot7jv9f4gY5Xf1+g6qf77Fvq668LrUD6Wyuv9QeQCzS3ksvo6lMtlbblitg05/0ZgNCa6rgHhlQaKrXsLEO1w4U86drsll0WlWpOtmx8ig1FPl7dL0zyGCfXEdbNDwlu1KklItnQ5RmuZlmYoJBA7TOWkmHIfxqvBodBC9CRNQXL06xZydM7r+OyUyA3Bf+B2lcANxw7BiWsdSC71c0PSwfhnlfBTPyvEG2BhCH7dFXbwxhiQ0mgh4ST5CrdVly49/d3WHn9IXkhu6jutdhj6a3gUdDw3/eaF2GliPMjsZfp+GBAFH/c/pJtHaCA47eQudPqN9Hh58sQM8QeYDzklkYMgTDGh0UDik2x3HAMxlCLHGyfsQoMTklto4xR+ckNTfJMJd0lBBPEW2jiVn7IxXU6EerymZ4agAZaH9FEsg8AlBQ0kHr7xxMWH9P2/a6QUDzIryVNC4ls1PgNFoNhk7jX9ViDhpHkdNe2wc9IZN8RL8n4q8xljNM2cJM8L8SfPudTuM8qUxbP4t0DQACt/2XmTgpVn8W+DxCdNF9T+VMg7krsFzg/BS4rpEvwRCP6QxacTVJAwcUkh8aX937xpUbgFxA3BX32hu6YX+3uLnx/56UHShwIFBhEkpUxv5aUNkELiZvIeLRYZZJB04mJvyujSMoakS9H44XN2QkQL0U0r+hAtlKKUhjorYvj1bgGCNyo9DrlrAxQNBOPKNyTyjNV2GpFAllHGBdaTGESQ+RR9YLR/iAzA8s28J+3bpIQoJn/D94VbbCkgYasfuvn9QgYNpPR4/oV9hASSp7y4j7wFcgZR2qQQx74g53PbXm7xOYm2xYy2nb5LzmvbVSgUEGmEFCJbuhBjjBSyaAlBDNEuiZvGg6Cmmb3MpIaEIepBLMU2jIXcSaGAxCkLQVDjWEYKWdxpSSA2gWOIpaQMBFnUQBQQ9IXmQaYUxPAgsxqIBIK/3teHzLjzTAHxpjs+RCmYkYdkn05QQ8aKfIgme3xMIZdLhRwZMlK8I0eF+FEh+4TY7U0xRP9xBw1hf2K0TYg2TB7y+Slbie1FcWke4u4f2RhEG2MYUGqLS/cKkarsl1x8SVw6UuRj7BciFxvDNgvqrMeAoE7qd+EjQFA6D2XHg2hXtd0VlR0FsnRqVCF7g6Qb8iukQkqLiXUgCxYUFUIKyaWz50Hg/9dUSIVUyM4g7WpRIRuF/AcVDONRChM1RgAAAABJRU5ErkJggg==", "excited": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgQJFTw0qKgdEYUEh76+vrWlhTsbnjIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADSFfjJAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAO/SURBVHja7dvReqIwEAXg0ioW2O2+/9uuON80ZHImAUU9QOamNkj4bZIxgfTjo0aNGjVqvC3Ot7jv9f4gY5Xf1+g6qf77Fvq668LrUD6Wyuv9QeQCzS3ksvo6lMtlbblitg05/0ZgNCa6rgHhlQaKrXsLEO1w4U86drsll0WlWpOtmx8ig1FPl7dL0zyGCfXEdbNDwlu1KklItnQ5RmuZlmYoJBA7TOWkmHIfxqvBodBC9CRNQXL06xZydM7r+OyUyA3Bf+B2lcANxw7BiWsdSC71c0PSwfhnlfBTPyvEG2BhCH7dFXbwxhiQ0mgh4ST5CrdVly49/d3WHn9IXkhu6jutdhj6a3gUdDw3/eaF2GliPMjsZfp+GBAFH/c/pJtHaCA47eQudPqN9Hh58sQM8QeYDzklkYMgTDGh0UDik2x3HAMxlCLHGyfsQoMTklto4xR+ckNTfJMJd0lBBPEW2jiVn7IxXU6EerymZ4agAZaH9FEsg8AlBQ0kHr7xxMWH9P2/a6QUDzIryVNC4ls1PgNFoNhk7jX9ViDhpHkdNe2wc9IZN8RL8n4q8xljNM2cJM8L8SfPudTuM8qUxbP4t0DQACt/2XmTgpVn8W+DxCdNF9T+VMg7krsFzg/BS4rpEvwRCP6QxacTVJAwcUkh8aX937xpUbgFxA3BX32hu6YX+3uLnx/56UHShwIFBhEkpUxv5aUNkELiZvIeLRYZZJB04mJvyujSMoakS9H44XN2QkQL0U0r+hAtlKKUhjorYvj1bgGCNyo9DrlrAxQNBOPKNyTyjNV2GpFAllHGBdaTGESQ+RR9YLR/iAzA8s28J+3bpIQoJn/D94VbbCkgYasfuvn9QgYNpPR4/oV9hASSp7y4j7wFcgZR2qQQx74g53PbXm7xOYm2xYy2nb5LzmvbVSgUEGmEFCJbuhBjjBSyaAlBDNEuiZvGg6Cmmb3MpIaEIepBLMU2jIXcSaGAxCkLQVDjWEYKWdxpSSA2gWOIpaQMBFnUQBQQ9IXmQaYUxPAgsxqIBIK/3teHzLjzTAHxpjs+RCmYkYdkn05QQ8aKfIgme3xMIZdLhRwZMlK8I0eF+FEh+4TY7U0xRP9xBw1hf2K0TYg2TB7y+Slbie1FcWke4u4f2RhEG2MYUGqLS/cKkarsl1x8SVw6UuRj7BciFxvDNgvqrMeAoE7qd+EjQFA6D2XHg2hXtd0VlR0FsnRqVCF7g6Qb8iukQkqLiXUgCxYUFUIKyaWz50Hg/9dUSIVUyM4g7WpRIRuF/AcVDONRChM1RgAAAABJRU5ErkJggg==", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgQJFTw0qKgdEb6+voUEh7WlhR4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsGDqyAAAAIHRSTlMA/////////////////wAAAAAAAAAAAAAAAAAAAAAAAMhUwNYAAAPLSURBVHja7dtte6owDAbg4RSH7vz/v3ssuWLa9EmhyiRA8wnLaG/tCy10X18tWrRwHpcxGkQYtzFWpywCiX/U2uP9QUKWP48YBsr+Zww+HgY5lvSQSsf7g1AB3RhULB9LOhWr0xnD+bzZfVeCXJ4hjE7FMHQgrFSihGrReW8Bwg1OftLQ7GqKRamck87bP4Q6I1/OP2momvcwkk+at3eI/ClnRQOSTq3HcC5xaoHiBKK7KV2UUl7DWDkYFLcQvoiHIDr7PQadnXOcXp0TfUPwD9xXx/AMScMV5x2CB653io/P2kO/b0jeGX8XCXvo9wqxOph0we+XQnfeFAOGNLcQuYhu4Zzx/RElVn4+nwKkX9IvpDT1TQuiJZIN0edL02+/ED1NTDuZZMkFYQo+b39JcxxxA8HDTlzQ7RlU0PkZ+fnpyZNniN3BbMg5ixIEYSYHNDeQ9KK0OdqMmIIYeKHhE1JaaOPb2NkMvkV2hTCXFI4g1kIbD+XnYsTLCcnHqnrPENTBypB7EnUQuKRwA0m7bzpxsSH3+79H5BQLMmuQdwlJH9XYDBRC0YO5VfVbgchF8xpq3mDnDGe+IdYgbw9lNiNE180Z5P1C7MlzaWi3GdOU6ln8KhDUwaZvdtakYOFZ/GqQ9KJ4QW1PhawzpUfg/iF4SREvwd+B4C85+XbCFUQmLjkkLdr+ZE2L5BGQbwi+9UlzfRWSvxSYYDiC5JT4UR4uLhyln3IIznc7kHzioh/KyNKSC04/xRB5+VycELmF8KYVfokmqdNLTTScxTmgfLcAwRuV3oe8tB3ODQTj6igzm+SGIXWUsMD6sx2JbiDzKfzCaP8Q6oDTD/M+sHnWDYQx5Qe+H9y37AIi2wjxxODje7lXh0y9nv9gG3ECKVM+3EZWgVxATG3USGNfkMul769jnKLoe8zo+/iv6Lq+X4TiAkKVkENoSxdihMghVUsIxxBukrhqLAiqmtnLTNcQ6aIWRFN0xWjIixQXkHTIQhBUOZqRQ6obrROIHsAxRFNyBoJUVZALCLqhWZCYghgWZFYFOYHg2/vykBlPnl1ArOmODWEKZpQhxbcTriEhIxvCgz0+x5DrtUGODAkU68xRIXY0yD4hentTCuF/3EFd2J4YbRPCFVOGnE60lVgXilPLEHP/yMYgXBm3Gxra0tS9QigrfZNLi8SpgUJfY78QKiyErhbUWI8BQY3UbsJHgKDhXNKOB+GmqpsrSjsKpHZq1CB7g+Qb8hukQaYWE8tAKhYUDeIUUhrO/g4C/7+mQRqkQXYG6ReLBtko5D/AGOJJFspCJwAAAABJRU5ErkJggg==", "cool": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgUEh4QJFTw0qKgdEbWlhTsbnj6+vrIMjxzeJEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAebFzpAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAOtSURBVHja7dvReqMgEAXgmlSbutv2/d+2i/PNEuDMoIlJjsrcrIsR/wQYQe3bW4sWLVq0eFn0U9y2vT9IqPLzX4yjVP85hW6PY9yO5aFUtvcHkRN0U8hpdTuWy2nzcsVsG9L/j8joshjHDoRVGil53VuAaIeLP2nodktOi0q1prxufogMRj1cPi5Ncx8m1pPWzQ6JH9WqJCHlpcsxWst1qUMhgeTDVA5KKbdhrBoMCi1ED9IUJHvPU8jeOdvp0SWRG4J/4GGVwA3HDsGJax2Il/q5IeVg/LNK2KmfFWINMB2CH2bIYLX3ewkRpDRaSDxILuGhyp+fDzfw/nIKkH5JXog39fV++lqcz970mxeSTxPTQeZBap01QKwvaeYRGghOO/6J3qew93uTJ2aIPcDWgiBMNaHRQNKD1oOghQYnxFton2G8m6Gf6JwwlxREEGuhHZLZEkak5PVYTc8MQQPMh6BuOxcClxQ0kHT4phMXGxKmQulkyIfMSvKUkPRWjc2w01sJsZt+K5B40LyOWnbYOemMG2IleTuV2YwQXTcnyfNC7Mmzl9ptRp2yeBb/EggaYPWLXd/j8vot0G1A0oPCTYXaxd+CRAq6Bc4PwUsKWYLfD8Ffsvp0ggoSJy4lJD21/T9rWhRvAXFD8KUvdtfyZH+n+P6Wfy1I+VCgwiCClBS5FVd2VjldCUmbyXq0WGWQQcqJi1DyQdv3KSSUlMM3Pnx2J0S0EH1pRR+ixVKU0lBnRQy73i1A8ItK90NuegGKBoJx9RsSPmO1N41IIMsoYYH1IAYRZD4lfOqBDCKIDMD6zbwHvbdJCVGMzXgSggoSX/UrCU9l0EDwLc8YT+wjJBCf8uQ+8hJID8KDlLEvSN8Pw2WK01UMA2YMw/Wn5LhhWIVCAZFGKCHyShdihCghi5YQxBDtkrhpLAhqmtnLTGpIHKIWJKfkDZNDbqRQQNKUhSCocXJGCVncaUkgeQLHkJxSMhBkUQNRQNAFzYJcUxDDgsxqIBIIvryvD5lx55kCYk13bIhSMMOHuE8nqCGhIhuiyR7vU8jl0iBHhgSKteeoEDsaZJ+Q/PWmFKJ/uIOGsD0x2iZEG8aHnE5fU+QnxaU+xHx/ZGMQbYyvL5Ta0tK9QqSq/CKXnhKXBop8jf1C5GQh8mZBnfUYENRJ7S58BAhK57HseBDtqnl3RWVHgSydGjXI3iDlC/kN0iC1xcQ6kAULigYhhXjp7HEQ+Pc1DdIgDbIzyLBaNMhGIb+svO0FVCtsLwAAAABJRU5ErkJggg=="};
+var BUDTIPS={
+ tv:"Welcome to The Sports Pit! Schedule shows what is on, Scores has the finals, and Big Games finds the can\u2019t-miss matchups. Tap any game for channels, or Add to calendar to save it. Tap the magnifying glass to ask me what anything is.",
+ scores:"Scores has yesterday\u2019s finals, the last 7 days, and standings. Tap any game for details. If you hide scores to avoid spoilers, tap a game to reveal it.",
+ big:"Big Games picks the games worth your time. Yesterday has highlights and why each one mattered. Today and This week explain why a game is big. Players of the week shows top performances.",
+ tk:"This is the Ticker. Tap Controls to change speed or layout. TV mode makes it one giant full screen ticker with a small X to leave.",
+ news:"News has the latest headlines for your leagues and favorite teams. Newest are first.",
+ lg:"Pick the leagues you care about and every screen follows. Tap a league again to turn it off."
+};
+var BUDINS=[
+ ["#banner,.bnl","This is Today\u2019s pick, the best game on right now or next. The Why line tells you what makes it big, like standings, rivalry, or your team."],
+ ["[data-bprev],[data-bnext],.bnav","These arrows flip through the top picks for today."],
+ ["[data-cal]","Add to calendar opens Google Calendar with this game filled in. You can invite friends from there."],
+ ["[data-pin]","Pin a game and it jumps up the list as a pick."],
+ [".bnw","The Why line explains what makes this game a big one: standings, division games, news, or your favorite team."],
+ [".wtc","A game card. Tap it to open details with channels and how to watch."],
+ [".scrow","A score row. Tap it for game details. If scores are hidden, tapping reveals it."],
+ [".scrnav button","These are the main screens: Schedule, Scores, Big Games, Ticker, News and Leagues."],
+ ["#gearBtn","Settings: colors, team palettes, Buddy on/off, update button and the change log."],
+ [".menu summary,.menubody","The Menu has Live scores, Jerseys, TV mode and Options."],
+ ["[data-tvon],#tvBtn","TV mode turns the whole screen into one giant ticker. Tap the small X in the corner to leave."],
+ ["[data-tvwin]","Ticker window opens a small strip you can park on a TV over a picture in picture area."],
+ ["#tkBtn,[data-scr=tk]","Ticker scrolls live scores and upcoming games across the screen."],
+ [".tkrow,.tkview,.tkseg",""],
+ [".tools .chip,.views .chip,.chip","A filter button. Tap to turn it on or off."],
+ ["#wkPicks","Games of the week: the best matchups coming up, with why they matter."],
+ ["table.tbl","Standings table: wins and losses by division or conference."],
+ ["h2,h3",""]
+];
+var budSeen=load("sp_budseen",{}),budTimer=null,budEl=null,magEl=null,budInsOn=false;
+function budOn(){return pref("buddy",true)}
+function magOn(){return pref("mag",true)}
+function budHide(){if(budEl){budEl.remove();budEl=null}clearInterval(budTimer)}
+function budSay(text,mood,force){
+  if(!force&&!budOn())return;
+  budHide();
+  var d=document.createElement("div");d.className="bud";d.setAttribute("role","status");
+  d.innerHTML='<img alt="Buddy the dog" src="'+BUD[mood||"happy"]+'"><div class="bal"><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button><a data-bud="off">Turn Buddy off</a></div></div>';
+  document.body.appendChild(d);budEl=d;
+  var bt=d.querySelector(".bt"),i=0;
+  budTimer=setInterval(function(){i+=2;bt.textContent=text.slice(0,i);if(i>=text.length){clearInterval(budTimer);bt.textContent=text}},22);
+  d.addEventListener("click",function(e){
+    var b=e.target.closest("[data-bud]");
+    if(b){var k=b.getAttribute("data-bud");if(k==="off"){setPref("buddy",false);budHide();toast("Buddy is off. Turn him back on in Settings.");return}budHide();return}
+    if(e.target.tagName==="IMG"||e.target.closest(".bt")){clearInterval(budTimer);bt.textContent=text}
+  });
+}
+function budTip(k){
+  if(!budOn()||!BUDTIPS[k]||budSeen[k]||(typeof TKTV!=="undefined"&&TKTV))return;
+  budSeen[k]=1;save("sp_budseen",budSeen);
+  setTimeout(function(){if(!budEl)budSay(BUDTIPS[k],k==="big"?"excited":"happy")},900);
+}
+function budMag(){
+  if(!magEl){
+    magEl=document.createElement("button");magEl.type="button";magEl.className="mag";magEl.setAttribute("aria-label","Magnifying glass: tap, then tap anything to learn what it is");
+    magEl.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M15 15l6 6"/></svg>';
+    document.body.appendChild(magEl);
+    magEl.addEventListener("click",function(){budInspect(!budInsOn)});
+  }
+  magEl.style.display=magOn()?"":"none";
+  if(!magOn()&&budInsOn)budInspect(false);
+}
+function budInspect(on){
+  budInsOn=on;document.body.classList.toggle("inspect",on);
+  if(on)budSay("Tap anything on the page and I\u2019ll tell you what it is. Tap the magnifying glass again to cancel.","thinking",true);
+  else if(budEl&&!budOn())budHide();
+}
+document.addEventListener("click",function(e){
+  if(!budInsOn)return;
+  var t=e.target;if(t.closest&&t.closest(".mag,.bud"))return;
+  e.preventDefault();e.stopPropagation();
+  var msg="";
+  for(var i=0;i<BUDINS.length&&!msg;i++){if(BUDINS[i][1]&&t.closest&&t.closest(BUDINS[i][0]))msg=BUDINS[i][1]}
+  if(!msg)msg="I\u2019m not sure about that one. Try the screens along the top, the gear for Settings, or tap another spot.";
+  budInspect(false);budSay(msg,"excited",true);
+},true);
+function budHtml(){
+  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
+}
+$("sheet").addEventListener("click",function(e){
+  var b=e.target.closest("[data-budset]");if(!b)return;
+  var k=b.getAttribute("data-budset");
+  if(k==="buddy"){setPref("buddy",!budOn());if(!budOn())budHide()}
+  else if(k==="mag"){setPref("mag",!magOn());budMag()}
+  else{budSeen={};save("sp_budseen",budSeen);setPref("buddy",true);toast("Tips will pop up again as you visit each screen.")}
+  var sy=$("sheet").scrollTop;openSettings();$("sheet").scrollTop=sy;
+});
+budMag();
 function showScr(){
   $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";$("bigScr").style.display=SCR==="big"?"":"none";
   if(SCR==="news")drawNews();
   if(SCR==="scores")drawScores();
   if(SCR==="big")drawBig();
   drawNav();
+  budTip(SCR);
 }
 function setScr(k){
   if(k==="lg"){openLeagues();return}
