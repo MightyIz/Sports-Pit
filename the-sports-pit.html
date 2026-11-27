@@ -265,7 +265,7 @@ body.hasdock{padding-bottom:64px}
 .tk.tv{padding:0;background:#0b0d0e}
 .tk.tv #tkrows{flex:1;display:flex;flex-direction:column;width:100%;min-height:0}
 .tk.tv .tkrow{max-width:none;width:100%;margin:0;border-radius:0;border-left:0;border-right:0}
-.tk.tv .tkrow.single{flex:1;min-height:0;font-size:clamp(40px,14vh,200px);background:transparent;border:0;padding:0}
+.tk.tv .tkrow.single{flex:1;min-height:0;font-size:clamp(56px,24vh,320px);background:transparent;border:0;padding:0}
 .tk.tv .tkrow.single .tkview{width:100%;height:100%;padding:0}
 .tk.tv .tkrow.single .tktrack{display:flex;height:100%}
 .tk.tv .tkrow.single .tkseg{display:flex;align-items:center;flex:none;height:100%;padding:0}
@@ -2112,9 +2112,9 @@ function tkRender(){
     var r=tkSegsAuto();
     if(r.s){
       h='<section class="tkrow single"><div class="tkview" data-sp="130" data-it="'+esc(JSON.stringify(r.s))+'"><div class="tktrack"></div></div></section>';
-      var nw=(!off.news&&!tkLive())?tkItems("news"):[];
+      var nw=(!TKTV&&!off.news&&!tkLive())?tkItems("news"):[];
       if(nw.length)h+='<section class="tkrow crawl"><div class="tkview" data-sp="45" data-it="'+esc(JSON.stringify(nw.join("")))+'"><div class="tktrack"></div></div></section>';
-      h+='<div class="tkstamp">'+(r.note?esc(r.note)+' • ':'')+'Scores '+tkStamp("sc")+' • hover or tap to pause</div>';
+      if(!TKTV)h+='<div class="tkstamp">'+(r.note?esc(r.note)+' • ':'')+'Scores '+tkStamp("sc")+' • hover or tap to pause</div>';
     }else h=none;
   }else if(pref("tkby","lg")==="lg"){
     LGORDER.forEach(function(L){
@@ -2567,9 +2567,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-28b";
+var BUILD="2026-11-28c";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
