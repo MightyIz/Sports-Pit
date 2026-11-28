@@ -217,6 +217,18 @@ dd{margin:0}
 .bud .bw img.bface{position:absolute;display:block;left:32.35%;top:20.24%;width:36.76%;z-index:2;cursor:pointer}
 .aa .bpic{position:relative;display:block;width:40px;flex:none;line-height:0}.aa .bpic>img:first-child{width:100%;display:block}.aa .bpic img.bface{width:36.76%}
 .dsbw{display:block;position:relative;width:136px;margin:0 auto;z-index:1}.dsbw .dsbud{margin:0}.dsbw img.bface{width:36.76%;z-index:2}
+.atop{display:flex;gap:18px;align-items:flex-end;margin:12px 0 10px}
+.abw{position:relative;flex:none;width:128px}.abw img.dsbud{display:block;width:100%;height:auto;margin:0;image-rendering:pixelated}.abw img.bface{width:36.76%;z-index:2}
+.atop.talk .abw{animation:abtalk .3s steps(2) infinite}@keyframes abtalk{50%{transform:translateY(-3px)}}
+.adlg{position:relative;flex:1;min-width:0;min-height:118px;background:#0b1226;color:#fff;border:4px solid #fff;border-radius:6px;box-shadow:0 0 0 4px #0b1226,0 0 0 6px #fac428;padding:10px 16px 22px;font:700 16px/1.5 ui-monospace,"Courier New",monospace;letter-spacing:.02em;cursor:pointer;margin-right:6px}
+.adlg:before{content:"";position:absolute;left:-18px;bottom:26px;border:9px solid transparent;border-right-color:#fff;border-left:0}
+.adn{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#fac428;letter-spacing:.16em;margin-bottom:6px}
+.asnd{background:none;border:0;padding:0 2px;font-size:16px;line-height:1;cursor:pointer}
+.adt{white-space:pre-wrap;word-break:break-word;min-height:1.5em}
+.adc{position:absolute;right:12px;bottom:6px;color:#fac428;font-size:14px;visibility:hidden;animation:adblink .7s steps(2) infinite}
+.adlg.done .adc{visibility:visible}@keyframes adblink{50%{opacity:0}}
+@media (max-width:560px){.atop{flex-direction:column;align-items:center;gap:22px}.adlg{width:calc(100% - 6px);flex:none;margin-right:0}.adlg:before{left:50%;top:-18px;bottom:auto;margin-left:-9px;border:9px solid transparent;border-bottom-color:#fff;border-top:0}}
+@media (prefers-reduced-motion:reduce){.atop.talk .abw,.adc{animation:none}}
 .bud .btail{position:absolute;left:-18px;bottom:10px;width:34px;height:38px;z-index:0;transform-origin:92% 95%;animation:wag .55s ease-in-out infinite alternate;pointer-events:none}
 .bud.hype .btail{animation-duration:.2s}
 @keyframes wag{from{transform:rotate(-22deg)}to{transform:rotate(18deg)}}
@@ -2713,9 +2725,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29n";
+var BUILD="2026-11-29o";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -3194,7 +3206,7 @@ var BUDINS=[
  ["[data-cal]","Add to calendar opens Google Calendar with this game filled in. You can invite friends from there."],
  ["[data-pin]","Pin a game and it jumps up the list as a pick."],
  [".bnw","The Why line explains what makes this game a big one: standings, division games, news, or your favorite team."],
- [".desk","This is the Sports Pit news desk. I fly it in my suit. Type a question below or tap a button."],
+ [".atop","That is me and my text box. Type a question below or tap a button and I will answer one letter at a time. Tap the box to skip ahead, or the speaker to mute my talking."],
  [".askch","A question to try. Tap it and I will answer."],
  [".buds","Buddy\u2019s take: my opinion from team records and streaks, plus an MVP vote or player to watch. Just for fun."],
  [".fc","A flip card. Tap it to flip it over for team stats, the storyline, highlights and top players. Tap again to flip back."],
@@ -3344,28 +3356,63 @@ function askAnswer(q){
     return "I sniffed around but couldn’t match that to a team, league or topic. Try a team name like Broncos, a league like NFL, or one of the buttons. Or ask for a joke!";
   });
 }
-function askDeskHTML(){
-  return '<div class="desk"><div class="dsb"><i class="dsl"></i>THE SPORTS PIT NEWS DESK</div><div class="dsfly"><span class="dsw dswl" aria-hidden="true"></span><span class="dsw dswr" aria-hidden="true"></span><span class="dsbw"><img class="dsbud" alt="Buddy in a suit at the sports desk" src="'+BUDO.anchor.excited+'"></span><span class="dsmic" aria-hidden="true"></span><div class="dsd"><b>ASK THE DOODLE</b></div></div></div>';
+function askTopHTML(){
+  return '<div class="atop" id="askTop"><div class="abw"><img class="dsbud" alt="Buddy The Sports Doodle" src="'+budImg("excited")+'"></div><div class="adlg" id="adlg" role="status" aria-live="polite"><div class="adn"><span>BUDDY</span><button type="button" class="asnd" data-asnd="1" aria-label="Turn talking sounds on or off">'+(pref("budsnd",true)?"\ud83d\udd0a":"\ud83d\udd07")+'</button></div><div class="adt" id="adt"></div><span class="adc" aria-hidden="true">\u25bc</span></div></div>';
 }
+var ASKTM=null,ASKTYP=false,AUDX=null;
+function askBlip(c){
+  if(!pref("budsnd",true)||SCR!=="ask")return;
+  try{
+    AUDX=AUDX||new (window.AudioContext||window.webkitAudioContext)();if(AUDX.state==="suspended")AUDX.resume();
+    var o=AUDX.createOscillator(),g=AUDX.createGain(),t=AUDX.currentTime;
+    o.type="square";o.frequency.value=230+(String(c||"a").charCodeAt(0)%11)*26;
+    g.gain.setValueAtTime(0.045,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.07);
+    o.connect(g);g.connect(AUDX.destination);o.start(t);o.stop(t+0.08);
+  }catch(e){}
+}
+function askSay(text,face,mode){
+  clearTimeout(ASKTM);ASKTYP=false;ASKTXT=String(text||"");
+  var t=$("adt"),top=$("askTop"),dl=$("adlg");if(!t||!top)return;
+  text=String(text||"");deskFace(face||"excited");
+  top.classList.remove("talk");
+  if(mode==="q"){dl.classList.remove("done");t.textContent=text;return}
+  if(mode==="i"||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)){dl.classList.add("done");t.textContent=text;return}
+  dl.classList.remove("done");top.classList.add("talk");t.textContent="";ASKTYP=true;
+  var i=0,sp=text.length>220?14:28;
+  function step(){
+    i++;t.textContent=text.slice(0,i);var c=text.charAt(i-1);
+    if(/[a-z0-9]/i.test(c)&&i%2)askBlip(c);
+    if(i>=text.length){ASKTYP=false;top.classList.remove("talk");dl.classList.add("done");return}
+    ASKTM=setTimeout(step,/[.!?]/.test(c)?230:/[,;:]/.test(c)?120:sp);
+  }
+  step();
+}
+function askSkip(){
+  if(!ASKTYP)return;
+  clearTimeout(ASKTM);ASKTYP=false;var t=$("adt"),top=$("askTop"),dl=$("adlg");
+  if(t)t.textContent=ASKTXT;if(top)top.classList.remove("talk");if(dl)dl.classList.add("done");
+}
+var ASKTXT="";
 function renderAsk(){
   var el=$("askLog");if(!el)return;
   el.innerHTML=ASKL.slice().reverse().map(function(m){return '<div class="aq">'+esc(m.q)+'</div><div class="aa">'+budPic(BUDO.anchor.happy,m.a===null?"thinking":m.f)+'<div>'+(m.a===null?'<span class="note">Buddy is thinking…</span>':esc(m.a).replace(/\n/g,"<br>"))+'</div></div>'}).join("");
 }
 function drawAsk(){
-  var el=$("askScr");if(!el)return;
+  var el=$("askScr");if(!el)return;var first=!el.getAttribute("data-b");
   if(!el.getAttribute("data-b")){
     el.setAttribute("data-b","1");
-    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askDeskHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
+    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
     el.addEventListener("submit",function(e){e.preventDefault();var i=$("askIn");askRun(i.value);i.value=""});
-    el.addEventListener("click",function(e){var b=e.target.closest("[data-ask]");if(b)askRun(b.getAttribute("data-ask"))});
+    el.addEventListener("click",function(e){var sb=e.target.closest("[data-asnd]");if(sb){setPref("budsnd",!pref("budsnd",true));sb.textContent=pref("budsnd",true)?"\ud83d\udd0a":"\ud83d\udd07";askBlip("a");return}if(e.target.closest("#adlg")){askSkip();return}var b=e.target.closest("[data-ask]");if(b)askRun(b.getAttribute("data-ask"))});
     if(!ASKL.length)ASKL.push({q:"Hi Buddy!",a:"Woof! Welcome to the news desk. Ask me about a team, tonight’s games, who’s hot, or tap a button below."});
   }
   renderAsk();
+  if(!ASKTYP){var L=ASKL[ASKL.length-1];if(L&&L.a!==null)askSay(L.a,L.f||"excited",first?"":"i")}
 }
 function deskFace(f){
   var im=document.querySelector("#askScr .dsbud");if(!im)return;
   var w=im.parentNode,o=w.querySelector(".bface");
-  im.src=f==="thinking"?BUDO.anchor.thinking:(f==="excited"?BUDO.anchor.excited:BUDO.anchor.happy);
+  im.src=budImg(f==="thinking"?"thinking":(f==="excited"?"excited":"happy"));
   if(BUDF[f]){if(!o){o=document.createElement("img");o.className="bface";o.alt="";w.appendChild(o)}o.src=BUDF[f];o.style.display=""}else if(o)o.style.display="none";
 }
 function askFace(q,a){
@@ -3382,9 +3429,9 @@ function askFace(q,a){
 function askRun(q){
   q=String(q||"").trim();if(!q||ASKBUSY)return;
   ASKBUSY=true;var m={q:q,a:null};ASKL.push(m);if(ASKL.length>8)ASKL.shift();renderAsk();
-  deskFace("thinking");
+  askSay("Sniffing around\u2026","thinking","q");
   askAnswer(q).then(function(a){m.a=a;m.f=askFace(q,a)},function(){m.a="Oops, I tripped over the cable. Try again.";m.f="sad"}).then(function(){
-    ASKBUSY=false;renderAsk();deskFace(m.f||"excited");
+    ASKBUSY=false;renderAsk();askSay(m.a,m.f||"excited");
   });
 }
 var budSeen=load("sp_budseen",{}),budTimer=null,budEl=null,magEl=null,budInsOn=false;
