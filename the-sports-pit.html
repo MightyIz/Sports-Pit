@@ -3291,7 +3291,7 @@ function askTeam(t){
   var mine=G.filter(function(g){return g.lg===t.lg&&(g.aa===t.ab||g.ha===t.ab)}).sort(function(a,b){return a.s-b.s});
   var next=mine.filter(function(g){return !isDone(g)})[0],last=mine.filter(function(g){return isDone(g)&&g.sc}).pop();
   var r=stFind(t.lg,t.ab,t.n),L=[];
-  if(r)L.push(t.n+" are "+stRec(t.lg,r)+(r.sk?" ("+r.sk+")":"")+(r.dn?" in the "+r.cf+" "+r.dn:(r.cn?" in the "+r.cn:""))+(r.l10?", "+r.l10+" in their last 10":"")+".");
+  if(r)L.push(t.n+" are "+stRec(t.lg,r)+(r.sk?" ("+r.sk+")":"")+(r.dn?" in the "+(String(r.dn).indexOf(r.cf)===0?"":r.cf+" ")+r.dn:(r.cn?" in the "+r.cn:""))+(r.l10?", "+r.l10+" in their last 10":"")+".");
   if(last)L.push(showSc(last)?"Last game: "+last.aa+" "+last.sc.a+", "+last.ha+" "+last.sc.h+" (Final).":"Their last game is in the books, but scores are hidden so my lips are sealed.");
   if(next){L.push("Next up: "+(next.aa===t.ab?"at "+next.hn:"vs "+next.an)+", "+dStr(next.s)+" "+tStr(next.s)+(next.net?" on "+next.net:"")+".");L.push(budTake(next).t)}
   if(!L.length)L.push("I know the "+t.n+" but I don’t see a game for them on the schedule right now.");
