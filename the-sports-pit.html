@@ -326,6 +326,34 @@ header.top{align-items:center}
 .navmenu button{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px;font:700 17px var(--disp);text-transform:uppercase;cursor:pointer}
 .navmenu button .ne{font-size:24px;line-height:1}
 .navmenu button[aria-current="true"]{background:var(--pit);color:var(--pit-ink);border-color:var(--ink)}
+
+.fc{cursor:pointer;position:relative}
+.fc .fcb{display:none}
+.fc.flipped .fcf{display:none}
+.fc.flipped .fcb{display:block}
+.fc.flipa{animation:flipin .35s ease}
+@keyframes flipin{from{transform:perspective(900px) rotateY(90deg);opacity:.2}to{transform:perspective(900px) rotateY(0);opacity:1}}
+@media (prefers-reduced-motion:reduce){.fc.flipa{animation:none}}
+.fch{margin-top:8px;font-size:12px;color:var(--mute);font-weight:600}
+.fcb .bgs{margin-top:10px}
+.fcb .bgs>b{display:block;font:700 15px var(--disp);text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin-bottom:3px}
+.fcb .bgs p{margin:0;font-size:14px;line-height:1.35}
+.fcb .bgs small{display:block}
+.fcb .bgs a{text-decoration:underline}
+.fcb .bgs div.ln{font-size:13.5px;line-height:1.4;margin-top:2px}
+.ls{width:100%;border-collapse:collapse;font-size:13.5px}
+.ls th,.ls td{padding:3px 6px;text-align:center;border-bottom:1px solid var(--line)}
+.ls th:first-child,.ls td:first-child{text-align:left;font-weight:700}
+.ls td:last-child,.ls th:last-child{font-weight:700}
+.sr{display:grid;grid-template-columns:54px 1fr 54px;align-items:center;font-size:13px;font-weight:700;margin-top:6px}
+.sr .sl{text-align:center;color:var(--mute);font-weight:500;font-size:12px}
+.sr .sv:last-child{text-align:right}
+.sb{display:flex;height:5px;margin:2px 0 0;border-radius:3px;overflow:hidden;background:var(--line)}
+.sb span{display:block;height:100%}
+.sb .sa{background:var(--lgc,var(--pit))}
+.sb .sh{background:var(--mute);opacity:.55}
+.wpg{width:100%;height:64px;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.fcb .act{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 #standScr{max-width:820px}
 .stsum{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
 .stsum span{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:600}
@@ -2061,6 +2089,23 @@ var LM=window.matchMedia?matchMedia("(orientation:landscape) and (max-height:520
 function tkFl(g){var x=TKFLASH[g.id];return x&&Date.now()-x<90000?" flash":""}
 function tkTrack(){G.forEach(function(g){if(!g.sc)return;var k=g.sc.a+"-"+g.sc.h;if(TKPREV[g.id]!==undefined&&TKPREV[g.id]!==k)TKFLASH[g.id]=Date.now();TKPREV[g.id]=k})}
 function tkLgOn(l){if(TKONLY&&l!==TKONLY)return false;var s=pref("tklg",{}),any=Object.keys(s).some(function(k){return s[k]});return !any||!!s[l]}
+var TKRNG=[["all","All"],["yesterday","Yesterday"],["today","Today"],["tomorrow","Tomorrow"],["week","Next week"]];
+function tkRng(){var r=pref("tkrange","all");return TKRNG.some(function(x){return x[0]===r})?r:"all"}
+function tkRngLab(){var r=tkRng();return TKRNG.filter(function(x){return x[0]===r})[0][1].toLowerCase()}
+var TKB=null;
+function tkIn(g){
+  var r=tkRng(),k=r+":"+Math.floor(Date.now()/60000);
+  if(!TKB||TKB.k!==k){
+    var ds=dayStart(Date.now()),a,b;
+    if(r==="yesterday"){a=prevDay(ds);b=ds}else if(r==="today"){a=ds;b=nextDay(ds)}else if(r==="tomorrow"){a=nextDay(ds);b=addDays(ds,2)}else{a=nextDay(ds);b=addDays(ds,8)}
+    TKB={k:k,a:a,b:b};
+  }
+  return g.s>=TKB.a&&g.s<TKB.b;
+}
+function tkWin(g,now,span,mode){
+  if(tkRng()!=="all")return tkIn(g);
+  return mode==="f"?g.s<now+span:g.s>now-span;
+}
 function tkLive(){return pref("tklive",false)&&!TKLIVEFORCE}
 function tkOK(g){return tkLgOn(g.lg)&&(!pref("tkmine",false)||tkMine(g))&&(!tkLive()||isLive(g))}
 function tkWhen(g){return fmt(g.s,{weekday:"short",hour:"numeric",minute:"2-digit"})}
@@ -2068,13 +2113,13 @@ function tkDot(g){return (tkMine(g)?'<span class="tkst">\u2605</span>':'')+'<spa
 function tkItems(k){
   var now=Date.now(),out=[];
   if(k==="news"){
-    if(tkLive())return out;
+    if(tkLive()||tkRng()!=="all")return out;
     NEWS.forEach(function(n){if(!tkLgOn(n.l))return;out.push('<a class="tki" target="_blank" rel="noopener" href="'+esc(n.u)+'"><b>'+esc(n.t)+'</b> '+esc(n.x)+' <small>'+esc(n.s)+' • '+esc(n.d)+'</small></a>')});
   }else if(k==="det"){
-    G.filter(function(g){return !isDone(g)&&g.s<now+4*86400000&&tkOK(g)&&(g.note||g.un||g.loc||tkMine(g))}).slice(0,40).forEach(function(g){
+    G.filter(function(g){return !isDone(g)&&tkWin(g,now,4*86400000,"f")&&tkOK(g)&&(g.note||g.un||g.loc||tkMine(g))}).slice(0,40).forEach(function(g){
       out.push('<button type="button" class="tki" data-id="'+g.id+'">'+tkDot(g)+'<b>'+logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn)+'</b> • '+esc(tkWhen(g))+' • '+esc(g.net||"channel not listed yet")+(g.un?' • '+esc(g.un.t)+' wear '+esc(g.un.j)+(g.un.x?' (expected)':''):'')+(g.loc?' • Local TV: '+esc(g.loc):'')+(g.note?' • '+esc(g.note):'')+'</button>');
     });
-    if(!pref("hide",false)&&!tkLive()){
+    if(!pref("hide",false)&&!tkLive()&&tkRng()==="all"){
       if(!TEAMS)buildTeams();
       var seen={},ks=favs.map(function(x){return x.replace(":","|")}).concat(CO.map(function(x){return x.replace(":","|")}));
       ks.forEach(function(k2){
@@ -2085,13 +2130,13 @@ function tkItems(k){
       });
     }
   }else if(k==="soon"){
-    G.filter(function(g){return !isDone(g)&&g.s<now+36*3600000&&tkOK(g)}).sort(function(a,b){return (tkMine(b)?1:0)-(tkMine(a)?1:0)||(isLive(b)?1:0)-(isLive(a)?1:0)}).slice(0,60).forEach(function(g){
+    G.filter(function(g){return !isDone(g)&&tkWin(g,now,36*3600000,"f")&&tkOK(g)}).sort(function(a,b){return (tkMine(b)?1:0)-(tkMine(a)?1:0)||(isLive(b)?1:0)-(isLive(a)?1:0)||(tkRng()==="all"?0:a.s-b.s)}).slice(0,tkRng()==="all"?60:120).forEach(function(g){
       out.push('<button type="button" class="tki'+tkFl(g)+'" data-id="'+g.id+'">'+tkDot(g)+'<b>'+(isLive(g)?'LIVE':esc(tkWhen(g)))+'</b> '+esc(lgName(g.lg))+' '+logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn)+(g.net?' <small>'+esc(g.net)+'</small>':'')+'</button>');
     });
   }else if(k==="sc"){
     if(pref("hide",false))return ['<span class="tki"><small>Scores are hidden. Turn off Hide scores in Options to show them.</small></span>'];
-    var l=G.filter(function(g){return g.sc&&g.s<=now&&g.s>now-36*3600000&&tkOK(g)});
-    l.sort(function(a,b){return (tkMine(b)?1:0)-(tkMine(a)?1:0)||(isLive(b)?1:0)-(isLive(a)?1:0)||b.s-a.s});
+    var l=G.filter(function(g){return g.sc&&g.s<=now&&tkWin(g,now,36*3600000,"p")&&tkOK(g)});
+    l.sort(function(a,b){return (tkMine(b)?1:0)-(tkMine(a)?1:0)||(isLive(b)?1:0)-(isLive(a)?1:0)||(tkRng()==="yesterday"?rk(a)-rk(b):0)||b.s-a.s});
     l.slice(0,60).forEach(function(g){
       out.push('<button type="button" class="tki'+tkFl(g)+'" data-id="'+g.id+'">'+tkDot(g)+logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' – '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha)+' <small>'+(g.sc.s==="f"?"Final":"Live "+esc(g.sc.t))+'</small></button>');
     });
@@ -2102,7 +2147,7 @@ function tkInk(L){var v="";try{v=getComputedStyle(document.documentElement).getP
 function tkIsSingle(){return pref("tkview","stacked")==="single"||TKAUTO||TKTV||!!(LM&&LM.matches)}
 function tkPick(L){
   var b=bannerList(),g=b.l[0];
-  if(!g||g.lg!==L||!tkOK(g))return "";
+  if(!g||g.lg!==L||!tkOK(g)||["yesterday","tomorrow","week"].indexOf(tkRng())>-1)return "";
   var w=whyList(g).slice(0,3).join(" • ");
   return '<button type="button" class="tki pick" data-id="'+g.id+'"><b>★ '+esc(b.lab.toUpperCase())+'</b> '+logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn)+' • '+esc(tkWhen(g))+(w?' <small>'+esc(w)+'</small>':'')+'</button>';
 }
@@ -2154,7 +2199,8 @@ function tkRender(){
   el.classList.toggle("tv",TKTV);el.classList.toggle("strip",STRIP);document.body.classList.toggle("tvmode",TKTV);
   var vw=pref("tkview","stacked")==="single";
   function grp(l,h){return '<div class="tkgrp"><span class="tkgl">'+l+'</span><span class="tkgb">'+h+'</span></div>'}
-  var ctl=grp("Speed",'<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
+  var ctl=grp("When",TKRNG.map(function(r){return '<button type="button" class="chip" data-tkrng="'+r[0]+'" aria-pressed="'+(tkRng()===r[0])+'">'+r[1]+'</button>'}).join(""))+
+    grp("Speed",'<button type="button" class="chip" data-tkpause="1">'+(el.classList.contains("paused")?'Play':'Pause')+'</button>'+
     [["Slower",0.6],["Normal",1],["Faster",1.7]].map(function(s){return '<button type="button" class="chip" data-tkspeed="'+s[1]+'" aria-pressed="'+(mult===s[1])+'">'+s[0]+'</button>'}).join(""))+
     grp("Layout",'<button type="button" class="chip" data-tkview="stacked" aria-pressed="'+(!vw)+'">Stacked</button><button type="button" class="chip" data-tkview="single" aria-pressed="'+vw+'">Single</button>')+
     grp("Group by",'<button type="button" class="chip" data-tkby="lg" aria-pressed="'+(pref("tkby","lg")==="lg")+'">By league</button><button type="button" class="chip" data-tkby="type" aria-pressed="'+(pref("tkby","lg")!=="lg")+'">By type</button>')+
@@ -2169,12 +2215,12 @@ function tkRender(){
   var lgc="";
   $("tkctl").innerHTML=ctl;
   $("tklgs").innerHTML=lgc;
-  var h="",none='<section class="tkrow"><div class="tkview"><span class="tki"><small>'+(pref("tklive",false)?'No live games right now. Turn off Live only to see everything.':'Nothing to show right now.')+'</small></span></div></section>';
+  var h="",none='<section class="tkrow"><div class="tkview"><span class="tki"><small>'+(pref("tklive",false)?'No live games right now. Turn off Live only to see everything.':(tkRng()==="all"?'Nothing to show right now.':'No games found for '+tkRngLab()+'.'))+'</small></span></div></section>';
   if(single){
     var r=tkSegsAuto();
     if(r.s){
       h='<section class="tkrow single"><div class="tkview" data-sp="130" data-it="'+esc(JSON.stringify(r.s))+'"><div class="tktrack"></div></div></section>';
-      var nw=(!TKTV&&!off.news&&!tkLive())?tkItems("news"):[];
+      var nw=(!TKTV&&!off.news&&!tkLive()&&tkRng()==="all")?tkItems("news"):[];
       if(nw.length)h+='<section class="tkrow crawl"><div class="tkview" data-sp="45" data-it="'+esc(JSON.stringify(nw.join("")))+'"><div class="tktrack"></div></div></section>';
       if(!TKTV)h+='<div class="tkstamp">'+(r.note?esc(r.note)+' • ':'')+'Scores '+tkStamp("sc")+' • hover or tap to pause</div>';
     }else h=none;
@@ -2435,6 +2481,7 @@ $("ticker").addEventListener("click",function(e){
   if((b=t.closest("[data-tklg]"))){var k1=b.getAttribute("data-tklg"),s1=pref("tklg",{});if(k1==="ALL")s1={};else s1[k1]=!s1[k1];setPref("tklg",s1);tkRender();return}
   if((b=t.closest("[data-tkgr]"))){var nm=b.getAttribute("data-tkgr"),s2=pref("tklg",{});GR.forEach(function(x){if(x[0]===nm){var on=x[1].every(function(k){return !!s2[k]});x[1].forEach(function(k){s2[k]=!on})}});setPref("tklg",s2);tkRender();return}
   if((b=t.closest("[data-tkspeed]"))){setPref("tkspeed",+b.getAttribute("data-tkspeed"));tkRender();return}
+  if((b=t.closest("[data-tkrng]"))){setPref("tkrange",b.getAttribute("data-tkrng"));tkRender();tkDockRender();return}
   if((b=t.closest("[data-tkview]"))){setPref("tkview",b.getAttribute("data-tkview"));tkRender();return}
   if((b=t.closest("[data-tkby]"))){setPref("tkby",b.getAttribute("data-tkby"));tkRender();return}
   if(t.closest("[data-tkmine]")){setPref("tkmine",!pref("tkmine",false));tkRender();return}
@@ -2641,9 +2688,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29j";
+var BUILD="2026-11-29k";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -2914,22 +2961,141 @@ function bgPick(a,b,n,upcoming){
   l.sort(function(x,y){return rk(x)-rk(y)||x.s-y.s});
   return l.slice(0,n);
 }
+var BGSUM={},BGSUMP={},FLIP={};
+var BGSTATS={NFL:["Total Yards","Passing","Rushing","3rd down efficiency","Turnovers","Possession"],NBA:["Field Goal %","Three Point %","Rebounds","Assists","Turnovers","Points in Paint","Fast Break Points"],NHL:["Shots","Power Play Goals","Hits","Blocked Shots","Faceoff Win Percent","Takeaways","Giveaways"]};
+BGSTATS.CFB=BGSTATS.NFL;
+function bgTrim(s,n){s=String(s||"");return s.length>n?s.slice(0,n).replace(/\s+\S*$/,"")+"…":s}
+function bgOpen(g){return '<div class="wtc fc'+(FLIP[g.id]?' flipped':'')+'" data-fc="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+');--lgc:var('+LG[g.lg].c+')"><div class="fcf">'}
+function bgClose(g){return '<div class="fch">⟳ Tap to flip for stats and story</div></div><div class="fcb">'+(FLIP[g.id]?bgBackHTML(g):'')+'</div></div>'}
 function bgUpCard(g){
   var tm=logoHTML(g,0)+esc(g.an)+' at '+logoHTML(g,1)+esc(g.hn);
-  return '<div class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 '+(isLive(g)?'LIVE':esc(dStr(g.s)+" "+tStr(g.s)))+(g.net?' \u2022 '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'<div style="margin-top:8px"><a class="mini" target="_blank" rel="noopener" data-cal="'+g.id+'" href="'+esc(gcalLink(g,[]))+'">Add to calendar</a></div></div>';
+  return bgOpen(g)+'<small>'+esc(lgName(g.lg))+' • '+(isLive(g)?'LIVE':esc(dStr(g.s)+" "+tStr(g.s)))+(g.net?' • '+esc(g.net):'')+'</small><b>'+tm+'</b>'+whyHTML(g)+'<div style="margin-top:8px"><a class="mini" target="_blank" rel="noopener" data-cal="'+g.id+'" href="'+esc(gcalLink(g,[]))+'">Add to calendar</a></div>'+bgClose(g);
 }
-function bgYCard(g){
+function bgYCard(g,wd){
   var e=bgFind(g),sh=showSc(g);
-  var tm=sh?logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' <span>\u2013</span> '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha):logoHTML(g,0)+esc(g.an)+' <span>at</span> '+logoHTML(g,1)+esc(g.hn);
+  var tm=sh?logoHTML(g,0)+esc(g.aa)+' '+g.sc.a+' <span>–</span> '+g.sc.h+' '+logoHTML(g,1)+esc(g.ha):logoHTML(g,0)+esc(g.an)+' <span>at</span> '+logoHTML(g,1)+esc(g.hn);
   var why=whyList(g).filter(function(x){return x!=="In progress now"}).concat(bgResultWhy(g,e));
   if(!why.length)why=["One of the biggest games on the board in "+lgName(g.lg)];
-  var h='<div class="wtc" data-id="'+g.id+'" style="border-left:5px solid var('+LG[g.lg].c+')"><small>'+esc(lgName(g.lg))+' \u2022 Final'+(g.net?' \u2022 '+esc(g.net):'')+' \u2022 '+esc(tStr(g.s))+'</small><b>'+tm+'</b>';
-  h+='<div class="bnw"><b>Why it was big:</b> '+why.slice(0,5).map(esc).join(" \u2022 ")+'</div>';
+  var h=bgOpen(g)+'<small>'+esc(lgName(g.lg))+' • Final'+(g.net?' • '+esc(g.net):'')+' • '+esc(wd?dStr(g.s)+" "+tStr(g.s):tStr(g.s))+'</small><b>'+tm+'</b>';
+  h+='<div class="bnw"><b>Why it was big:</b> '+why.slice(0,5).map(esc).join(" • ")+'</div>';
   if(e){var hi=bgHi(e),tp=bgTop(e);
     if(hi)h+='<div class="bgh"><b>Highlights:</b> '+hi+'</div>';
-    if(tp.length)h+='<div class="bgh"><b>Top performers:</b> '+tp.join(" \u2022 ")+'</div>'}
-  else if(!BGAT)h+='<div class="bgh"><small class="note">Loading highlights\u2026</small></div>';
-  return h+'</div>';
+    if(tp.length)h+='<div class="bgh"><b>Top performers:</b> '+tp.join(" • ")+'</div>'}
+  else if(!BGAT)h+='<div class="bgh"><small class="note">Loading highlights…</small></div>';
+  return h+bgClose(g);
+}
+function bgEvMatch(g,evs){
+  var r=null;
+  (evs||[]).forEach(function(e){
+    if(r)return;var c=e.competitions&&e.competitions[0];if(!c)return;
+    var h,a;(c.competitors||[]).forEach(function(k){if(k.homeAway==="home")h=k;else a=k});
+    if(h&&a&&tmEq(g.aa,g.an,a.team)&&tmEq(g.ha,g.hn,h.team))r=e;
+  });
+  return r;
+}
+function bgEvOf(g){
+  var e=bgFind(g);if(e)return Promise.resolve(e);
+  if(!ESPN[g.lg])return Promise.resolve(null);
+  return Promise.all([liveFetch(g.lg,ymd(g.s)).catch(function(){return null}),liveFetch(g.lg,ymd(g.s+86400000)).catch(function(){return null})]).then(function(rs){
+    return bgEvMatch(g,((rs[0]||{}).events||[]).concat((rs[1]||{}).events||[]));
+  }).catch(function(){return null});
+}
+function bgSum(g){
+  var k=g.id,c=BGSUM[k];
+  if(c&&(isDone(g)&&c.s||Date.now()-c.at<120000))return Promise.resolve(c);
+  if(BGSUMP[k])return BGSUMP[k];
+  BGSUMP[k]=bgEvOf(g).then(function(e){
+    if(!e)throw 0;
+    return fetch("https://site.api.espn.com/apis/site/v2/sports/"+ESPN[g.lg]+"/summary?event="+encodeURIComponent(e.id));
+  }).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(s){BGSUM[k]={at:Date.now(),s:s};return BGSUM[k]}).catch(function(){BGSUM[k]={at:Date.now(),s:null};return BGSUM[k]}).then(function(x){BGSUMP[k]=null;return x});
+  return BGSUMP[k];
+}
+function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini">Flip back</button></div>'}
+function bgBackHTML(g){
+  var c=BGSUM[g.id],S=c&&c.s,done=isDone(g),live=isLive(g),h="";
+  var e=bgFind(g),why=whyList(g).filter(function(x){return x!=="In progress now"}).concat(done?bgResultWhy(g,e):[]);
+  var whyH=why.length?'<div class="bgs"><b>Why it is big</b><p>'+why.slice(0,5).map(esc).join(" • ")+'</p></div>':'';
+  if(!c)return '<div class="bgs"><small class="note">Loading the full story…</small></div>'+whyH+bgBackAct(g);
+  if(done&&!showSc(g))return '<div class="bgs"><small class="note">Scores are hidden, so the stats and story are too. Open Game details and tap Show score to reveal them.</small></div>'+whyH+bgBackAct(g);
+  if(!S)return '<div class="bgs"><small class="note">The full story is not available for this game yet. Check back closer to game time.</small></div>'+whyH+bgBackAct(g);
+  var hdr=S.header&&S.header.competitions&&S.header.competitions[0],cs=(hdr&&hdr.competitors)||[];
+  var away=cs.filter(function(k){return k.homeAway==="away"})[0],home=cs.filter(function(k){return k.homeAway==="home"})[0];
+  function ab(k){return k&&k.team?(k.team.abbreviation||k.team.shortDisplayName||""):""}
+  function rec(k){var r=((k&&k.record)||[]).filter(function(x){return x.type==="total"})[0];return r?r.summary:""}
+  if(away&&home){
+    h+='<div class="bgs"><b>'+esc(ab(away))+(rec(away)?' ('+esc(rec(away))+')':'')+' '+(done||live?esc(String(away.score))+' – '+esc(String(home.score))+' ':'at ')+esc(ab(home))+(rec(home)?' ('+esc(rec(home))+')':'')+'</b></div>';
+  }
+  var ar=S.article;
+  if(ar&&ar.headline){
+    var lk=ar.links&&ar.links.web&&ar.links.web.href;
+    h+='<div class="bgs"><b>Storyline</b><p><strong>'+esc(ar.headline)+'</strong> '+esc(bgTrim(ar.description,280))+(bgLink(lk)?' <a target="_blank" rel="noopener" href="'+esc(lk)+'">Read the recap</a>':'')+'</p></div>';
+  }
+  h+=whyH;
+  if((done||live)&&away&&home){
+    var la=away.linescores||[],lh=home.linescores||[],n=Math.max(la.length,lh.length),reg={NFL:4,CFB:4,NBA:4,NHL:3,MLS:2}[g.lg]||4;
+    if(n){
+      var hd='<tr><th></th>',ra='<tr><td>'+esc(ab(away))+'</td>',rh='<tr><td>'+esc(ab(home))+'</td>';
+      for(var i=0;i<n;i++){hd+='<th>'+(i<reg?i+1:(i===reg?'OT':'OT'+(i-reg+1)))+'</th>';ra+='<td>'+esc(String((la[i]||{}).displayValue||""))+'</td>';rh+='<td>'+esc(String((lh[i]||{}).displayValue||""))+'</td>'}
+      h+='<div class="bgs"><b>By period</b><table class="ls">'+hd+'<th>T</th></tr>'+ra+'<td>'+esc(String(away.score))+'</td></tr>'+rh+'<td>'+esc(String(home.score))+'</td></tr></table></div>';
+    }
+    var wp=S.winprobability||[];
+    if(wp.length>5){
+      var step=Math.max(1,Math.floor(wp.length/120)),pts=[];
+      for(var q=0;q<wp.length;q+=step){var hp=Number(wp[q].homeWinPercentage);if(isNaN(hp))continue;pts.push((pts.length*100/Math.max(1,Math.ceil(wp.length/step)-1)).toFixed(1)+","+(40*(1-hp)).toFixed(1))}
+      if(pts.length>3)h+='<div class="bgs"><b>Win probability</b><svg class="wpg" viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="Win probability over the game"><line x1="0" y1="20" x2="100" y2="20" style="stroke:var(--mute);opacity:.4;stroke-dasharray:2 2" vector-effect="non-scaling-stroke"/><polyline fill="none" style="stroke:var(--pit)" stroke-width="2.5" vector-effect="non-scaling-stroke" points="'+pts.join(" ")+'"/></svg><small class="note">Higher means '+esc(ab(home))+' was favored, lower means '+esc(ab(away))+'.</small></div>';
+    }
+  }
+  var tms=(S.boxscore&&S.boxscore.teams)||[];
+  if((done||live)&&tms.length>1&&away&&home){
+    var byId={};tms.forEach(function(x){if(x.team)byId[x.team.id]=x});
+    var ta=byId[away.id]||tms[0],th=byId[home.id]||tms[1];
+    function mp(x){var m={},o=[];(x.statistics||[]).forEach(function(s){if(!(s.label in m)){m[s.label]=s.displayValue;o.push(s.label)}});return {m:m,o:o}}
+    var A=mp(ta),H=mp(th),labs=(BGSTATS[g.lg]||[]).filter(function(l){return l in A.m&&l in H.m});
+    if(labs.length<3)labs=A.o.filter(function(l){return l in H.m}).slice(0,7);
+    if(labs.length){
+      h+='<div class="bgs"><b>Team stats</b>'+labs.map(function(l){
+        var a=parseFloat(String(A.m[l]).replace(/[^0-9.\-]/g,"")),b=parseFloat(String(H.m[l]).replace(/[^0-9.\-]/g,"")),pc=(isNaN(a)||isNaN(b)||a+b<=0)?50:Math.round(a/(a+b)*100);
+        return '<div class="sr"><span class="sv">'+esc(String(A.m[l]))+'</span><span class="sl">'+esc(l)+'</span><span class="sv">'+esc(String(H.m[l]))+'</span></div><div class="sb"><span class="sa" style="width:'+pc+'%"></span><span class="sh" style="width:'+(100-pc)+'%"></span></div>';
+      }).join("")+'<small class="note">'+esc(ab(away))+' on the left, '+esc(ab(home))+' on the right.</small></div>';
+    }
+  }
+  var ld=S.leaders||[],lh2="";
+  ld.forEach(function(L){
+    var lines=[];(L.leaders||[]).slice(0,4).forEach(function(cat){var p=(cat.leaders||[])[0];if(p&&p.athlete&&p.displayValue)lines.push(esc(p.athlete.displayName||p.athlete.shortName||"")+' – '+esc(p.displayValue)+' <span class="note">('+esc(cat.displayName||cat.name||"")+')</span>')});
+    if(lines.length)lh2+='<div class="ln"><strong>'+esc((L.team&&L.team.abbreviation)||"")+'</strong>: '+lines.join(' • ')+'</div>';
+  });
+  if(lh2)h+='<div class="bgs"><b>'+(done||live?'Top players':'Season leaders')+'</b>'+lh2+'</div>';
+  var sp=S.scoringPlays||[];
+  if(sp.length&&(done||live)){
+    h+='<div class="bgs"><b>Scoring plays</b>'+sp.slice(0,10).map(function(p){
+      return '<div class="ln">'+esc((p.period&&p.period.number?'P'+p.period.number+' ':'')+((p.clock&&p.clock.displayValue)||''))+' '+esc(bgTrim(p.text||"",90))+(p.awayScore!=null?' <span class="note">('+esc(p.awayScore+"-"+p.homeScore)+')</span>':'')+'</div>';
+    }).join("")+'</div>';
+  }
+  if(!done){
+    var ss=(S.seasonseries||[])[0];
+    if(ss&&(ss.summary||ss.description))h+='<div class="bgs"><b>Season series</b><p>'+esc(ss.summary||ss.description)+'</p></div>';
+    var inj="";(S.injuries||[]).forEach(function(x){
+      var l=(x.injuries||[]).slice(0,4).map(function(i){return esc((i.athlete&&i.athlete.displayName)||"")+(i.status?' ('+esc(i.status)+')':'')}).filter(function(s){return s.trim()});
+      if(l.length)inj+='<div class="ln"><strong>'+esc((x.team&&x.team.abbreviation)||"")+'</strong>: '+l.join(', ')+'</div>';
+    });
+    if(inj)h+='<div class="bgs"><b>Injury report</b>'+inj+'</div>';
+    var gi=S.gameInfo||{};
+    if(gi.venue&&gi.venue.fullName)h+='<div class="bgs"><b>Where</b><p>'+esc(gi.venue.fullName)+(gi.venue.address&&gi.venue.address.city?', '+esc(gi.venue.address.city):'')+(gi.weather&&gi.weather.displayValue?' • '+esc(gi.weather.displayValue):'')+'</p></div>';
+  }
+  var vd=(S.videos||[]).slice(0,3).map(function(v){var u=v.links&&v.links.web&&v.links.web.href;return bgLink(u)?'<div class="ln"><a target="_blank" rel="noopener" href="'+esc(u)+'">▶ '+esc(bgTrim(v.headline||"Highlight",80))+'</a></div>':''}).join("");
+  if(vd)h+='<div class="bgs"><b>Highlights</b>'+vd+'</div>';
+  return h+bgBackAct(g);
+}
+function bgFlip(card){
+  var id=card.getAttribute("data-fc"),g=GID[id];if(!g)return;
+  FLIP[id]=!FLIP[id];
+  card.classList.toggle("flipped",!!FLIP[id]);
+  card.classList.remove("flipa");void card.offsetWidth;card.classList.add("flipa");
+  if(FLIP[id]){
+    var fill=function(){var b=card.querySelector(".fcb");if(b&&FLIP[id])b.innerHTML=bgBackHTML(g)};
+    fill();bgSum(g).then(fill);
+    try{var r=card.getBoundingClientRect();if(r.top<0)window.scrollBy(0,r.top-8)}catch(x){}
+  }
 }
 function bgPlayers(){
   var best={},ord=[];
@@ -2957,16 +3123,19 @@ function bgPlayers(){
   return out||(BGAT?'<div class="empty">No standout player lines found yet.</div>':'<div class="empty">Loading players of the week\u2026</div>');
 }
 function drawBig(){
-  var T=[["yesterday","Yesterday"],["today","Today"],["week","This week"],["players","Players of the week"]];
+  var T=[["yesterday","Yesterday"],["lastweek","Last week"],["today","Today"],["week","This week"],["players","Players of the week"]];
   $("bgTabs").innerHTML=T.map(function(t){return '<button type="button" class="chip" data-bgt="'+t[0]+'" aria-pressed="'+(BGT===t[0])+'">'+t[1]+'</button>'}).join("");
   var el=$("bgBody"),ds=dayStart(Date.now()),h="",l;
   bgLoad();
   if(BGT==="yesterday"){
     l=bgPick(prevDay(ds),ds,6,false);
-    h=l.length?'<p class="note" style="margin:0 0 8px">The biggest games from '+esc(dStr(prevDay(ds)))+', with scores, highlights and why they mattered.</p>'+l.map(bgYCard).join(""):'<div class="empty">No big games with final scores yesterday for these leagues.</div>';
+    h=l.length?'<p class="note" style="margin:0 0 8px">The biggest games from '+esc(dStr(prevDay(ds)))+', with scores, highlights and why they mattered.</p>'+l.map(function(g){return bgYCard(g,false)}).join(""):'<div class="empty">No big games with final scores yesterday for these leagues.</div>';
+  }else if(BGT==="lastweek"){
+    l=bgPick(addN(ds,-7),ds,12,false);
+    h=l.length?'<p class="note" style="margin:0 0 8px">The biggest games from the last 7 days. Tap a card to flip it for stats and story.</p>'+l.map(function(g){return bgYCard(g,true)}).join(""):'<div class="empty">No big games with final scores in the last week for these leagues.</div>';
   }else if(BGT==="today"){
     l=bgPick(ds,nextDay(ds),8,false).length||true?G.filter(function(g){return g.s>=ds&&g.s<nextDay(ds)&&(lgCount()===0||st.lg[g.lg])}).sort(function(x,y){return rk(x)-rk(y)||x.s-y.s}).slice(0,8):[];
-    h=l.length?'<p class="note" style="margin:0 0 8px">Today\u2019s biggest games and why they matter.</p>'+l.map(function(g){return isDone(g)&&g.sc?bgYCard(g):bgUpCard(g)}).join(""):'<div class="empty">No big games today for these leagues.</div>';
+    h=l.length?'<p class="note" style="margin:0 0 8px">Today\u2019s biggest games and why they matter.</p>'+l.map(function(g){return isDone(g)&&g.sc?bgYCard(g,false):bgUpCard(g)}).join(""):'<div class="empty">No big games today for these leagues.</div>';
   }else if(BGT==="week"){
     l=bgPick(nextDay(ds),addDays(ds,7),10,true).sort(function(x,y){return x.s-y.s});
     h=l.length?'<p class="note" style="margin:0 0 8px">The biggest games over the next few days and why they matter.</p>'+l.map(bgUpCard).join(""):'<div class="empty">No big games found for the rest of the week for these leagues.</div>';
@@ -2976,6 +3145,8 @@ function drawBig(){
 $("bigScr").addEventListener("click",function(e){var b;
   if((b=e.target.closest("[data-bgt]"))){BGT=b.getAttribute("data-bgt");save("sp_bgt",BGT);drawBig();return}
   if(e.target.closest("a"))return;
+  if((b=e.target.closest("[data-fcdet]"))){openSheet(b.getAttribute("data-fcdet"));return}
+  if((b=e.target.closest(".fc"))){bgFlip(b);return}
   openGame(e.target);
 });
 /* ---------- Buddy the helper + magnifying glass ---------- */
@@ -2983,8 +3154,8 @@ var BUD={"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAA
 var BUDTIPS={
  tv:"Welcome to The Sports Pit! Schedule shows what is on, Scores has the finals, and Big Games finds the can\u2019t-miss matchups. Tap any game for channels, or Add to calendar to save it. Tap the magnifying glass to ask me what anything is.",
  scores:"Scores has yesterday\u2019s finals and the last 7 days. Tap any game for details. If you hide scores to avoid spoilers, tap a game to reveal it.",
- big:"Big Games picks the games worth your time. Yesterday has highlights and why each one mattered. Today and This week explain why a game is big. Players of the week shows top performances.",
- tk:"This is the Ticker. Tap Controls to change speed or layout. TV mode makes it one giant full screen ticker with a small X to leave.",
+ big:"Big Games picks the games worth your time. Tap any card to flip it for team stats, the storyline, highlights and top players. Yesterday and Last week cover finals, and Today and This week explain why a game matters.",
+ tk:"This is the Ticker. Tap Controls to change speed or layout, or pick When to see Yesterday, Today, Tomorrow or Next week. TV mode makes it one giant full screen ticker with a small X to leave.",
  stand:"Standings shows every team. Switch between Divisions and the Playoff picture, tap a team for home, road and last 10, and look for the fire and snowflake chips for hot and cold streaks.",
  news:"News has the latest headlines for your leagues and favorite teams. Newest are first.",
  lg:"Pick the leagues you care about and every screen follows. Tap a league again to turn it off."
@@ -2995,6 +3166,7 @@ var BUDINS=[
  ["[data-cal]","Add to calendar opens Google Calendar with this game filled in. You can invite friends from there."],
  ["[data-pin]","Pin a game and it jumps up the list as a pick."],
  [".bnw","The Why line explains what makes this game a big one: standings, division games, news, or your favorite team."],
+ [".fc","A flip card. Tap it to flip it over for team stats, the storyline, highlights and top players. Tap again to flip back."],
  [".wtc","A game card. Tap it to open details with channels and how to watch."],
  [".scrow","A score row. Tap it for game details. If scores are hidden, tapping reveals it."],
  [".scrnav button,.navdd","This is the screen menu. Tap it to switch between Schedule, Scores, Standings, Big Games, Ticker, News and Leagues."],
