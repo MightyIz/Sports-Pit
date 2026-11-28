@@ -318,6 +318,39 @@ header.top{align-items:center}
 .laysel{font-size:15px;padding:8px 12px;max-width:260px;text-transform:none;letter-spacing:0}
 #scrnav{margin:4px 0 14px}
 .tk.tv .scrnav{display:none}
+.scrnav .navdd{display:none;justify-content:space-between;align-items:center;gap:8px;font:700 clamp(18px,5vw,24px) var(--disp);padding:10px 12px;border-bottom-color:var(--pit);background:var(--surface);color:var(--ink);border-radius:10px 10px 0 0;white-space:nowrap;text-align:left}
+.scrnav .navdd .nc{font-size:.8em;opacity:.7;transition:transform .15s}
+.scrnav .navdd[aria-expanded="true"] .nc{transform:rotate(180deg)}
+@media (max-width:760px){.scrnav .navtab{display:none}.scrnav .navdd{display:flex}}
+.navmenu{position:fixed;z-index:60;background:var(--surface);border:2px solid var(--ink);border-radius:14px;padding:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px;box-shadow:0 12px 32px rgba(0,0,0,.4);width:min(420px,calc(100vw - 20px))}
+.navmenu button{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px;font:700 17px var(--disp);text-transform:uppercase;cursor:pointer}
+.navmenu button .ne{font-size:24px;line-height:1}
+.navmenu button[aria-current="true"]{background:var(--pit);color:var(--pit-ink);border-color:var(--ink)}
+#standScr{max-width:820px}
+.stsum{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.stsum span{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:600}
+.sthd,.strow{display:grid;grid-template-columns:26px 26px minmax(0,1fr) 58px 40px 40px;gap:6px;align-items:center}
+.sthd{font-size:11.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;padding:0 8px 3px;font-weight:700}
+.sthd span:nth-child(n+4){text-align:right}
+.strow{width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 8px;margin-bottom:5px;position:relative;overflow:hidden;color:var(--ink);cursor:pointer}
+.strow .sd{width:24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font:700 13px var(--disp)}
+.strow.in .sd{background:var(--pit);color:var(--pit-ink);border-color:var(--ink)}
+.strow img{width:24px;height:24px;object-fit:contain}
+.strow .nm{font-weight:700;font-size:14.5px;line-height:1.15;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.strow .nm small{display:block;font-weight:500;color:var(--mute);font-size:11.5px}
+.strow .r{font-weight:700;font-size:14px;text-align:right}
+.strow .bar{display:block;position:absolute;left:0;top:auto;bottom:0;height:4px;background:var(--lgc,var(--pit));opacity:.85}
+.strow.fav{border-color:var(--pit);box-shadow:0 0 0 1px var(--pit)}
+.stk{display:inline-block;min-width:30px;text-align:center;border-radius:6px;font-size:12px;font-weight:700;padding:2px 4px}
+.stk.w{background:color-mix(in srgb,#16a34a 20%,transparent);color:#16a34a}
+.stk.l{background:color-mix(in srgb,#dc2626 20%,transparent);color:#dc2626}
+.stdet{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 6px;margin:-6px 0 6px;padding:8px 10px;border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;background:var(--bg);font-size:13px;font-weight:600}
+.stdet b{display:block;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+.stdiv{font:700 15px var(--disp);text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin:10px 2px 4px}
+.stcut{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--mute);text-transform:uppercase;margin:6px 0}
+.stcut:before,.stcut:after{content:"";flex:1;border-top:2px dashed var(--pit)}
+.stcut.out:before,.stcut.out:after{border-color:var(--line)}
+
 .gh{font:700 28px var(--disp);margin:0 0 4px}
 .wtc{display:block;width:100%;text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
 .wtc small{display:block;color:var(--mute);font-size:13px;margin-bottom:2px}
@@ -406,6 +439,13 @@ header.top{align-items:center}
     <h2 class="gh">Big games</h2>
     <div class="views" id="bgTabs"></div>
     <div id="bgBody"></div>
+  </div>
+
+  <div id="standScr" style="display:none">
+    <h2 class="gh">Standings</h2>
+    <div class="views" id="stTabs"></div>
+    <div class="views" id="stView"></div>
+    <div id="stBody"></div>
   </div>
 
   <div id="newsScr" style="display:none">
@@ -2601,9 +2641,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29i";
+var BUILD="2026-11-29j";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -2755,13 +2795,15 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
   setTimeout(tkDockRender,1200);
   setInterval(tkDockRender,10*60000);
 })();
-var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores"&&SCR!=="big")SCR="tv";
+var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores"&&SCR!=="big"&&SCR!=="stand")SCR="tv";
 (function(){var s=pref("tklg",{});if(Object.keys(s).some(function(k){return s[k]}))st.lg=Object.assign({},s)})();
 function lgCount(){return Object.keys(st.lg).filter(function(k){return st.lg[k]}).length}
 function drawNav(){
-  var cur=$("ticker").classList.contains("open")?"tk":SCR,n=lgCount();
-  var h=[["tv","Schedule"],["scores","Scores"],["big","Big Games"],["tk","Ticker"],["news","News"],["lg","Leagues"+(n?" ("+n+")":"")]].map(function(b){return '<button type="button" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'">'+b[1]+'</button>'}).join("");
+  var cur=$("ticker").classList.contains("open")?"tk":SCR,I=navItems(),cb=I.filter(function(b){return b[0]===cur})[0]||I[0];
+  var h='<button type="button" class="navdd" data-navdd="1" aria-haspopup="true" aria-expanded="false" aria-label="Choose a screen"><span>'+cb[1]+' '+esc(navLab(cb))+'</span><span class="nc">▾</span></button>'+
+    I.map(function(b){return '<button type="button" class="navtab" data-scr="'+b[0]+'" aria-pressed="'+(b[0]===cur)+'"><span aria-hidden="true">'+b[1]+'</span>&nbsp;'+esc(navLab(b))+'</button>'}).join("");
   document.querySelectorAll(".scrnav").forEach(function(e){e.innerHTML=h});
+  if(navMenuEl)document.querySelectorAll(".navdd").forEach(function(b){b.setAttribute("aria-expanded","true")});
 }
 function drawNews(){
   var nowN=Date.now();
@@ -2795,7 +2837,8 @@ function scStand(){
   return out+'<p class="note">Standings as of '+esc(STAND_AT?dStr(STAND_AT)+" "+tStr(STAND_AT):"now")+'. Available for NFL, NBA and NHL.</p>';
 }
 function drawScores(){
-  var T=[["yesterday","Yesterday"],["week","Last 7 days"],["stand","Standings"]];
+  if(SCT==="stand")SCT="yesterday";
+  var T=[["yesterday","Yesterday"],["week","Last 7 days"]];
   $("scTabs").innerHTML=T.map(function(t){return '<button type="button" class="chip" data-sct="'+t[0]+'" aria-pressed="'+(SCT===t[0])+'">'+t[1]+'</button>'}).join("")+(SCT==="stand"?'':'<button type="button" class="chip" data-scf="1" aria-pressed="'+SCF+'">\u2605 My teams</button>');
   var el=$("scBody"),ds=dayStart(Date.now()),h="";
   if(SCT==="stand"){
@@ -2939,9 +2982,10 @@ $("bigScr").addEventListener("click",function(e){var b;
 var BUD={"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgQJFTw0qKgdEYUEh76+vrWlhTsbnjIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADSFfjJAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAO/SURBVHja7dvReqIwEAXg0ioW2O2+/9uuON80ZHImAUU9QOamNkj4bZIxgfTjo0aNGjVqvC3Ot7jv9f4gY5Xf1+g6qf77Fvq668LrUD6Wyuv9QeQCzS3ksvo6lMtlbblitg05/0ZgNCa6rgHhlQaKrXsLEO1w4U86drsll0WlWpOtmx8ig1FPl7dL0zyGCfXEdbNDwlu1KklItnQ5RmuZlmYoJBA7TOWkmHIfxqvBodBC9CRNQXL06xZydM7r+OyUyA3Bf+B2lcANxw7BiWsdSC71c0PSwfhnlfBTPyvEG2BhCH7dFXbwxhiQ0mgh4ST5CrdVly49/d3WHn9IXkhu6jutdhj6a3gUdDw3/eaF2GliPMjsZfp+GBAFH/c/pJtHaCA47eQudPqN9Hh58sQM8QeYDzklkYMgTDGh0UDik2x3HAMxlCLHGyfsQoMTklto4xR+ckNTfJMJd0lBBPEW2jiVn7IxXU6EerymZ4agAZaH9FEsg8AlBQ0kHr7xxMWH9P2/a6QUDzIryVNC4ls1PgNFoNhk7jX9ViDhpHkdNe2wc9IZN8RL8n4q8xljNM2cJM8L8SfPudTuM8qUxbP4t0DQACt/2XmTgpVn8W+DxCdNF9T+VMg7krsFzg/BS4rpEvwRCP6QxacTVJAwcUkh8aX937xpUbgFxA3BX32hu6YX+3uLnx/56UHShwIFBhEkpUxv5aUNkELiZvIeLRYZZJB04mJvyujSMoakS9H44XN2QkQL0U0r+hAtlKKUhjorYvj1bgGCNyo9DrlrAxQNBOPKNyTyjNV2GpFAllHGBdaTGESQ+RR9YLR/iAzA8s28J+3bpIQoJn/D94VbbCkgYasfuvn9QgYNpPR4/oV9hASSp7y4j7wFcgZR2qQQx74g53PbXm7xOYm2xYy2nb5LzmvbVSgUEGmEFCJbuhBjjBSyaAlBDNEuiZvGg6Cmmb3MpIaEIepBLMU2jIXcSaGAxCkLQVDjWEYKWdxpSSA2gWOIpaQMBFnUQBQQ9IXmQaYUxPAgsxqIBIK/3teHzLjzTAHxpjs+RCmYkYdkn05QQ8aKfIgme3xMIZdLhRwZMlK8I0eF+FEh+4TY7U0xRP9xBw1hf2K0TYg2TB7y+Slbie1FcWke4u4f2RhEG2MYUGqLS/cKkarsl1x8SVw6UuRj7BciFxvDNgvqrMeAoE7qd+EjQFA6D2XHg2hXtd0VlR0FsnRqVCF7g6Qb8iukQkqLiXUgCxYUFUIKyaWz50Hg/9dUSIVUyM4g7WpRIRuF/AcVDONRChM1RgAAAABJRU5ErkJggg==", "excited": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgQJFTw0qKgdEYUEh76+vrWlhTsbnjIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADSFfjJAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAO/SURBVHja7dvReqIwEAXg0ioW2O2+/9uuON80ZHImAUU9QOamNkj4bZIxgfTjo0aNGjVqvC3Ot7jv9f4gY5Xf1+g6qf77Fvq668LrUD6Wyuv9QeQCzS3ksvo6lMtlbblitg05/0ZgNCa6rgHhlQaKrXsLEO1w4U86drsll0WlWpOtmx8ig1FPl7dL0zyGCfXEdbNDwlu1KklItnQ5RmuZlmYoJBA7TOWkmHIfxqvBodBC9CRNQXL06xZydM7r+OyUyA3Bf+B2lcANxw7BiWsdSC71c0PSwfhnlfBTPyvEG2BhCH7dFXbwxhiQ0mgh4ST5CrdVly49/d3WHn9IXkhu6jutdhj6a3gUdDw3/eaF2GliPMjsZfp+GBAFH/c/pJtHaCA47eQudPqN9Hh58sQM8QeYDzklkYMgTDGh0UDik2x3HAMxlCLHGyfsQoMTklto4xR+ckNTfJMJd0lBBPEW2jiVn7IxXU6EerymZ4agAZaH9FEsg8AlBQ0kHr7xxMWH9P2/a6QUDzIryVNC4ls1PgNFoNhk7jX9ViDhpHkdNe2wc9IZN8RL8n4q8xljNM2cJM8L8SfPudTuM8qUxbP4t0DQACt/2XmTgpVn8W+DxCdNF9T+VMg7krsFzg/BS4rpEvwRCP6QxacTVJAwcUkh8aX937xpUbgFxA3BX32hu6YX+3uLnx/56UHShwIFBhEkpUxv5aUNkELiZvIeLRYZZJB04mJvyujSMoakS9H44XN2QkQL0U0r+hAtlKKUhjorYvj1bgGCNyo9DrlrAxQNBOPKNyTyjNV2GpFAllHGBdaTGESQ+RR9YLR/iAzA8s28J+3bpIQoJn/D94VbbCkgYasfuvn9QgYNpPR4/oV9hASSp7y4j7wFcgZR2qQQx74g53PbXm7xOYm2xYy2nb5LzmvbVSgUEGmEFCJbuhBjjBSyaAlBDNEuiZvGg6Cmmb3MpIaEIepBLMU2jIXcSaGAxCkLQVDjWEYKWdxpSSA2gWOIpaQMBFnUQBQQ9IXmQaYUxPAgsxqIBIK/3teHzLjzTAHxpjs+RCmYkYdkn05QQ8aKfIgme3xMIZdLhRwZMlK8I0eF+FEh+4TY7U0xRP9xBw1hf2K0TYg2TB7y+Slbie1FcWke4u4f2RhEG2MYUGqLS/cKkarsl1x8SVw6UuRj7BciFxvDNgvqrMeAoE7qd+EjQFA6D2XHg2hXtd0VlR0FsnRqVCF7g6Qb8iukQkqLiXUgCxYUFUIKyaWz50Hg/9dUSIVUyM4g7WpRIRuF/AcVDONRChM1RgAAAABJRU5ErkJggg==", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgQJFTw0qKgdEb6+voUEh7WlhR4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsGDqyAAAAIHRSTlMA/////////////////wAAAAAAAAAAAAAAAAAAAAAAAMhUwNYAAAPLSURBVHja7dtte6owDAbg4RSH7vz/v3ssuWLa9EmhyiRA8wnLaG/tCy10X18tWrRwHpcxGkQYtzFWpywCiX/U2uP9QUKWP48YBsr+Zww+HgY5lvSQSsf7g1AB3RhULB9LOhWr0xnD+bzZfVeCXJ4hjE7FMHQgrFSihGrReW8Bwg1OftLQ7GqKRamck87bP4Q6I1/OP2momvcwkk+at3eI/ClnRQOSTq3HcC5xaoHiBKK7KV2UUl7DWDkYFLcQvoiHIDr7PQadnXOcXp0TfUPwD9xXx/AMScMV5x2CB653io/P2kO/b0jeGX8XCXvo9wqxOph0we+XQnfeFAOGNLcQuYhu4Zzx/RElVn4+nwKkX9IvpDT1TQuiJZIN0edL02+/ED1NTDuZZMkFYQo+b39JcxxxA8HDTlzQ7RlU0PkZ+fnpyZNniN3BbMg5ixIEYSYHNDeQ9KK0OdqMmIIYeKHhE1JaaOPb2NkMvkV2hTCXFI4g1kIbD+XnYsTLCcnHqnrPENTBypB7EnUQuKRwA0m7bzpxsSH3+79H5BQLMmuQdwlJH9XYDBRC0YO5VfVbgchF8xpq3mDnDGe+IdYgbw9lNiNE180Z5P1C7MlzaWi3GdOU6ln8KhDUwaZvdtakYOFZ/GqQ9KJ4QW1PhawzpUfg/iF4SREvwd+B4C85+XbCFUQmLjkkLdr+ZE2L5BGQbwi+9UlzfRWSvxSYYDiC5JT4UR4uLhyln3IIznc7kHzioh/KyNKSC04/xRB5+VycELmF8KYVfokmqdNLTTScxTmgfLcAwRuV3oe8tB3ODQTj6igzm+SGIXWUsMD6sx2JbiDzKfzCaP8Q6oDTD/M+sHnWDYQx5Qe+H9y37AIi2wjxxODje7lXh0y9nv9gG3ECKVM+3EZWgVxATG3USGNfkMul769jnKLoe8zo+/iv6Lq+X4TiAkKVkENoSxdihMghVUsIxxBukrhqLAiqmtnLTNcQ6aIWRFN0xWjIixQXkHTIQhBUOZqRQ6obrROIHsAxRFNyBoJUVZALCLqhWZCYghgWZFYFOYHg2/vykBlPnl1ArOmODWEKZpQhxbcTriEhIxvCgz0+x5DrtUGODAkU68xRIXY0yD4hentTCuF/3EFd2J4YbRPCFVOGnE60lVgXilPLEHP/yMYgXBm3Gxra0tS9QigrfZNLi8SpgUJfY78QKiyErhbUWI8BQY3UbsJHgKDhXNKOB+GmqpsrSjsKpHZq1CB7g+Qb8hukQaYWE8tAKhYUDeIUUhrO/g4C/7+mQRqkQXYG6ReLBtko5D/AGOJJFspCJwAAAABJRU5ErkJggg==", "cool": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADWqXEYMm7muID25MAaGCz6xCgUEh4QJFTw0qKgdEbWlhTsbnj6+vrIMjxzeJEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAebFzpAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAOtSURBVHja7dvReqMgEAXgmlSbutv2/d+2i/PNEuDMoIlJjsrcrIsR/wQYQe3bW4sWLVq0eFn0U9y2vT9IqPLzX4yjVP85hW6PY9yO5aFUtvcHkRN0U8hpdTuWy2nzcsVsG9L/j8joshjHDoRVGil53VuAaIeLP2nodktOi0q1prxufogMRj1cPi5Ncx8m1pPWzQ6JH9WqJCHlpcsxWst1qUMhgeTDVA5KKbdhrBoMCi1ED9IUJHvPU8jeOdvp0SWRG4J/4GGVwA3HDsGJax2Il/q5IeVg/LNK2KmfFWINMB2CH2bIYLX3ewkRpDRaSDxILuGhyp+fDzfw/nIKkH5JXog39fV++lqcz970mxeSTxPTQeZBap01QKwvaeYRGghOO/6J3qew93uTJ2aIPcDWgiBMNaHRQNKD1oOghQYnxFton2G8m6Gf6JwwlxREEGuhHZLZEkak5PVYTc8MQQPMh6BuOxcClxQ0kHT4phMXGxKmQulkyIfMSvKUkPRWjc2w01sJsZt+K5B40LyOWnbYOemMG2IleTuV2YwQXTcnyfNC7Mmzl9ptRp2yeBb/EggaYPWLXd/j8vot0G1A0oPCTYXaxd+CRAq6Bc4PwUsKWYLfD8Ffsvp0ggoSJy4lJD21/T9rWhRvAXFD8KUvdtfyZH+n+P6Wfy1I+VCgwiCClBS5FVd2VjldCUmbyXq0WGWQQcqJi1DyQdv3KSSUlMM3Pnx2J0S0EH1pRR+ixVKU0lBnRQy73i1A8ItK90NuegGKBoJx9RsSPmO1N41IIMsoYYH1IAYRZD4lfOqBDCKIDMD6zbwHvbdJCVGMzXgSggoSX/UrCU9l0EDwLc8YT+wjJBCf8uQ+8hJID8KDlLEvSN8Pw2WK01UMA2YMw/Wn5LhhWIVCAZFGKCHyShdihCghi5YQxBDtkrhpLAhqmtnLTGpIHKIWJKfkDZNDbqRQQNKUhSCocXJGCVncaUkgeQLHkJxSMhBkUQNRQNAFzYJcUxDDgsxqIBIIvryvD5lx55kCYk13bIhSMMOHuE8nqCGhIhuiyR7vU8jl0iBHhgSKteeoEDsaZJ+Q/PWmFKJ/uIOGsD0x2iZEG8aHnE5fU+QnxaU+xHx/ZGMQbYyvL5Ta0tK9QqSq/CKXnhKXBop8jf1C5GQh8mZBnfUYENRJ7S58BAhK57HseBDtqnl3RWVHgSydGjXI3iDlC/kN0iC1xcQ6kAULigYhhXjp7HEQ+Pc1DdIgDbIzyLBaNMhGIb+svO0FVCtsLwAAAABJRU5ErkJggg=="};
 var BUDTIPS={
  tv:"Welcome to The Sports Pit! Schedule shows what is on, Scores has the finals, and Big Games finds the can\u2019t-miss matchups. Tap any game for channels, or Add to calendar to save it. Tap the magnifying glass to ask me what anything is.",
- scores:"Scores has yesterday\u2019s finals, the last 7 days, and standings. Tap any game for details. If you hide scores to avoid spoilers, tap a game to reveal it.",
+ scores:"Scores has yesterday\u2019s finals and the last 7 days. Tap any game for details. If you hide scores to avoid spoilers, tap a game to reveal it.",
  big:"Big Games picks the games worth your time. Yesterday has highlights and why each one mattered. Today and This week explain why a game is big. Players of the week shows top performances.",
  tk:"This is the Ticker. Tap Controls to change speed or layout. TV mode makes it one giant full screen ticker with a small X to leave.",
+ stand:"Standings shows every team. Switch between Divisions and the Playoff picture, tap a team for home, road and last 10, and look for the fire and snowflake chips for hot and cold streaks.",
  news:"News has the latest headlines for your leagues and favorite teams. Newest are first.",
  lg:"Pick the leagues you care about and every screen follows. Tap a league again to turn it off."
 };
@@ -2953,7 +2997,7 @@ var BUDINS=[
  [".bnw","The Why line explains what makes this game a big one: standings, division games, news, or your favorite team."],
  [".wtc","A game card. Tap it to open details with channels and how to watch."],
  [".scrow","A score row. Tap it for game details. If scores are hidden, tapping reveals it."],
- [".scrnav button","These are the main screens: Schedule, Scores, Big Games, Ticker, News and Leagues."],
+ [".scrnav button,.navdd","This is the screen menu. Tap it to switch between Schedule, Scores, Standings, Big Games, Ticker, News and Leagues."],
  ["#gearBtn","Settings: colors, team palettes, Buddy on/off, update button and the change log."],
  [".menu summary,.menubody","The Menu has Live scores, Jerseys, TV mode and Options."],
  ["[data-tvon],#tvBtn","TV mode turns the whole screen into one giant ticker. Tap the small X in the corner to leave."],
@@ -2963,6 +3007,7 @@ var BUDINS=[
  [".tools .chip,.views .chip,.chip","A filter button. Tap to turn it on or off."],
  ["#wkPicks","Games of the week: the best matchups coming up, with why they matter."],
  ["table.tbl","Standings table: wins and losses by division or conference."],
+ [".strow","Tap a team to see its home and road record, last 10 and points. A star means it is one of your favorite teams. The thin bar shows how strong its record is."],
  ["h2,h3",""]
 ];
 var budSeen=load("sp_budseen",{}),budTimer=null,budEl=null,magEl=null,budInsOn=false;
@@ -3024,11 +3069,139 @@ $("sheet").addEventListener("click",function(e){
   var sy=$("sheet").scrollTop;openSettings();$("sheet").scrollTop=sy;
 });
 budMag();
+
+var SD=load("sp_sd",{}),STL=load("sp_stl","NFL"),STV=load("sp_stv","div"),STOPEN={},STBUSY={},STERR={},STTRY={};
+var STCFG={NFL:{u:"football/nfl",cuts:[[7,"Playoff line"]]},NBA:{u:"basketball/nba",cuts:[[6,"Play-in zone below"],[10,"Out of the picture"]]},NHL:{u:"hockey/nhl",cuts:[[8,"Playoff line"]]},MLS:{u:"soccer/usa.1",cuts:[[9,"Playoff line"]],nodiv:true}};
+if(!STCFG[STL])STL="NFL";
+function stParse(lg,j){
+  var out=[];
+  function num(v){v=parseFloat(v);return isNaN(v)?0:v}
+  function mk(e){
+    var m={},d={};(e.stats||[]).forEach(function(s){m[s.name]=s.value;d[s.name]=s.displayValue});
+    var t=e.team||{},lo=t.logos&&t.logos[0]?t.logos[0].href:"";
+    return {n:t.displayName||t.name||"",ab:t.abbreviation||"",lo:lo,w:num(m.wins),l:num(m.losses),t:num(m.ties),o:num(m.otLosses),pts:num(m.points),
+      gp:num(m.gamesPlayed)||(num(m.wins)+num(m.losses)+num(m.ties)+num(m.otLosses)),pct:d.winPercent||"",gb:d.gamesBehind||"",sk:d.streak||"",
+      sd:num(m.playoffSeed)||num(m.rank),df:d.pointDifferential||d.differential||"",pf:m.pointsFor,pa:m.pointsAgainst,
+      hm:d.Home||"",rd:d.Road||"",l10:String(d["Last Ten Games"]||"").split(",")[0],dv:String(d["vs. Div."]||"").split(",")[0]};
+  }
+  (j.children||[]).forEach(function(c){
+    var cf=c.abbreviation||c.name||"",cn=c.name||cf;
+    if(c.children&&c.children.length){c.children.forEach(function(d){((d.standings||{}).entries||[]).forEach(function(e){var r=mk(e);r.cf=cf;r.cn=cn;r.dn=String(d.name||"").replace(/ Division$/,"");out.push(r)})})}
+    else{((c.standings||{}).entries||[]).forEach(function(e){var r=mk(e);r.cf=cf;r.cn=cn;r.dn="";out.push(r)})}
+  });
+  return out;
+}
+function stLoad(lg,force){
+  var c=SD[lg];
+  if(!force&&c&&Date.now()-c.at<600000)return Promise.resolve();
+  if(STBUSY[lg])return STBUSY[lg];
+  if(!force&&STTRY[lg]&&Date.now()-STTRY[lg]<30000)return Promise.resolve();
+  STTRY[lg]=Date.now();
+  STBUSY[lg]=fetch("https://site.api.espn.com/apis/v2/sports/"+STCFG[lg].u+"/standings?level=3").then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+    var d=stParse(lg,j);if(d.length<8)throw 0;SD[lg]={at:Date.now(),d:d};save("sp_sd",SD);STERR[lg]=false;
+  }).catch(function(){STERR[lg]=true}).then(function(){STBUSY[lg]=null;if(SCR==="stand")drawStand()});
+  return STBUSY[lg];
+}
+function stRec(lg,r){if(lg==="NHL")return r.w+"-"+r.l+"-"+r.o;if(lg==="MLS")return r.w+"-"+r.t+"-"+r.l;return r.w+"-"+r.l+(r.t?"-"+r.t:"")}
+function stKey(lg,r){return(lg==="NHL"||lg==="MLS")?String(r.pts):(r.pct||"")}
+function stFrac(lg,r){return lg==="NHL"?r.pts/Math.max(1,r.gp*2):lg==="MLS"?r.pts/Math.max(1,r.gp*3):(r.w+0.5*r.t)/Math.max(1,r.w+r.l+r.t)}
+function stCmp(lg){return function(a,b){return stFrac(lg,b)-stFrac(lg,a)||b.w-a.w}}
+function stRow(lg,r,show,inCut){
+  var k=lg+"|"+r.n,open=!!STOPEN[k],fav=favs.indexOf(lg+":"+r.ab)>-1,sk=/^([WL])(\d+)/.exec(r.sk||"");
+  var sub=(lg==="NFL"||lg==="NBA")?(r.gb&&r.gb!=="-"&&r.gb!=="0"?esc(r.gb)+" GB":"Division leader"):esc(r.gp+" GP");
+  if(lg==="NBA"&&r.gb==="-")sub="Conference leader";
+  var h='<button type="button" class="strow'+(fav?' fav':'')+(inCut?' in':'')+'" data-str="'+esc(k)+'" aria-expanded="'+open+'" style="--lgc:var('+LG[lg].c+')">'+
+    '<span class="sd">'+show+'</span>'+(r.lo?'<img src="'+esc(r.lo)+'" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">':'<span></span>')+
+    '<span class="nm">'+(fav?'★ ':'')+esc(r.n)+'<small>'+sub+'</small></span><span class="r">'+esc(stRec(lg,r))+'</span><span class="r">'+esc(stKey(lg,r))+'</span>'+
+    '<span class="r">'+(sk?'<span class="stk '+(sk[1]==="W"?"w":"l")+'">'+esc(r.sk)+'</span>':'')+'</span>'+
+    '<span class="bar" style="width:'+Math.max(2,Math.min(100,Math.round(stFrac(lg,r)*100)))+'%"></span></button>';
+  if(open){
+    var D=[["Home",r.hm],["Road",r.rd],["Last 10",r.l10],["vs Division",r.dv],["Points for",r.pf],["Points against",r.pa],["Differential",r.df],["Games back",r.gb&&r.gb!=="-"?r.gb:""],["Games played",r.gp],["Seed",r.sd||""]].filter(function(x){return x[1]!==""&&x[1]!=null&&x[1]!==undefined});
+    h+='<div class="stdet">'+D.map(function(x){return '<div><b>'+x[0]+'</b>'+esc(String(x[1]))+'</div>'}).join("")+'</div>';
+  }
+  return h;
+}
+function stHead(lg){return '<div class="sthd"><span></span><span></span><span>Team</span><span>'+(lg==="NHL"?"W-L-OT":lg==="MLS"?"W-D-L":"W-L")+'</span><span>'+((lg==="NHL"||lg==="MLS")?"PTS":"PCT")+'</span><span>Strk</span></div>'}
+function stSort(lg,rows,bySeed){
+  var c=stCmp(lg);rows=rows.slice();
+  var ok=bySeed&&rows.every(function(r){return r.sd>0});
+  return rows.sort(ok?function(a,b){return a.sd-b.sd}:c);
+}
+function drawStand(){
+  var lg=STL,cfg=STCFG[lg];
+  $("stTabs").innerHTML=Object.keys(STCFG).map(function(k){return '<button type="button" class="chip" data-stl="'+k+'" aria-pressed="'+(k===lg)+'">'+k+'</button>'}).join("");
+  $("stView").innerHTML=[["div",cfg.nodiv?"Table":"Divisions"],["pic","Playoff picture"],["fav","★ My teams"]].map(function(v){return '<button type="button" class="chip" data-stv="'+v[0]+'" aria-pressed="'+(STV===v[0])+'">'+v[1]+'</button>'}).join("")+'<button type="button" class="chip" data-strf="1">↻ Refresh</button>';
+  var el=$("stBody"),c=SD[lg];
+  if(!c){
+    stLoad(lg,false);
+    el.innerHTML=STERR[lg]&&!STBUSY[lg]?'<div class="empty">Could not load '+esc(lg)+' standings. Check your connection, then tap Refresh.</div>':'<div class="empty">Loading '+esc(lg)+' standings…</div>';
+    return;
+  }
+  if(Date.now()-c.at>600000)stLoad(lg,false);
+  var rows=c.d,h="";
+  var hot=rows.filter(function(r){var m=/^W(\d+)/.exec(r.sk||"");return m&&+m[1]>=4}).sort(function(a,b){return parseInt(b.sk.slice(1))-parseInt(a.sk.slice(1))}).slice(0,3);
+  var cold=rows.filter(function(r){var m=/^L(\d+)/.exec(r.sk||"");return m&&+m[1]>=4}).sort(function(a,b){return parseInt(b.sk.slice(1))-parseInt(a.sk.slice(1))}).slice(0,3);
+  if(hot.length||cold.length)h+='<div class="stsum">'+hot.map(function(r){return '<span>🔥 '+esc(r.ab)+' '+esc(r.sk)+'</span>'}).join("")+cold.map(function(r){return '<span>❄️ '+esc(r.ab)+' '+esc(r.sk)+'</span>'}).join("")+'</div>';
+  var confs=[];rows.forEach(function(r){if(confs.indexOf(r.cn)<0)confs.push(r.cn)});
+  if(STV==="fav"){
+    var f=stSort(lg,rows.filter(function(r){return favs.indexOf(lg+":"+r.ab)>-1}),false);
+    h+=f.length?stHead(lg)+f.map(function(r){return stRow(lg,r,r.sd||"",false)}).join(""):'<div class="empty">No favorite teams in '+esc(lg)+' yet. Follow a team on the Schedule screen and it shows up here.</div>';
+  }else if(STV==="pic"){
+    confs.forEach(function(cn){
+      var cr=stSort(lg,rows.filter(function(r){return r.cn===cn}),true),cuts=cfg.cuts,first=cuts[0][0];
+      h+='<h3 class="dayh">'+esc(cn)+'</h3>'+stHead(lg);
+      cr.forEach(function(r,i){
+        h+=stRow(lg,r,i+1,i<first);
+        cuts.forEach(function(ct,ci){if(i+1===ct[0]&&i+1<cr.length)h+='<div class="stcut'+(ci>0||cuts.length>1&&ci===cuts.length-1&&lg==="NBA"?' out':'')+'">'+esc(ct[1])+'</div>'});
+      });
+    });
+  }else{
+    confs.forEach(function(cn){
+      h+='<h3 class="dayh">'+esc(cn)+'</h3>';
+      if(cfg.nodiv){h+=stHead(lg)+stSort(lg,rows.filter(function(r){return r.cn===cn}),true).map(function(r,i){return stRow(lg,r,i+1,false)}).join("");return}
+      var dvs=[];rows.forEach(function(r){if(r.cn===cn&&dvs.indexOf(r.dn)<0)dvs.push(r.dn)});
+      dvs.forEach(function(dn){
+        h+='<div class="stdiv">'+esc(dn||cn)+'</div>'+stHead(lg)+stSort(lg,rows.filter(function(r){return r.cn===cn&&r.dn===dn}),false).map(function(r,i){return stRow(lg,r,i+1,false)}).join("");
+      });
+    });
+  }
+  h+='<p class="note">Updated '+esc(tStr(c.at))+'. Tap a team for home, road, last 10 and points. Seeds follow the league’s own tiebreakers.</p>';
+  el.innerHTML=h;
+}
+$("standScr").addEventListener("click",function(e){var b;
+  if((b=e.target.closest("[data-stl]"))){STL=b.getAttribute("data-stl");save("sp_stl",STL);drawStand();return}
+  if((b=e.target.closest("[data-stv]"))){STV=b.getAttribute("data-stv");save("sp_stv",STV);drawStand();return}
+  if(e.target.closest("[data-strf]")){toast("Refreshing standings…");stLoad(STL,true);return}
+  if((b=e.target.closest("[data-str]"))){var k=b.getAttribute("data-str");STOPEN[k]=!STOPEN[k];drawStand();return}
+});
+setInterval(function(){if(SCR==="stand"&&!$("sheet").classList.contains("open"))stLoad(STL,false)},300000);
+var navMenuEl=null;
+function navItems(){return [["tv","📅","Schedule"],["scores","🏁","Scores"],["stand","📊","Standings"],["big","🔥","Big Games"],["tk","📺","Ticker"],["news","📰","News"],["lg","🏟️","Leagues"]]}
+function navLab(b){var n=lgCount();return b[2]+(b[0]==="lg"&&n?" ("+n+")":"")}
+function navCur(){return $("ticker").classList.contains("open")?"tk":SCR}
+function navMenuClose(){if(navMenuEl){navMenuEl.remove();navMenuEl=null}document.querySelectorAll(".navdd").forEach(function(b){b.setAttribute("aria-expanded","false")})}
+function navMenuOpen(btn){
+  navMenuClose();var cur=navCur(),m=document.createElement("div");m.className="navmenu";m.setAttribute("role","menu");
+  m.innerHTML=navItems().map(function(b){return '<button type="button" role="menuitem" data-scr="'+b[0]+'"'+(b[0]===cur?' aria-current="true"':'')+'><span class="ne" aria-hidden="true">'+b[1]+'</span><span>'+esc(navLab(b))+'</span></button>'}).join("");
+  document.body.appendChild(m);navMenuEl=m;
+  var r=btn.getBoundingClientRect();
+  m.style.top=Math.max(8,Math.min(r.bottom+6,window.innerHeight-m.offsetHeight-8))+"px";
+  m.style.left=Math.max(10,Math.min(r.left,window.innerWidth-m.offsetWidth-10))+"px";
+  btn.setAttribute("aria-expanded","true");
+}
+document.addEventListener("click",function(e){
+  var d=e.target.closest&&e.target.closest("[data-navdd]");
+  if(d){if(navMenuEl&&d.getAttribute("aria-expanded")==="true")navMenuClose();else navMenuOpen(d);return}
+  if(navMenuEl){if(e.target.closest(".navmenu"))setTimeout(navMenuClose,0);else navMenuClose()}
+});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&navMenuEl)navMenuClose()},true);
+window.addEventListener("scroll",function(){if(navMenuEl)navMenuClose()},{passive:true});
 function showScr(){
-  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";$("bigScr").style.display=SCR==="big"?"":"none";
+  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";$("bigScr").style.display=SCR==="big"?"":"none";$("standScr").style.display=SCR==="stand"?"":"none";
   if(SCR==="news")drawNews();
   if(SCR==="scores")drawScores();
   if(SCR==="big")drawBig();
+  if(SCR==="stand")drawStand();
   drawNav();
   budTip(SCR);
 }
