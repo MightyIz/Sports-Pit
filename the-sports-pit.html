@@ -354,6 +354,26 @@ header.top{align-items:center}
 .sb .sh{background:var(--mute);opacity:.55}
 .wpg{width:100%;height:64px;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
 .fcb .act{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+.askf{display:flex;gap:8px;margin:12px 0 8px}.askf input{flex:1;min-width:0;font:inherit;font-size:16px;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink)}
+.askch{margin:0}.aq{margin:12px 0 6px auto;max-width:85%;width:fit-content;background:var(--pit);color:#fff;padding:8px 12px;border-radius:14px 14px 2px 14px;font-weight:600;font-size:15px}
+.aa{display:flex;gap:8px;align-items:flex-start;margin:0 0 4px;max-width:96%}.aa img{width:40px;height:auto;image-rendering:pixelated;flex:none}
+.aa>div{background:var(--surface);border:2px solid var(--line);padding:8px 12px;border-radius:14px 14px 14px 2px;font-size:15px;line-height:1.4}
+#askScr .meta{margin-top:14px}
+.desk{position:relative;overflow:hidden;text-align:center;margin:8px 0 6px;padding:10px 10px 0;border-radius:16px;background:linear-gradient(180deg,#16254a,#0b1226)}
+.dsb{display:inline-block;font:700 14px var(--disp);letter-spacing:.08em;color:#fff;background:#c8323c;padding:3px 12px;border-radius:4px}
+.dsl{display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;margin-right:7px;animation:dsblink 1.2s infinite}
+@keyframes dsblink{50%{opacity:.25}}
+.dsfly{position:relative;width:230px;max-width:100%;margin:6px auto 0;animation:deskfly 3.2s ease-in-out infinite}
+@keyframes deskfly{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.dsbud{position:relative;z-index:1;display:block;width:136px;height:auto;margin:0 auto;image-rendering:pixelated}
+.dsd{position:relative;z-index:2;margin-top:-36px;padding:26px 10px 10px;background:linear-gradient(180deg,#3a2a18,#241808);border:3px solid #fac428;border-bottom:0;border-radius:10px 10px 0 0;color:#fac428;font:700 18px var(--disp);letter-spacing:.08em}
+.dsmic{position:absolute;z-index:3;left:44px;top:96px;width:6px;height:22px;background:#111;border-radius:3px}.dsmic:before{content:"";position:absolute;left:-3px;top:-6px;width:12px;height:10px;border-radius:50%;background:#333;border:1px solid #777}
+.dsw{position:absolute;z-index:0;bottom:6px;width:58px;height:34px;background:#fff;border:2px solid #1a182c;animation:dswflap .6s ease-in-out infinite alternate}
+.dswl{left:-34px;border-radius:100% 0 100% 0;transform-origin:right bottom}.dswr{right:-34px;border-radius:0 100% 0 100%;transform-origin:left bottom;animation-name:dswflapr}
+@keyframes dswflap{from{transform:rotate(-14deg)}to{transform:rotate(12deg)}}@keyframes dswflapr{from{transform:rotate(14deg)}to{transform:rotate(-12deg)}}
+@media (prefers-reduced-motion:reduce){.dsfly,.dsw,.dsl{animation:none}}
+.fcb .buds p{font-size:14.5px}
 #standScr{max-width:820px}
 .stsum{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
 .stsum span{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:600}
@@ -475,6 +495,7 @@ header.top{align-items:center}
     <div class="views" id="stView"></div>
     <div id="stBody"></div>
   </div>
+  <div id="askScr" style="display:none"></div>
 
   <div id="newsScr" style="display:none">
     <h2 class="gh">News</h2>
@@ -2688,9 +2709,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29k";
+var BUILD="2026-11-29l";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -2842,7 +2863,7 @@ if(LM){if(LM.addEventListener)LM.addEventListener("change",lmChange);else if(LM.
   setTimeout(tkDockRender,1200);
   setInterval(tkDockRender,10*60000);
 })();
-var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores"&&SCR!=="big"&&SCR!=="stand")SCR="tv";
+var SCR=load("sp_scr","tv");if(SCR!=="news"&&SCR!=="scores"&&SCR!=="big"&&SCR!=="stand"&&SCR!=="ask")SCR="tv";
 (function(){var s=pref("tklg",{});if(Object.keys(s).some(function(k){return s[k]}))st.lg=Object.assign({},s)})();
 function lgCount(){return Object.keys(st.lg).filter(function(k){return st.lg[k]}).length}
 function drawNav(){
@@ -3010,7 +3031,7 @@ function bgSum(g){
   }).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(s){BGSUM[k]={at:Date.now(),s:s};return BGSUM[k]}).catch(function(){BGSUM[k]={at:Date.now(),s:null};return BGSUM[k]}).then(function(x){BGSUMP[k]=null;return x});
   return BGSUMP[k];
 }
-function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini">Flip back</button></div>'}
+function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini" data-fcbud="'+g.id+'">\ud83d\udc36 Buddy\u2019s take</button><button type="button" class="mini">Flip back</button></div>'}
 function bgBackHTML(g){
   var c=BGSUM[g.id],S=c&&c.s,done=isDone(g),live=isLive(g),h="";
   var e=bgFind(g),why=whyList(g).filter(function(x){return x!=="In progress now"}).concat(done?bgResultWhy(g,e):[]);
@@ -3030,6 +3051,7 @@ function bgBackHTML(g){
     var lk=ar.links&&ar.links.web&&ar.links.web.href;
     h+='<div class="bgs"><b>Storyline</b><p><strong>'+esc(ar.headline)+'</strong> '+esc(bgTrim(ar.description,280))+(bgLink(lk)?' <a target="_blank" rel="noopener" href="'+esc(lk)+'">Read the recap</a>':'')+'</p></div>';
   }
+  h+=budTakeHTML(g,S);
   h+=whyH;
   if((done||live)&&away&&home){
     var la=away.linescores||[],lh=home.linescores||[],n=Math.max(la.length,lh.length),reg={NFL:4,CFB:4,NBA:4,NHL:3,MLS:2}[g.lg]||4;
@@ -3093,7 +3115,7 @@ function bgFlip(card){
   card.classList.remove("flipa");void card.offsetWidth;card.classList.add("flipa");
   if(FLIP[id]){
     var fill=function(){var b=card.querySelector(".fcb");if(b&&FLIP[id])b.innerHTML=bgBackHTML(g)};
-    fill();bgSum(g).then(fill);
+    fill();bgSum(g).then(fill);if(STCFG[g.lg]&&!SD[g.lg])stLoad(g.lg,false).then(fill);
     try{var r=card.getBoundingClientRect();if(r.top<0)window.scrollBy(0,r.top-8)}catch(x){}
   }
 }
@@ -3145,6 +3167,7 @@ function drawBig(){
 $("bigScr").addEventListener("click",function(e){var b;
   if((b=e.target.closest("[data-bgt]"))){BGT=b.getAttribute("data-bgt");save("sp_bgt",BGT);drawBig();return}
   if(e.target.closest("a"))return;
+  if((b=e.target.closest("[data-fcbud]"))){var bg=GID[b.getAttribute("data-fcbud")];if(bg)budSay(budTake(bg).t,"excited",true);return}
   if((b=e.target.closest("[data-fcdet]"))){openSheet(b.getAttribute("data-fcdet"));return}
   if((b=e.target.closest(".fc"))){bgFlip(b);return}
   openGame(e.target);
@@ -3158,6 +3181,7 @@ var BUDTIPS={
  tk:"This is the Ticker. Tap Controls to change speed or layout, or pick When to see Yesterday, Today, Tomorrow or Next week. TV mode makes it one giant full screen ticker with a small X to leave.",
  stand:"Standings shows every team. Switch between Divisions and the Playoff picture, tap a team for home, road and last 10, and look for the fire and snowflake chips for hot and cold streaks.",
  news:"News has the latest headlines for your leagues and favorite teams. Newest are first.",
+ ask:"Ask the Doodle is my news desk. Type a question or tap a button: I will pick winners from team records, find the best game, list hot and cold teams, or tell a joke. It is all for fun, not betting advice.",
  lg:"Pick the leagues you care about and every screen follows. Tap a league again to turn it off."
 };
 var BUDINS=[
@@ -3166,6 +3190,9 @@ var BUDINS=[
  ["[data-cal]","Add to calendar opens Google Calendar with this game filled in. You can invite friends from there."],
  ["[data-pin]","Pin a game and it jumps up the list as a pick."],
  [".bnw","The Why line explains what makes this game a big one: standings, division games, news, or your favorite team."],
+ [".desk","This is the Sports Pit news desk. I fly it in my suit. Type a question below or tap a button."],
+ [".askch","A question to try. Tap it and I will answer."],
+ [".buds","Buddy\u2019s take: my opinion from team records and streaks, plus an MVP vote or player to watch. Just for fun."],
  [".fc","A flip card. Tap it to flip it over for team stats, the storyline, highlights and top players. Tap again to flip back."],
  [".wtc","A game card. Tap it to open details with channels and how to watch."],
  [".scrow","A score row. Tap it for game details. If scores are hidden, tapping reveals it."],
@@ -3182,6 +3209,158 @@ var BUDINS=[
  [".strow","Tap a team to see its home and road record, last 10 and points. A star means it is one of your favorite teams. The thin bar shows how strong its record is."],
  ["h2,h3",""]
 ];
+var BUDO={"anchor": {"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAAkJjg0OEzXrHXmuID25MAaGCyWbkb6+vrIKDIUEh7w0qKgdEbsbniWGCTIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7NRxmAAAAKHRSTlMA/////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADO3tQwAAA5lJREFUeNrt2m1joyAMAOCpq6eue/n/v/aaUgohCaClNVLy4a6bEB+GUFA/Plq0aNGixW4xXmPb5/ogkPLfNUz6dZ/rg9ikW6MYZSfIeI8yDJ8S5j4CZBy/7mGKl4PQ3PohUPR8Hm5hipeCQO5hwLm1Q1xRi4HiZSAmt2tklKIEgv90tlIJimXgRooUtRBbyU5BJunnNfI/29pcIyG3boh/Kbn4LBI0r2mkbkg4wEpC+EYeAYIHWNmuoRjNEGmAmeIQ2wDh4MUYZkpTC3GVzFd4mDp1av/nMDtupF4IP8DOZ/jz+WmnabmEROGOy43UDAmXiXiQhadZlmniKPxxuZHiPKIGwk87sROd7kGP852RPbPuDJEHmAw5kYhBOExyQlMDwZXCyxGCY1iKOT4IgTFaIfIAo8sAM4WfxLBT/BAJcUuhCMIvE/3JzI9TNLjlstz1miHcAItDFhTrIOyWQg0ED1+8cJEhy/J3CUqRIFmTvEoIvlUjM7hwlHAyl7r+KBBXKe9CpRdsznSmGyJN8vJUJjMghiFnktcLkRfPsaldZqQpq1fxu0C4AZb+spMWBYVX8btBcCV/Qy0vhaQjfhZuoaEbwm8p/C34IxC+kcmnE6ogbuFCIfjU8k/SssjdAtIN4b/63OVKT/Z9jd9f878EoQ8FEgxFEErxb+XRDqAQ3E1+Dpr3OBC6cAlvytitJYbQraifgct7BIh5kcBU8l8m4Cj8xcox5LxHgPAvKj0O2fQClBoIj0vfkIgzir1ppASyjgIbrCcxFEHyKfaBUf0QMwDTN/Oe9N6mSojFxG/4vvAVWxUQ96ofd/P7hQw1kNTj+RdeI2og0yQz4KFRzZBRCIkCDD7qgIxjf4kuiL6fbhEiTHA1+v4himoI/GaaKMX9jq9TA8QwcNL+FiEFM/hamylKIJYRh8yzgcxzGrKRogICE1DfcylDyjwDBf6VGa4OUFbvfRVAfEQKYijxjvEhqzpIBQR3CpeU65x4x4SQrA5SAqGI50CSHaQEwjNoWpvYQn5+MEQqn01RDuk6OTGG5NRokHeBuMQwdAEyz3nlG+R9IDZ1CImXPiYkrPQMSGLLpQTitlN5EFMOQ+JlQ4hAOQzELo8bRIZAOEgXjRohfDQIZVhInNIgDdIgDfK+Mytd5nZdigKQVCmatWZIumNqgnRd+hSwTMwp9z6QNeWOA9k2nfmlt0AYSoM0SOWQR8rWCVkTDXJQyH8O/PmpTRWwlwAAAABJRU5ErkJggg==", "excited": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAAkJjg0OEzXrHUaGCzmuID25MCWbkb6+vrIKDIUEh7w0qKgdEbsbniWGCR4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqqkzZAAAAKHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABSBoEgAAA7NJREFUeNrt2n2foiAQB/D1YTvtut33/26viQgGfgNoliMxf9ynSxi+LoKQfn21aNGiRYvdYrzFus/1QSjln1uY9Ms+1wexSdfGZpSdIOMjtmH4lDD3ESDj+PcRpvh2kDi3fggVvVyGe5jiW0Eo9zDw3NohrqjFUPFtICa3O8kkRQmE/+lspS0olsFPUqSohdhKdgoySb9vUf7Z1kYnSbl1Q/xLycX3JhHnNSepGxIOsC0h+CSPAOEDbNuuiTGaIdIAM8UpbEr+vzhQaTSdCVOaWoirZG7hLu10C4xBx+MlAD9JvRA8wC4X+vO5hqiR8zWoKQRBx+WT1AwJl4l8kIXNUEMxRToun6Q4j6iB4Gkn1dDpEei4NCEUzaw7Q+QBloKcWKQhCJOd0NRAeCV+OdqGQoaluOPDgC/RZOcogcgDjC8D+BSOIP7xQQxxS6EIgpeJbjILb/MnMewyIMwjdb1mCBpgeAlkGz2zcFNbvIFANz6wpVAD4cOXL1xkyPn8e42YIkGKJnmVEP5TjcxA4SjhZC51/VEgrlLZhRpfsCXTmW6INMljBqb4R4dkrFjFvxkiL54lhjyhlVEWr+J3gaABloLY2xz+Pr1MXLyK3w3CK/mbbfnGLx3xs6CFhm4I3lL4W/BnIPgks08nVEHcwiWGUNMjDM6SlkXuJyDdEHzrc5frWkj8UCDDUASJKf5PefGmAVNiCM57HEi8cDEUtJFKMQzEPXxOLojUQsyLBKaS/zJBTKGj/1igjvEzoLxHgOAXlZ6HrHoBSg0E48JJLQ0pvCQPDMGDWAraYL2IoQhSTrEPjOqHmAGYo5gf/N7wMqkKiMWkf9584yu2KiDuVT+8MHj7a8e7Q1IP5N8wcFVCpklm0COSmiHSpkGimEdGKOqAjGN/jS6Ivp/uESJMoBp9/xRFNYS+maaY4r7DdWqAGAZP2t8jpHAGrrWaogRiGWnIPBvIPOchKykqIDQB9T1KGVLmmSj0r8xwdYiyeO+rAOIjchBDSXeMD1nUQSogvFNQUtQ56Y4JIUUdpAQSI14DyXaQEghmxGltYgv5+eEQqXwxRTmk6+TEHFJSo0E+BeIS09AlyDyXlW+Qz4HY1CEkXfqYkLDSKyCZLZcSiNtOlUFMOQ5Jlw0hAuUwELs8bhAZQuEgXTJqhOBokJhhIWlKgzRIgzTI586s8TK363IUguRKxVlrhuQ7piZI1+WboGViSbnPgSwpdxzIuunML70GAigN0iCVQ54pWydkSTTIQSH/AWGD+MmVBIrBAAAAAElFTkSuQmCC", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAAkJjg0OEzXrHXmuID25MAaGCyWbkb6+vrIKDLw0qIUEh6gdEaWGCR4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC41YklAAAAKHRSTlMA//////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGUXE9QAAA6pJREFUeNrt2+2W4iAMANBpO3atOvv+jztGJkIg4aNFmyL5sUdXSG+lILTM11ePHj2Ux/yIDrGM8yN2p1SBuF9q6ev2IJDy3yNM+rLX7UEw6dqwjbWx++4EmZ9Rh4EUaBY/9xEg83x5hileC8Ll1g+Borfb9BemeL2muVymiebWDrFFEQPF60BMbnuSUYoSCP3qsFINCjLoSYoUtRCshEOQSfr9iPzXWJs7ScitG+JeSja+q0SY15ykbojfwWpC+JM8AoR2sLpNE2I0Q6QOZopDrAP4nZdimCFNLcRWMj/hmPh6jxgr/DycAtCT1AvhO9jtBl8fPZBZIskQ/3P5JDVD/Gki7WQ2JR6Ip/CfyycpjiNqIPyw4x7o/AxzoNMzws/5xsgeWXeGyB1MhpyCiEE4THJAUwOhlejlKDNcCsfgMFohcgcLpwHmZ+wkBv5ETpEQlxSKIPw00R3M3DhFg5suy02vGcJ1sDjkSqIMwi4p1EBo96UTFxlyvf6/R0iRIFmDvEoIvVUjM7iwFH8wl5r+KBBbKe9CDS/YnOFMN0Qa5OWhTGZATFPOIK8XIk+eY0O7zEhTimfxu0C4Dpb+sZMmBZVn8btBaCV3QS1PhaRP3CzcREM3hF9SuEvwLRD+JJNPJ1RB7MQlhNBDy++kaZG9BaQbwv/02ct1LSR8KJBgKIKEFPdWHn84eEXfhRA+73Eg4cTFvyljl5Z4YPrOhdiHz9EJkVqI2aRgKrmbCThKKugB+bxHgPAblbZDVm2HUwPhcWWUzEvywJAyCiywXrYjUQ0kn4IPjNqHmA6Yvpn3hs2zaiCIid/wfeO+ZRUQu42Qnxi8fS/37pDU4/k3XiNqIOezzHjjrvddILMQEsXdPEujDcg8j/cYvBhHfKTqI0xwNcZx418HKIbA/9jHzCEDIFydFiCGQZOOf+FTKIOvteEvBFRAkBGHLIuBLEsaspKiAgID0DhyKX3KsgAF/pUZtg5Qite+CiAuIgUxlHjDuJCiBlIBoY3CJeUaJ94wPiSrgZRAQsRrIMkGUgLhGWFaTIyQnx8KkcpnU5RDhkFOTCE5NTrkUyA2MXRdgCxLXvkO+RwIpvYh8dLHhPiVXgFJLLmUQOxyKg9iylFIvKwPESiHgeD0uENkCISFDNFoEcJHh4QMhMQpHdIhHdIhnzuyhtPcYUhRAJIqFWZtGZJumJYgw5A+BEwTc8p9DqSk3HEg64Yzt/QaCEPpkA5pHLKlbJuQkuiQg0J+ARvx92FyCtGDAAAAAElFTkSuQmCC"}, "winter": {"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAA6cMTXq3X6+vrMMjj25MAaGCzmuIAoVKAUEh7S0tzw0qKgdEbsbnh4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhyhTLAAAAKHRSTlMA//////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGUXE9QAAA2xJREFUeNrt29tCwyAMAFDXrnW16v9/rmOIJJBwaWELSF6maxtO5TLK8O3tQKyPUK8zCv2ePvaUEAFRxVwf4TI0xRyrjhEBsYgYpDJGCAQWkgLR5/QLcYtIg1SgCIH4BVAU7qz+IHQBLiV0Vl8QvgAzbOkIn9UyxKaOM9LDZIO524Cs6/4X8T95DkQFzN0GRJ36+Tn9xr6rbvnxobvn2dd53vdpsrmDFCEQxdCnGUxZiM0boQiBWIbFlIbAm2QpYiE1qgbepArpENiU6kIMRjpEVQ3G1IRE2ogYCO5gZSF+1UuGUMOZPV3F+6EwH/9UXnJIEwuxF+kFKTd1rGj4u5sd36RciN+U9EXqzwfTzvN2D45CHedvUjLEnSbiTuYWs23qEZNn4OP8TbLjiBiI38FUhApa/sI/TldG8sj6YgjfwXjI4kUIQmGiA5oYCL7IbY56WWYhwx6fmMAYqRC+g2GGHcIXNswQPwWCfaQQBPGnie5gBmMJhj7HzcNVvWQI1cHCkA1FHoR8pBADwd0XT1x4yLZ938OncJCkQV4kBGL2nWdQYSnuYM5VfSsQe1FaQ/UbbMpwJhvCDfL8UMYzVExTyiAvF8JPnkNDO8+IU7Jn8S+BUB0s/mHHTQoKz+JfBsEXwQdqfirEHYFZqImGbAj9SAEfwc9A6JuMfjshCmInLj4EF83/xk2L7BKQbAj90Webq1/Y1yOuV/3KQfByXrRiREF8ClzK8yvAh+Bqgjn8vO1A/ImLuyhjHi0xxH8UhRmovC1A9EYCfRHcTEBR6MZKMfi8LUDgRlH4zlkInbcVCI2LL0iEGcX2XgmB5FHUA1bF/axCIOkU84VR/xDdAeOLeU/aBS4CYjDhBd8n/qfAyyArGdTitxt9QvRGQf0FiN7yl/5zhT3PAyIKAjcSH4UUmg6JgKzr5TeOQ0yGU5QBEQqxjBKQExQhEMgoAzlIEQFRA9DlcgSCw4UoSvazrwCIi8gJDKHPyViUEADxKyUet3vkQJIqSAjkWKXkQ6IVJARytJFCCP4XwvB1gW8nBqRjSHpjHZABGZB+ITapLSY98IBm33dztgAxFeNeVGOIN+cz+0e6gqQ11gEZkAHJvWZABmRABuQ/QfyUtyJBU9qE1KiaARmQHiDHh7MzEIIyIAMyIN1BbsViQBqF/ACgZvbVmdYdswAAAABJRU5ErkJggg==", "excited": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAA6cMTXrHX6+voaGCzMMjj25MAoVKDmuIAUEh7S0tzw0qKgdEbsbnh4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyjsACAAAAKHRSTlMA//////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGUXE9QAAA31JREFUeNrt221joyAMAODVeu11bvv/P/eaUpYEEkCUNnjky+4KhsfxIlr38VER8yPg55mF+8yVvSRMQKCZP48IGY7iy5pjTEAQkYM0xhiB0EZKIK7OcSFhE2WQBhQjkLgBiaLVOh5EbiCkpGodC6I34JctF+laPUMwdZ5RHj4bzd0HZJ6X38j/ytdAIGjuPiBQ9etresaywLT8/HTTc+vP83lZpglzJylGIMBw1TxmXwjmzVCMQJCBmL0h9CRVillIi66hJwlhHUKHUluIx1iHQNdwTEtIZoyYgfAJti8k7nrLEGk5w+oQf5/B/xeHVBtzc4ywpJmF4EHugRSm9TcPEkYqd8fT7Pwk7ULioeQOgl8fNgSN3O4BTUkQqVw/ScuQcJvIJ1nYDDQUU7Ry/STVdcQMJJ5gEKmGLr8hlWsLQtHK+maIPsFSkAuLNETCZBc0MxB+EB+OvqGQ4SlYPk3yEE12jhGIPsEoI1zCJQgtn9RQbykMQeJtIl/Mwsv8RQ2/DQjzaF1vGSJNMHkL5Bu9scClDSIHEW8pzED49OUbFx1yu/3cI6ZokKJF3iSEYpZFZ0iBlHAx17q+FwgeVDZQ4wFbspzZhmiLvMyQKbR0SkbFLv7FEH3zrDH0Ba2MsnoX/xaINMFSEH+Zkz9PbxNX7+LfBuEH0Ztt/cKvldAs0kbDNkS+paC34Fsg8klmv50wBcGNSwyBpmcxOEvbFuEjINsQ+dKHw7UWwh/nZTvGFCSm0Ed58U2DTIkhct5+IPHGxVGkG6kUw0F8BilvDxD3IoE7iL5MEFOg9JuF1DE0g5S3Bwh9UZR+shUi5+0FIuPCRS0NKRySHUPkSawF3GA1fJ/VCKSc4r8wOj7ETcAcxT3we8Fb4CYgHpN+vPnCvxR4G6Tkoi/XOSbEvSjoHve7V/7K/93gnecBMQWhLxLXQnbaDpmAzPPpGfUQn2ETZUCMQpCxB2QDxQiEMvaBVFJMQGABOp1qIDxCCFBW3/sagISINcEhcp0VDyUMQOJOycf1HmsgRR1kBFLXKesh2Q4yAqkdpBTC/4QwfVzi24kBOTCkfLAOyIAMyHEhmBSbKQ++oOHnYc4eIL5jwoNaLPG+vvL+yKEgZYN1QAZkQNYeMyADMiAD8j9B4pTXXUKm9Alp0TUDMiBHgNQvZ1sgAmVABmRADge57hYD0inkH+C48xmcVGDQAAAAAElFTkSuQmCC", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAA6cMTXq3X6+vr25MDMMjgaGCzmuIAoVKAUEh7S0tzw0qKgdEZ4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABF8aixAAAAKHRSTlMA/////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJzfWggAAA2xJREFUeNrt2+tiqyAMAODVdq6dO+//uqeMsSSQcBNrYORP1yrhc1xEa9/eKmL9DvN6JWE/s9teEiogppr37/AZluK2HY5RAQFECnIwRgkEV5IDsftIHb1/iF9FHsSnuDI7KEogYQUcRdprPAhfgU+J7TUWRK7ATVs24nvZTLuG72kQSJ1m5IfJZ5oE5+4Dsq7bb6T/5WUQmrsPiNn162v5iW0zQ+3z0w65va/X67YtC+SOUpRADMPu5jBtIZA3QVECAQZgWkPwQYoUtZAjmgYfpAntENyVjoU4jHaIaRqKORKS6CNqIHSAtYWETa8Zwk1nsLuJj6pwp38uLzulqYVAIbvkdYkfz4ixwu22PM5OD1IvJOxKtpD599GK7CWSDPG3ywepGeIvE+kgg5SuIp7Cb5cPUpxH1EDCAWYCV4Qvus0nt98It/ONkT2zngyRB5gMuQURg3CY5ISmBkIL0e4oMzCFY3AYrRB5gFEGnMZuYrhT5BIJ8ZJCESRcJvqTGY5bNOw+fh6p6TVDuAEWhzxIlEHYSwo1EDp86cJFhjwe/54RUiRI1iSvEoIx2yYzuACKP5lLTd8LBArlddSww+ZMZ7oh0iQvT2Uyw8Sy5EzyeiHy4jk2tcuMNKV4FX8KhBtg6ZOdtChovIo/DUIL4QtqeSkkbcFZuIWGbgh/SYEvwfdA+INMfjuhCgILlxBCq5bfScsiuAWkG8Kf+qC71kLo7bxkw6iChBR8K4+vzvxF34UQPm8/kHDh4t+UgUtLVzF9hyEuA5e3B4h9SMEWwg8TcJRU0Ar5vD1A+MfW9kOqHodTA+FxZZTMLtkxpIxiLrAOfJ5VCSSf4r4wGh9iB2D6Zt6LngJXAXGY+A3fF/5S4DTIyga/MKAxJsQ+KGi/ALGP/OX/3ZQyIQoh+EHiWkij5ZAKyLpefqIe4jLs/OnGhKiEAKMFZAdFCQQz2kAqKSogZgK6XGogNHyIoRRf+yqA+IiSoBB+n4KbEgogYaOk4/6MEkhWAymB1DVKOSTZQEogtZ0UQ+hPCOPlIt9OTMjAkPzOOiETMiHjQiApVJMfdEKDz/2cPUBcw/iFjpji3f7C8yNDQfI664RMyISUlpmQCZmQCflLkDDlvUnwlD4hRzTNhEzICJD66WwPhKFMyIRMyHCQe7OYkE4h/wGHU/NhDlpBVAAAAABJRU5ErkJggg=="}, "ref": {"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAAUEh76+vrXq3UbGir25MDmuIDw0qKgdEb6xCjsbnjIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgqN5IAAAAKHRSTlMA////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6WhADwAAA11JREFUeNrt29tipCAMBuB6mNrd9v2ft6UsSyAJoKLz6yQ3nVbFz3JG5u3NolvMYrwmxN9yEONUDgREJ+ScV4C0IU7AgEDWICLmrpB1mXJgBoFA5nlZhs2xLN0oT4LkHdg+RkpZ1TmCQNxtQ/jTtxZTXo152vgQd+rHx/Qv3Onz/KdLuJSWZZpo2viQeKrHzN0jPmSRAgJJ/3UO0x8SH7JAgYUckTXxIcMdsCG0KB0LCRh0iMsaijkWUikjMJC0grl47xI8XXQIb87yLNoG8NfGtFOM0KTBQmjX547mSdduTX/PU08fEhfCi5K/yP37aLLj6Ad/GoMf1x8SGZIPE9NKlt9mGMZRosjH9YdU2xEYiNzslG70+B/8uJwZzS3rkyF6BdMhDxYliISpNmgwkPSivDi6kBiB4o9PSqQYVIhewfgwwDfhDzVCEz8VQp1SAEHyYSJvzGg8ihGHQjQdLeuRIVIFK0PS5Zh1EHFKAQNJq286cNEhw/D1E5yiQZoaeUgIxSyLzpAiUvLGXMv6q0DiRW0FlRfYluYMG6I18npTpjNcTFNLI48L0QfPpaZdZ9Qpq0fxT4FIFaze2WmDgs6j+KdB0ovohFofCmlHaCrSQAMbIk8p6BR8D0R+yOrbCShIHLhwSHpr/TdtWBSXgLAhctcXiyu/2d/f+Pz0PzVI/hqtkjFQEE6hS3k8AzgkzSaaBk/3OhA+cMkXZcLUMoXwqShNQUr3ChC/kcBfRDcTSBS5sEoMPd0rQOL2ivQveyFyuleByLj6gkSZ0W2nEQhkHcVNsA7cqwgCaaeEF0b3h/gKWF/MO2mHLwQkYMoLvifuAoeAxK1+0uL3qZv0QSC11/MnlhEQSJlychk5HaJt0qltUuj+hRcQCH196iJdvOOIeIyeH1433hcSQRrjrhD/MllOeD1kBwUEEl6ulyCUkhZkCbKRAgFxDVC4WEs4pURACeIoq+e+AJCIWAspnb8hgyAgNFPaII5SPmccOaVhDQ0CkiPaIHqV1SDVDAKBhK/0SB3cfgj/XHg7cWEIBRkk7wANsvezQQxikLtBytPLIyDKUOCyEL/8YpDwOXwhuTRRfyUI/YK2dp1BXhtitcZaVut9DWIQgxjEIP0hend+JESgGMQgBjGIQe4G+QbSCMUtvIakEwAAAABJRU5ErkJggg==", "excited": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAAUEh76+vobGSrXrHX25MDmuIDw0qKgdEb6xCjsbnh4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2U7KrAAAAKHRSTlMA//////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeq/gBAAAA2hJREFUeNrt29timzAMBuAmkNFt7/++m+t5kmxJmPNPKl2lMdgf9RFMPj4idotBje8JyUU+1DiVAwGxCTXnO0D6ECdgQCBLEIR5V8iySjmwgkAgwzBNj9UxTbtRLoLUE9g2hqQsmhxBIKnYEvnwtc207cZt3viQdOjn5/gv0uHD8HOXSDlN0zjyvPEhdGjGDLsHXaRLAYHIf13C7A+hi3QosJAjqoYuspSADeFN6VhIwaBDUtVwzLGQmTYCA5EdLMWPXaLNFx3SDmd1FZUs5V9taEdT3hKjDGmwED71pVTK9vkVOkZLz+fz3OVF4kLappRPSv8+KigVkhZ/qSgNoqXbF4kMqZeJspPVxaSCWoqVbl+kOY7AQPRhxyvo9T+0dGtA6BpZL4bYHcyDvET4EA0zO6DBQORJsjmWgmpGoVD6OOpN1K0cEIjdweQyQA7hGoSnj2aYtxRAkHqZWA9m9TT/MqMsA+p8rKpHhmgdTF8ClULl4xga2sri0IOotxQwENl95cLFhjwev/9GS7EgXYM8JIRjpslmaEGUejC3qv4uEDqpr6G2DbZnOMOGWIO8ztApPHV0Y8Uq/mSIvXi2GPaA1kdZvIq/BKJ1MA9Spjn9e3+ZuHgVfxlEnsRvtu2J30rhuWgLDWyIfkvBb8G3QPSLnN2dgILQwqWFpKL1B5iSZS2L6BEQNkSf+qi5roXU22gzFQMFaSn8UV5706BTWoie730g7cIlU7QbKY+RIbT57C6IYCH5RYJ8En+ZoKWk1F8itIrhOWj53gFCr1fIb7ZC9HzvAtFx9aDmQzqb5I0heie2It1gHfiuIgikn1I2jN4fkjvgHCU/8DvhDV8ISMH4jzdPfAscAkKv+ukLgwt+JXAxxNuQP6HjAkJ8yslt5HSIddMw99rG7j94AYHwzULaSi3RIiiNH182194XQiCL8a6Qeoudf14O2UABgZStZA/CKbIha5CVFAgIba1bkJpCAA+St+rvByHEUoh3/IoKgoDwSumDJIp/zPPZUjqeoUFAakQfxO6yFmS2gkAg5Sc92gS3HdJ+dnYnbgzhoIDUE2BAtn4OSEAC8m4Q//byCIixFLgtJD9+CQi9fF9+UByQnAH/kXVAAhK9JkbWmH0DEpCABCQgZ0Ds6fxIiEIJSEACEpCAvBvkDxyXwKEcAmx6AAAAAElFTkSuQmCC", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAAAUEh76+vrXq3UbGir25MDmuIDw0qKgdEb6xCh4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACJ66Z+AAAAKHRSTlMA/////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7e7+LAAAA2NJREFUeNrt2+t2rCAMBeDO6NS27//ALeXQJJAA3ree5E9n1ih8lrvi25vHZjGq8X9CYpYPNQ7lQEBsQs6pXcRdIH2IGmYcn7+xkgICmYMgzF0h8wrFLqC7QMZxmh6LY5pStuHvquZ7EiQfwNYxiBKKZdbgCAIJ2aaIhy+tpmUzLtPGh4RDPz6GfxEOH8fPTSKkNE3DwNPGh9ChETNuHnSRVQoIRP7rAmZ7CF1khQIL2aNo6CJTDtgQXpX2hSQMOiQUDcfsC2nUERiIbGAh3jeJMl10SNmd5UW0DBDPpbQlRunSYCF86Au/poTTEsHKuPw9ns9TlxeJCymrUjwp/PtkRnGJZEPy3+2LRIbk00TZyCjJlJFO0X+3L9LsR2AgerfDM3r+Rczo9Rfl73phdPesJ0PsBmZDXkXUIBqm2aHBQORJsjraDE7RGBoGFWI3sHIaEIexlxlpiBwqYS4pgCD5NLHszHi8qkFTIZ6OVfTIEK2B1SHydsw8iLqkgIHI5isnLjbk8fj6iZJiQbo6eUgIx0yTzdCCKHlnbhX9VSB0Ul9FLStsT3eGDbE6ebsrsxkhhqGnk8eF2JPnWtduM9qU2bP4UyBaA2sPdtakYONZ/GkQeRJfUNtTIesXnoo20cCG6EsKvgRfA9Evsvl0AgpCE5cSIrO2v1nTIroFhA3Rhz6qrksh+WO0RsFAQUoKv5WnZxc+yW8lRE/3OpBy4pLflKGlZcpYfuMQevhcnRDBQuImhXgS30ygUVohM9TTvQJE37a2HrJoOxwMRMfNo3RWyQtD5lHCAmu37aQwkH5KemB0f0hsgO2beQdsN4aBJEz9hu+Bu8AhILSNUJ8YnPCWwMmQ1uP5A+sICKROObiOHA6xNum0Nmps/sILCCQ8Kow36uIjQ3nzTt+iUB6/ydsB0BACWYy7QuLDZD3h+ZBVb0xAQNLD9RqEU2RF1iALKRCQ0AGlk62EJYUANUh8aeF6EL4dZR6kdvyCAoKA8ELpgwRK/Zjns6R03EODgOSIPojdZC1Is4BAIOmVHm2AWw8pP1eeTlwYwkEOyQdAh6z97BCHOORukPrycg+IMRW4LCTefnEIvbaSXih2SEyAv2TtEId4q/Ge1UdfhzjEIQ5xyBEQezjfE6JQHOIQhzjEIXeDfAOF9sNJ+bO7rAAAAABJRU5ErkJggg=="}, "party": {"happy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAADWqHEYMm7muIAaGCz25MD6xCgQJFTsWqDw0qL6+voUEh6gdEbWlhTsbnhayPp45njIMjx4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADMCVvQAAAAKHRSTlMA////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAD3U1hQAABDhJREFUeNrt3O12mzAMANDSOYSSbF33/g+7uDqqLFmyTUMTGdCfLnyYS2QbY8heXr4ZIUzTeIv5K+KnaQrh5bHhDDKziJS9QvLEPCk5HUBakxPCKmAnkMjAIAYtqx8ihPdb3E35UUj9qwoBt0khSEmX4FZ2mf4hULRNiUW+3eJ6jf+aqhG3ul7jHjqmdwgghs94e5uaArZHTHNVcAkJX0GMIYk2CG0fMVQWL9svhL4qSAMELrlelzI4ZRissj1DKA10WNgcUoNLx+aQEJ7iCsUJhDbFw0KHREvh4t8WaXKwlDTJxXriAiKbKezEKdOiwMOmJaQYg+IWgjthF9TaufMmTHvnJ4nN2i8krUoU4yqRlwsn6RsiG9iaEP0ke4DwBhbj9yqRl+sdYjUw7JBC+PWtkI2XY5QuzS2EdoJLuCy6duj0syydn6RfiN7AYOibFjvPl1tYFG29fZKYdo8QOUzkjUwe5nKZZ42ir7dPEm9gxXfydAh8OfgF5juVDnT6iny9ngx+ih4hIcAUnNXAbMgpixJEw8SG0AeE7ySrYwyNgRRYPxjBMUnzdQaxGhhnUBd+MgO7+KEQ6i2FGwhO1VkNTOvIT8WAbWQ5Vuo9QuxhYg1yYbEMot5SuIHwoQsfuNiQy+XfLXKKBdFTXxihuYHwqRqboQVRZGdupb4XCO3UVlHzCtvSnfmGWJ283ZXZjBjD0NLJ+4XYg+dS124z6hQYPFdnnZ8M0RpY/WJnDQpaBs89QPhO6Q21PRSy1pSmwP1D9MmD9Bb8Hoh+ktWnE64gNHDJIfzQ9idrWERTQL4h+qWPqmt+sD+f8fEBfy1I/lCgwnAEySnpVF6egBzC02Q9WsRlC5LzVEg+cJGTMnhrySH5rSh/+Cwnkf/eothynECgauFDNFqudWlaZdUYdGNL5fYBwUmbfBr2foh8AaoviL6uPiFRZix45awLyDJKvMG6411EN5Daq4KtFHxgtAVIC7Q+mbfS+7tdQBBTnvB92KvXTiD0qp82+f3g19FdQGqP5x9YR5xAypQH15GnQIIStZcUeGwLEocG5894TWIcdcY4plvBfiv9/McFBJKQQ+CVLo0RI4fwW5N+IVgl9dRYEC01TRMR7iHURC2IpMjESMg3KS4gvMvSIFpyJCOHLK60TiCyA9chkpIzNMiiBLmAaBc0C5JSNIYFaUqQE4h+eV8f0jDz7AJiDXdsCFJ0RhlSfDrhGhILsiHY2evrEHI+H5A9QyLFWrNXiB0HZJsQ+XoTh+APd7QmbA+M+oRgYsqQ11f87xv4IfWlZYj5/khnEEzGPGtdG1+6VQgUJS9y/JD60kiB09guBA4WQ6ZFq6z7gGiV1K7Ce4Bo3Tkt2x8Eq6qsrtqyvUCWDo0OyNYg+Qv5B+SA1G4m1oEsuKE4IE4hpe7s5yDq72sOyAE5IBuDjKvFAekU8h/LgAogzKC4aQAAAABJRU5ErkJggg==", "excited": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAADWqHEYMm7muIAaGCz6xCj25MAQJFTsWqD6+vrw0qIUEh6gdEbWlhTsbnhayPp45nh4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoCLYDAAAAKHRSTlMA//////////////////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAdySXTwAABENJREFUeNrt3Nti2yAMBuC6w63TZKf3f9mFaooQ/ALcuIl80NXqA3yOAGPi7OXlixHCNI3XON0i/jVNIbw8NpxBTioiZa+QMjFPSs4KIL3JCWERsBNIZHAIQ7a1qwjh9zXupnwrpP1RhcDHpBCmpFv4KLtM/xAq2qbEIj+ucbnEf03NiEddLvEMjFk7hBDDZ3x8TF1BxzOmuym4hIRbCGNIog8ix0eMlKXL9guRj4rSQMFbLpe5DE0ZBqtszxBJg1RLh1NqeOvYHTlEp7hBcQKRQ7laGpBkK938+yJNDpeSJrnaTlxA8m5KJ2nKNCu42rSEFGNQ3EL4JB6Cegd33YXl7PIiuVv7haRNSWJcJMpy6SJ9Q/IOtiQEX+QaILqDxfi5SJTleodYHYwHpBB+/A/9VxnoaDScGUOaW4icRLdwKZYeqDAG7S+nAPoi/UJwB6Opr1QUKzlfI1aFIGi/fZGcdo+QfJqoO1leTayopFj77YvkB9jsM3k6hD4c/gDLk2oVvd0C7bcGhHRg8AcJgZbgrA5Wg7ypqEMQJnaEdUD0Sbo5ckU5gymyfxhwE82Tc2shriBWB0sZ+RCOIOn+wQz4SOEGwkt1VgfDt/k3M3gakJdjpd4jxJ4mIkgMrvSsQoa2GC0IfKRwA9FTFz1xsSHn899rlBQLglNfmaG5geilGpuBQij5YG6lfi0QOamvoZYNtmc48w2xBnnMwJR071ANc6nGDcSePFsMe0Dro9Dkubnq/GQI6mA1CN/m8Pb6NLG5PuIGok9KH7btG7+1p7YE7h+CFw/SR/B7IPgim99OuILIxKWExKoDDM2ypkWyBOQbgm990ly/Cim/FGgwHEFKSrqUVz40YEoJscqdkZynQsqJC1HQg1SNQRD58jlfRP5zjWrPcQKhpsVfosl2lJxfKlBi0hJ0ueuA8KJNuQx7PyR/AWpdELwvH9TqkPagVX2zZgUQ3ImtiA9Yd7yL6AbSelWwl8JfGG0B0gNtUWjB79tfMnYCYUx9efNhr147gcirfnhi8NDX0V1Aal/IP6DjOoTUKQ9uI0+BoEly67UNHduCxKnB+2e8JjGOmDGO6VF03kI//3EBoSSUEHqlCzFilBD9aLJeCDdJnBoLglLTtRDhHiJd1ILklDwxOeSLFBcQPWQhCEpOzighsxutE0g+gGNITikZCDIrQS4g6IZmQVIKYliQrgQ5geDb+/KQjpVnFxBrumNDmIIZdUj12wnXkFiQDeHBHu9jyPv7AdkzJFKsPXuF2HFAtgnJX2/SEP7hDurC9sRonRBOTB3y+sr/fYOuEm+tQ8z3R1YG4WScTmho01u3CqGi8pucrhJvjRS6jO1CqLIYeVpQY90HBDVSuwnvAYKGc9m2Pwg31by5om17gcydGh2QrUHKF/IPyAFpPUwsA5nxQHFAnEJqw9n3QeDvaw7IATkgG4OMi8UBWSnkH2GACeTNIcbZAAAAAElFTkSuQmCC", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAeFBMVEUAAADWqHEYMm7muIAaGCz25MD6xCgQJFTsWqD6+vrw0qKgdEYUEh7WlhRayPp45nh4eIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACPtZdTAAAAKHRSTlMA/////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADO3tQwAABDpJREFUeNrt3Nm6ojAMAGBxKqI4y/s/7VDzxTRt0kU9mgK5mSNL+2MX2oJzODwZzk3TuMTlEf7TNDl3+GwYg1xYeMpWIWnBfKlwOoCUCsfdA/5dD8QzMIhB2/QsnINjnfuzxMuUH4WUvyr8UjkEKeEWPCpNsx8IJJ37Sp27LjHP/q+pGP6oefZncMxaIIAY7nG9TlUBxyMG0yk2X5MQ9whiDEHUQeh4j4GsfZHwtO1C6KuCYoDALfPcyuCUYdDStgyhYqBs8Sv1RYNbx+qIIbyICxQjEDoUs4UOibbCzb8uwsLBVMJCztYTE5C4mcJJnDI1BWYbphBiFIpZCJ6EXVBt586bMJ2dXiQ2a7uQsCpRjM0xP0JuzOFF2obEDawNImUf7pUusgcIb2A+fr8l0nStQ7QGhh2Sc7+eirjxcozQpZmF0ElwC8eEb0vkWOn+dAjAL9IuRG5gMPTlGcEUSYfE+/WLxGK3CImHibyRUZKYkUyR9+sXiRPY6Dv5OgQngThNjE8IM6KFGcjo9Ih0v1wY/BItQpyDJTitgemQUxI5iITxDaEPCD+JV0edEVIkhoQJmq8xiNbAOINuYyc18BY5ZEKcUpiB4FKd1sCkjvyUDTgmTkcreosQfZhYgtxYtEHEKYUZCB+68IGLDrnd/i2RUjSIXPSZEZoZCF+q0RlSECXuzLWi7wVCJ9VV1LTC1nRntiFaJ693ZTrDxzDUdPJ2IfrgOde164wyBQbPxVXnL0OkBla+2WmDgprBcw8QflI4odaHQtqe3BK4fYi8eBBOwV+ByBdZfDphCkIDlxTCs9Y/acMiWgKyDZFvfVRdn4WkDwUKDEOQlBIu5cnZ+b/4pxSipdtQOF+FpAOXeFGGppaYMf8UQujhc7yI/HeJbMsxAoGqhQ/RaHt5qil1Z2EKPN0+ILhoky7Dvg6JX4DqCyLva6OUO63smzUdQNoofoL1wruIZiClVwVrKfjAaA2QGmh5Me9N7+92AUFMfsH3Y69eG4HQa4TywOCjr6ObgJQez3+wjhiB5CkfriNfgTghSi9q8FgXxA8Nzvc4BjGOMmMcw6PgvDf9/McEBAohhcArXRLDRwrhU5N+IVgl5aLRIFLRVC1EmIdQE9UgMSUumBjyJMUEhHdZEkQqnJiRQporrRFI3IHLkJiSMiRIUwGZgEg3NA0SUiSGBqkqICMQ+fb+fkjFyrMJiDbc0SFIkRl5SPbphGmIT0iHYGcv70PI+bxDtgzxFG3PViF67JB1QuLXmzgEf7gjNWF9YNQnBAsmDzke8b9v4FnKW/MQ9f2RziBYGJeL1LXxrWuFQFLxTY5nKW/1FLiM9UIgMx9xsUiVdRsQqZLqVXgLEKk7p23bg2BVjaurtG0rkNah0Q5ZGyR9IX+H7JDSZOI9kIYJxQ4xCsl1Zz8HEX9fs0N2yA5ZGWR8W+yQTiH/AQzqB6QaMsInAAAAAElFTkSuQmCC"}};
+var OUTS=[["auto","Auto (by occasion)"],["jersey","Basketball jersey"],["anchor","Sports desk suit"],["winter","Winter gear"],["ref","Referee"],["party","Game-day party hat"]];
+function budMyToday(){try{var ds=dayStart(Date.now());return visible({a:ds,b:nextDay(ds)}).some(function(g){return tkMine(g)&&!isDone(g)})}catch(e){return false}}
+function budOutfit(){
+  var o=pref("budout","auto");
+  if(o!=="auto"&&BUDO[o])return o;
+  if(o==="jersey")return "jersey";
+  if(SCR==="ask"||SCR==="news"||SCR==="big"||SCR==="stand")return "anchor";
+  if(SCR==="scores")return "ref";
+  if(budMyToday())return "party";
+  var m=new Date().getMonth();
+  return (m>=10||m<=2)?"winter":"jersey";
+}
+function budImg(mood){var o=budOutfit(),m=mood||"happy";if(o!=="jersey"&&BUDO[o])return BUDO[o][m]||BUDO[o].happy;return BUD[m]||BUD.happy}
+function budOutLab(){var o=pref("budout","auto"),r=OUTS.filter(function(x){return x[0]===o})[0];return r?r[1]:OUTS[0][1]}
+function budOutNext(){var o=pref("budout","auto"),i=0;OUTS.forEach(function(x,k){if(x[0]===o)i=k});setPref("budout",OUTS[(i+1)%OUTS.length][0])}
+function hsh(s){var h=0;s=String(s);for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h)}
+function pickN(a,seed){return a[hsh(seed)%a.length]}
+function stFind(lg,ab,nm){var c=SD[lg];if(!c||!c.d)return null;var a=String(ab||"").toUpperCase(),n=nrm(nm);return c.d.filter(function(r){return String(r.ab).toUpperCase()===a||nrm(r.n)===n})[0]||null}
+function budStreak(r,ab){var m=/^([WL])(\d+)$/.exec((r&&r.sk)||"");if(!m||+m[2]<3)return "";return m[1]==="W"?ab+" has won "+m[2]+" straight":ab+" has lost "+m[2]+" straight"}
+function budTake(g){
+  var o={t:"",pk:""};
+  if(STCFG[g.lg]&&!SD[g.lg])stLoad(g.lg,false);
+  var A=stFind(g.lg,g.aa,g.an),H=stFind(g.lg,g.ha,g.hn),bias=isCO(g)?"Full disclosure, I’m a Colorado dog, so I’m biased. ":"";
+  if(!A||!H){
+    var w=whyList(g).filter(function(x){return x!=="In progress now"})[0];
+    o.t=w?"I can’t sniff out the standings for this one yet. What I do know: "+w+".":"I don’t have the standings for this one yet. Tap again in a moment.";
+    return o;
+  }
+  var edge=g.lg==="NBA"?0.04:(g.lg==="MLS"?0.06:0.03);
+  var fa=stFrac(g.lg,A),fh=stFrac(g.lg,H)+edge,d=fh-fa,ad=Math.abs(d),hp=d>=0;
+  var P=hp?H:A,Q=hp?A:H,pa=hp?g.ha:g.aa,qa=hp?g.aa:g.ha;
+  o.pk=pa;
+  var strength=ad<0.05?"a true coin flip":(ad<0.13?"a lean":"a strong lean");
+  var notes=[budStreak(P,pa),budStreak(Q,qa)].filter(function(x){return x});
+  var nt=notes.length?" "+notes.join(" and ")+".":"";
+  var hedge=pickN(["Just for fun, I’m a dog, not a bookie.","Take it with a bag of treats.","Tail says yes, brain says maybe."],g.id);
+  if(isDone(g)&&g.sc&&showSc(g)){
+    var hw=g.sc.h>g.sc.a,wa=hw?g.ha:g.aa,mg=Math.abs(g.sc.h-g.sc.a),big=({NFL:17,CFB:21,NBA:20,NHL:4,MLS:3})[g.lg]||15,right=wa===pa;
+    var lead=right?pickN(["Called it. ","Right on the money. ","That one went to form. "],g.id):(ad>=0.13?pickN(["Whoa, what an upset. ","Did not see that coming. "],g.id):pickN(["Close call and it went the other way. ","Coin flip, and the coin said no. "],g.id));
+    o.t=bias+lead+wa+" won by "+mg+(mg>=big?", a real blowout":"")+". Going in I liked "+pa+" ("+stRec(g.lg,P)+" vs "+stRec(g.lg,Q)+")."+nt;
+    return o;
+  }
+  o.t=bias+pa+" is my pick, "+strength+". "+stRec(g.lg,P)+" against "+stRec(g.lg,Q)+(hp?", and they have the home crowd":", even on the road")+"."+nt+" "+hedge;
+  return o;
+}
+function budMvp(g,S){
+  try{
+    var ld=S.leaders||[];if(!ld.length)return "";
+    var hdr=S.header&&S.header.competitions&&S.header.competitions[0],cs=(hdr&&hdr.competitors)||[],wid=null;
+    if(isDone(g)){var w=cs.slice().sort(function(a,b){return Number(b.score)-Number(a.score)})[0];wid=w&&w.team&&w.team.id}
+    var L=ld.filter(function(x){return !wid||(x.team&&x.team.id===wid)})[0]||ld[0];
+    var cat=(L.leaders||[])[0],p=cat&&(cat.leaders||[])[0];
+    if(!p||!p.athlete)return "";
+    return (isDone(g)?"My MVP vote: ":"Player to watch: ")+(p.athlete.displayName||p.athlete.shortName||"")+" ("+(p.displayValue||"")+(cat.displayName?", "+cat.displayName:"")+").";
+  }catch(e){return ""}
+}
+function budTakeHTML(g,S){
+  var t=budTake(g),m=budMvp(g,S);
+  return '<div class="bgs buds"><b>🐶 Buddy’s take</b><p>'+esc(t.t)+(m?'<br>'+esc(m):'')+'</p></div>';
+}
+var ASKL=[],ASKBUSY=false;
+var ASKCH=["Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
+var JOKES=["Why are basketball players messy eaters? They’re always dribbling.","Why was the football stadium so cool? It was full of fans.","Why did the soccer player bring string to the game? So he could tie the score.","Why did the hockey player bring a ladder? He heard the other team was going top shelf.","What did the baseball glove say to the ball? Catch you later.","What’s the loudest sport? Tennis. Everyone raises a racket.","Why do referees make terrible roommates? They keep calling fouls on the dishes.","What’s a hockey player’s favorite cheese? Swiss, because of all the holes in the defense.","Why did the Broncos fan bring a ladder? To get to Mile High.","Why did the scoreboard get a promotion? Great numbers.","My fantasy team is so bad that even I won’t sit for it, and I’m a dog.","Why can’t you trust a stadium with a secret? Too many people leaking it from the stands.","I’d be a great coach. I already know how to call a play and I never skip a walk."];
+var TAKES=["Hot take: the best seat in the house is the couch, and the best snack is whatever is closest to the couch.","Hot take: overtime should be called bonus football and every game should have some.","Hot take: halftime is the best part of the game, because that is when snacks happen.","Hot take: nobody has ever been mad at a team for scoring too much.","Hot take: the real MVP is whoever sets the thermostat right during a playoff game.","Hot take: a good tailgate beats a bad game, and a good game beats everything.","Hot take: defense wins championships, offense wins highlights, and highlights win the group chat."];
+function askTeams(){var m={};G.forEach(function(g){[[g.an,g.aa],[g.hn,g.ha]].forEach(function(p){var n=nrm(p[0]);if(!n||m[n])return;m[n]={lg:g.lg,ab:p[1],n:p[0]}})});Object.keys(SD).forEach(function(lg){((SD[lg]||{}).d||[]).forEach(function(r){var n=nrm(r.n);if(n&&!m[n])m[n]={lg:lg,ab:r.ab,n:r.n}})});return m}
+function askFindTeam(q){
+  var n=" "+nrm(q)+" ",T=askTeams(),best=null,bl=0;
+  Object.keys(T).forEach(function(k){
+    var w=k.split(" "),nick=w[w.length-1],nick2=w.slice(-2).join(" "),len=0;
+    if(n.indexOf(" "+k+" ")>-1)len=k.length;
+    else if(w.length>1&&n.indexOf(" "+nick2+" ")>-1)len=nick2.length;
+    else if(nick.length>=4&&n.indexOf(" "+nick+" ")>-1)len=nick.length;
+    else{var ab=String(T[k].ab||"");if(ab.length>=3&&new RegExp("(^|[^A-Za-z])"+ab+"([^A-Za-z]|$)").test(q))len=ab.length}
+    if(len){var tm=T[k],bn=((CO.indexOf(tm.lg+":"+tm.ab)>-1||favs.indexOf(tm.lg+":"+tm.ab)>-1)?20:0)+(({NFL:10,NBA:10,NHL:10,MLS:10,MLB:10})[tm.lg]||0),sc=len*100+bn;if(sc>bl){bl=sc;best=tm}}
+  });
+  return best;
+}
+function askTeam(t){
+  var mine=G.filter(function(g){return g.lg===t.lg&&(g.aa===t.ab||g.ha===t.ab)}).sort(function(a,b){return a.s-b.s});
+  var next=mine.filter(function(g){return !isDone(g)})[0],last=mine.filter(function(g){return isDone(g)&&g.sc}).pop();
+  var r=stFind(t.lg,t.ab,t.n),L=[];
+  if(r)L.push(t.n+" are "+stRec(t.lg,r)+(r.sk?" ("+r.sk+")":"")+(r.dn?" in the "+r.cf+" "+r.dn:(r.cn?" in the "+r.cn:""))+(r.l10?", "+r.l10+" in their last 10":"")+".");
+  if(last)L.push(showSc(last)?"Last game: "+last.aa+" "+last.sc.a+", "+last.ha+" "+last.sc.h+" (Final).":"Their last game is in the books, but scores are hidden so my lips are sealed.");
+  if(next){L.push("Next up: "+(next.aa===t.ab?"at "+next.hn:"vs "+next.an)+", "+dStr(next.s)+" "+tStr(next.s)+(next.net?" on "+next.net:"")+".");L.push(budTake(next).t)}
+  if(!L.length)L.push("I know the "+t.n+" but I don’t see a game for them on the schedule right now.");
+  return L.join("\n");
+}
+function askTop(){var now=Date.now(),l=visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)});l.sort(function(a,b){return rk(a)-rk(b)||a.s-b.s});return l[0]}
+function askStreaks(kind){
+  var all=[];Object.keys(SD).forEach(function(lg){((SD[lg]||{}).d||[]).forEach(function(r){var m=/^([WL])(\d+)$/.exec(r.sk||"");if(m&&m[1]===kind&&+m[2]>=3)all.push({lg:lg,n:r.n,k:+m[2],rec:stRec(lg,r)})})});
+  all.sort(function(a,b){return b.k-a.k});return all.slice(0,5);
+}
+function askLeague(lg){
+  var c=SD[lg];if(!c||!c.d||!c.d.length)return "I can’t reach the "+lg+" standings right now. Try me again in a minute.";
+  var d=c.d.slice().sort(stCmp(lg)),top=d.slice(0,3).map(function(r){return r.n+" ("+stRec(lg,r)+")"}).join(", ");
+  var hot=d.filter(function(r){return /^W(\d+)$/.test(r.sk||"")}).sort(function(a,b){return parseInt(b.sk.slice(1))-parseInt(a.sk.slice(1))})[0];
+  return lg+" best records right now: "+top+"."+(hot&&parseInt(hot.sk.slice(1))>=3?" Hottest team: "+hot.n+" on a "+hot.sk+" run.":"");
+}
+function askAnswer(q){
+  return Promise.all(Object.keys(STCFG).map(function(l){return stLoad(l,false)})).catch(function(){}).then(function(){
+    var s=nrm(q),L=[];
+    function has(){for(var i=0;i<arguments.length;i++)if(s.indexOf(arguments[i])>-1)return true;return false}
+    if(!s)return "Ask me something! Try “Who wins tonight?” or tap one of the buttons.";
+    if(/^(hi|hey|hello|yo|sup|howdy)\b/.test(s))return "Woof! Buddy here, live from the news desk. Ask me about a team, tonight’s games, who’s hot, or a joke.";
+    if(has("thank"))return "Anytime! *tail wags*";
+    if(has("who are you","your name","what are you"))return "I’m Buddy “The Sports Doodle.” I read the standings, sniff out big games and give opinions that are 100% for fun and 0% betting advice.";
+    if(has("outfit","wearing","suit","dressed"))return "I own a basketball jersey, a news desk suit, winter gear, a referee shirt and a game-day party hat. Right now I’m in: "+OUTS.filter(function(x){return x[0]===budOutfit()})[0][1].toLowerCase().replace("auto (by occasion)","my jersey")+". You can pick one in Settings.";
+    if(has("joke","funny","laugh","pun"))return pickN(JOKES,String(Date.now()));
+    var t=askFindTeam(q);if(t)return askTeam(t);
+    if(has("hot take","hottest take","opinion")||/\btake\b/.test(s)){
+      var h=askStreaks("W")[0],c=askStreaks("L")[0],tk=pickN(TAKES,String(Date.now()));
+      return tk+(h?"\nData point: "+h.n+" ("+h.rec+") have won "+h.k+" straight. Hot streak or lucky dog? I say real.":"")+(c?"\nAnd "+c.n+" have lost "+c.k+" straight. Somebody get them a treat.":"");
+    }
+    if(has("hot","streak","fire","rolling")){var a=askStreaks("W");return a.length?"Teams on a roll right now:\n"+a.map(function(x){return x.n+" ("+x.lg+") won "+x.k+" straight, "+x.rec}).join("\n"):"I don’t see any big win streaks in the standings right now."}
+    if(has("cold","worst","struggl","losing","slump")){var b=askStreaks("L");return b.length?"Teams in a slump right now:\n"+b.map(function(x){return x.n+" ("+x.lg+") lost "+x.k+" straight, "+x.rec}).join("\n"):"No big losing streaks in the standings right now. Everyone is hanging in there."}
+    if(has("best game","watch","tonight","today","must","recommend","what s on","whats on","who wins","who will win","pick","predict","winner")){
+      var g=askTop();if(!g)return "I don’t see an upcoming game for your leagues right now. Check Leagues to turn some on.";
+      var why=whyList(g).filter(function(x){return x!=="In progress now"}).slice(0,2).join(" • ");
+      return (isLive(g)?"Right now: ":"Can’t-miss: ")+g.an+" at "+g.hn+", "+dStr(g.s)+" "+tStr(g.s)+(g.net?" on "+g.net:"")+"."+(why?"\nWhy: "+why+".":"")+"\n"+budTake(g).t;
+    }
+    var lgs=["NFL","NBA","NHL","MLS","CFB"].filter(function(l){return s.indexOf(l.toLowerCase())>-1});
+    if(lgs.length)return lgs.map(function(l){return STCFG[l]?askLeague(l):"I don’t have standings for "+l+" yet."}).join("\n");
+    return "I sniffed around but couldn’t match that to a team, league or topic. Try a team name like Broncos, a league like NFL, or one of the buttons. Or ask for a joke!";
+  });
+}
+function askDeskHTML(){
+  return '<div class="desk"><div class="dsb"><i class="dsl"></i>THE SPORTS PIT NEWS DESK</div><div class="dsfly"><span class="dsw dswl" aria-hidden="true"></span><span class="dsw dswr" aria-hidden="true"></span><img class="dsbud" alt="Buddy in a suit at the sports desk" src="'+BUDO.anchor.excited+'"><span class="dsmic" aria-hidden="true"></span><div class="dsd"><b>ASK THE DOODLE</b></div></div></div>';
+}
+function renderAsk(){
+  var el=$("askLog");if(!el)return;
+  el.innerHTML=ASKL.slice().reverse().map(function(m){return '<div class="aq">'+esc(m.q)+'</div><div class="aa"><img alt="" src="'+BUDO.anchor.happy+'"><div>'+(m.a===null?'<span class="note">Buddy is thinking…</span>':esc(m.a).replace(/\n/g,"<br>"))+'</div></div>'}).join("");
+}
+function drawAsk(){
+  var el=$("askScr");if(!el)return;
+  if(!el.getAttribute("data-b")){
+    el.setAttribute("data-b","1");
+    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askDeskHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
+    el.addEventListener("submit",function(e){e.preventDefault();var i=$("askIn");askRun(i.value);i.value=""});
+    el.addEventListener("click",function(e){var b=e.target.closest("[data-ask]");if(b)askRun(b.getAttribute("data-ask"))});
+    if(!ASKL.length)ASKL.push({q:"Hi Buddy!",a:"Woof! Welcome to the news desk. Ask me about a team, tonight’s games, who’s hot, or tap a button below."});
+  }
+  renderAsk();
+}
+function askRun(q){
+  q=String(q||"").trim();if(!q||ASKBUSY)return;
+  ASKBUSY=true;var m={q:q,a:null};ASKL.push(m);if(ASKL.length>8)ASKL.shift();renderAsk();
+  var im=document.querySelector("#askScr .dsbud");if(im)im.src=BUDO.anchor.thinking;
+  askAnswer(q).then(function(a){m.a=a},function(){m.a="Oops, I tripped over the cable. Try again."}).then(function(){
+    ASKBUSY=false;renderAsk();var i2=document.querySelector("#askScr .dsbud");if(i2)i2.src=BUDO.anchor.excited;
+  });
+}
 var budSeen=load("sp_budseen",{}),budTimer=null,budEl=null,magEl=null,budInsOn=false;
 function budOn(){return pref("buddy",true)}
 function magOn(){return pref("mag",true)}
@@ -3190,7 +3369,7 @@ function budSay(text,mood,force){
   if(!force&&!budOn())return;
   budHide();
   var d=document.createElement("div");d.className="bud"+(mood==="excited"?" hype":"");d.setAttribute("role","status");
-  d.innerHTML='<div class="bw"><svg class="btail" viewBox="0 0 40 44" aria-hidden="true"><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#1a182c" stroke-width="7" stroke-linecap="round"/><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#e6b880" stroke-width="4" stroke-linecap="round"/><g fill="#e6b880" stroke="#1a182c" stroke-width="1.6"><circle cx="19.2" cy="12.0" r="4.4"/><circle cx="17.1" cy="17.1" r="4.4"/><circle cx="12.0" cy="19.2" r="4.4"/><circle cx="6.9" cy="17.1" r="4.4"/><circle cx="4.8" cy="12.0" r="4.4"/><circle cx="6.9" cy="6.9" r="4.4"/><circle cx="12.0" cy="4.8" r="4.4"/><circle cx="17.1" cy="6.9" r="4.4"/></g><circle cx="12" cy="12" r="8" fill="#e6b880"/><path d="M8 9q3-3 6 0M7 14q4 3 8 0" fill="none" stroke="#d4a268" stroke-width="1.4" stroke-linecap="round"/></svg><img alt="Buddy The Sports Doodle" src="'+BUD[mood||"happy"]+'"></div><div class="bal"><div class="bn">Buddy \u201cThe Sports Doodle\u201d</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button><a data-bud="off">Turn Buddy off</a></div></div>';
+  d.innerHTML='<div class="bw"><svg class="btail" viewBox="0 0 40 44" aria-hidden="true"><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#1a182c" stroke-width="7" stroke-linecap="round"/><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#e6b880" stroke-width="4" stroke-linecap="round"/><g fill="#e6b880" stroke="#1a182c" stroke-width="1.6"><circle cx="19.2" cy="12.0" r="4.4"/><circle cx="17.1" cy="17.1" r="4.4"/><circle cx="12.0" cy="19.2" r="4.4"/><circle cx="6.9" cy="17.1" r="4.4"/><circle cx="4.8" cy="12.0" r="4.4"/><circle cx="6.9" cy="6.9" r="4.4"/><circle cx="12.0" cy="4.8" r="4.4"/><circle cx="17.1" cy="6.9" r="4.4"/></g><circle cx="12" cy="12" r="8" fill="#e6b880"/><path d="M8 9q3-3 6 0M7 14q4 3 8 0" fill="none" stroke="#d4a268" stroke-width="1.4" stroke-linecap="round"/></svg><img alt="Buddy The Sports Doodle" src="'+budImg(mood)+'"></div><div class="bal"><div class="bn">Buddy \u201cThe Sports Doodle\u201d</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button><a data-bud="off">Turn Buddy off</a></div></div>';
   document.body.appendChild(d);budEl=d;
   var bt=d.querySelector(".bt"),i=0;
   budTimer=setInterval(function(){i+=2;bt.textContent=text.slice(0,i);if(i>=text.length){clearInterval(budTimer);bt.textContent=text}},22);
@@ -3230,13 +3409,14 @@ document.addEventListener("click",function(e){
   budInspect(false);budSay(msg,"excited",true);
 },true);
 function budHtml(){
-  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
+  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button><button class="btn" type="button" data-budset="outfit">Outfit: '+esc(budOutLab())+'</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
 }
 $("sheet").addEventListener("click",function(e){
   var b=e.target.closest("[data-budset]");if(!b)return;
   var k=b.getAttribute("data-budset");
   if(k==="buddy"){setPref("buddy",!budOn());if(!budOn())budHide()}
   else if(k==="mag"){setPref("mag",!magOn());budMag()}
+  else if(k==="outfit"){budOutNext();toast("Buddy outfit: "+budOutLab())}
   else{budSeen={};save("sp_budseen",budSeen);setPref("buddy",true);toast("Tips will pop up again as you visit each screen.")}
   var sy=$("sheet").scrollTop;openSettings();$("sheet").scrollTop=sy;
 });
@@ -3348,7 +3528,7 @@ $("standScr").addEventListener("click",function(e){var b;
 });
 setInterval(function(){if(SCR==="stand"&&!$("sheet").classList.contains("open"))stLoad(STL,false)},300000);
 var navMenuEl=null;
-function navItems(){return [["tv","📅","Schedule"],["scores","🏁","Scores"],["stand","📊","Standings"],["big","🔥","Big Games"],["tk","📺","Ticker"],["news","📰","News"],["lg","🏟️","Leagues"]]}
+function navItems(){return [["tv","📅","Schedule"],["scores","🏁","Scores"],["stand","📊","Standings"],["big","🔥","Big Games"],["ask","🎙️","Ask Buddy"],["tk","📺","Ticker"],["news","📰","News"],["lg","🏟️","Leagues"]]}
 function navLab(b){var n=lgCount();return b[2]+(b[0]==="lg"&&n?" ("+n+")":"")}
 function navCur(){return $("ticker").classList.contains("open")?"tk":SCR}
 function navMenuClose(){if(navMenuEl){navMenuEl.remove();navMenuEl=null}document.querySelectorAll(".navdd").forEach(function(b){b.setAttribute("aria-expanded","false")})}
@@ -3369,11 +3549,12 @@ document.addEventListener("click",function(e){
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&navMenuEl)navMenuClose()},true);
 window.addEventListener("scroll",function(){if(navMenuEl)navMenuClose()},{passive:true});
 function showScr(){
-  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";$("bigScr").style.display=SCR==="big"?"":"none";$("standScr").style.display=SCR==="stand"?"":"none";
+  $("tvScr").style.display=SCR==="tv"?"":"none";$("newsScr").style.display=SCR==="news"?"":"none";$("scoresScr").style.display=SCR==="scores"?"":"none";$("bigScr").style.display=SCR==="big"?"":"none";$("standScr").style.display=SCR==="stand"?"":"none";$("askScr").style.display=SCR==="ask"?"":"none";
   if(SCR==="news")drawNews();
   if(SCR==="scores")drawScores();
   if(SCR==="big")drawBig();
   if(SCR==="stand")drawStand();
+  if(SCR==="ask")drawAsk();
   drawNav();
   budTip(SCR);
 }
