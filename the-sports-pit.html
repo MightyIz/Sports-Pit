@@ -217,6 +217,9 @@ dd{margin:0}
 .bud .bw img.bface{position:absolute;display:block;left:32.35%;top:20.24%;width:36.76%;z-index:2;cursor:pointer}
 .aa .bpic{position:relative;display:block;width:40px;flex:none;line-height:0}.aa .bpic>img:first-child{width:100%;display:block}.aa .bpic img.bface{width:36.76%}
 .dsbw{display:block;position:relative;width:136px;margin:0 auto;z-index:1}.dsbw .dsbud{margin:0}.dsbw img.bface{width:36.76%;z-index:2}
+.abt{margin:10px 0 6px;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:8px 14px}.abt summary{font-weight:700;cursor:pointer}.abt p{margin:8px 0;font-size:14.5px;line-height:1.45}
+.ralh{margin:10px 0 4px;font-weight:700;font-size:14px}.chip.ral{border-color:#2e8b4f}
+.atop.rit .abw{animation:abrit .45s ease-in-out infinite}@keyframes abrit{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(7deg) translateY(-6px)}}
 .atop{display:flex;gap:18px;align-items:flex-end;margin:12px 0 10px}
 .abw{position:relative;flex:none;width:128px}.abw img.dsbud{display:block;width:100%;height:auto;margin:0;image-rendering:pixelated}.abw img.bface{width:36.76%;z-index:2}
 .atop.talk .abw{animation:abtalk .3s steps(2) infinite}@keyframes abtalk{50%{transform:translateY(-3px)}}
@@ -228,7 +231,7 @@ dd{margin:0}
 .adc{position:absolute;right:12px;bottom:6px;color:#fac428;font-size:14px;visibility:hidden;animation:adblink .7s steps(2) infinite}
 .adlg.done .adc{visibility:visible}@keyframes adblink{50%{opacity:0}}
 @media (max-width:560px){.atop{flex-direction:column;align-items:center;gap:22px}.adlg{width:calc(100% - 6px);flex:none;margin-right:0}.adlg:before{left:50%;top:-18px;bottom:auto;margin-left:-9px;border:9px solid transparent;border-bottom-color:#fff;border-top:0}}
-@media (prefers-reduced-motion:reduce){.atop.talk .abw,.adc{animation:none}}
+@media (prefers-reduced-motion:reduce){.atop.talk .abw,.atop.rit .abw,.adc{animation:none}}
 .bud .btail{position:absolute;left:-18px;bottom:10px;width:34px;height:38px;z-index:0;transform-origin:92% 95%;animation:wag .55s ease-in-out infinite alternate;pointer-events:none}
 .bud.hype .btail{animation-duration:.2s}
 @keyframes wag{from{transform:rotate(-22deg)}to{transform:rotate(18deg)}}
@@ -2725,9 +2728,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29o";
+var BUILD="2026-11-29q";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","New Rally Buddy mode on the Ask screen: tell Buddy what you need (a first down, a field goal, a stop, free throws, a power play, a run, overtime) and he performs his lucky routine step by step, with a new face for each step."],["Nov 29","Buddy has a backstory: a goldendoodle from Longmont, Colorado who is a Colorado dog no matter whose game it is. Ask him who he is, for a story, about his jersey number 23, his lucky rituals, his cat rival Professor Whiskers or his catchphrases. There is an About Buddy section on the Ask screen (and a button in Settings). He sneaks in a Buddy fact every few answers, adds his superstitions to his picks and says \u201cTail-spin!\u201d for big upsets."],["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -3266,10 +3269,10 @@ function budTake(g){
   var strength=ad<0.05?"a true coin flip":(ad<0.13?"a lean":"a strong lean");
   var notes=[budStreak(P,pa),budStreak(Q,qa)].filter(function(x){return x});
   var nt=notes.length?" "+notes.join(" and ")+".":"";
-  var hedge=pickN(["Just for fun, I’m a dog, not a bookie.","Take it with a bag of treats.","Tail says yes, brain says maybe."],g.id);
+  var hedge=pickN(["Just for fun, I’m a dog, not a bookie.","Take it with a bag of treats.","Tail says yes, brain says maybe."].concat(BUDLORE.hedge),g.id);
   if(isDone(g)&&g.sc&&showSc(g)){
     var hw=g.sc.h>g.sc.a,wa=hw?g.ha:g.aa,mg=Math.abs(g.sc.h-g.sc.a),big=({NFL:17,CFB:21,NBA:20,NHL:4,MLS:3})[g.lg]||15,right=wa===pa;
-    o.f=right?"laugh":(ad>=0.13?"shocked":"sad");var lead=right?pickN(["Called it. ","Right on the money. ","That one went to form. "],g.id):(ad>=0.13?pickN(["Whoa, what an upset. ","Did not see that coming. "],g.id):pickN(["Close call and it went the other way. ","Coin flip, and the coin said no. "],g.id));
+    o.f=right?"laugh":(ad>=0.13?"shocked":"sad");var lead=right?pickN(["Called it. ","Right on the money. ","That one went to form. "],g.id):(ad>=0.13?pickN(["Tail-spin! What an upset. ","Did not see that coming. "],g.id):pickN(["Close call and it went the other way. ","Coin flip, and the coin said no. "],g.id));
     o.t=bias+lead+wa+" won by "+mg+(mg>=big?", a real blowout":"")+". Going in I liked "+pa+" ("+stRec(g.lg,P)+" vs "+stRec(g.lg,Q)+")."+nt;
     return o;
   }
@@ -3292,7 +3295,56 @@ function budTakeHTML(g,S){
   return '<div class="bgs buds"><b>🐶 Buddy’s take</b><p>'+esc(t.t)+(m?'<br>'+esc(m):'')+'</p></div>';
 }
 var ASKL=[],ASKBUSY=false;
-var ASKCH=["Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
+var RALCH=["We need a first down!","Field goal time!","Touchdown!","Need a stop!","Free throws!","Power play!","We need a run!","Overtime!"];
+var ASKCH=["Who are you?","Tell me a story","Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
+var BUDLORE={
+bio:[
+"Buddy “The Sports Doodle” is a goldendoodle from Longmont, Colorado, and he is a Colorado dog no matter where you are watching from. New York, Texas or Tokyo, he is still a Longmont dog.",
+"He grew up in a Longmont garage with a radio that only got one station, and it was always the game. He learned to read standings by chewing the sports page and drew plays on napkins with a crayon, which is how he became The Sports Doodle.",
+"His jersey is number 23, a hand-me-down from when he was a puppy. He has never explained why the number matters. He just says “you had to be there.”",
+"Rituals: the same spot on the couch, one lucky treat before every kickoff and three tail wags for luck. He trusts the wag count more than the stats.",
+"Flaws: he gets way too excited, hates early kickoffs and loses the plot the second a squirrel shows up.",
+"Rival: Professor Whiskers, a cat from across the street who covers the same games and picks against him on principle. Whiskers is right sometimes. Buddy does not like to talk about it.",
+"Catchphrases: he opens with “Woof! Buddy ‘The Sports Doodle’ here, live from Longmont.” He closes with “That’s the show. Keep your tail up!” And a big upset gets a loud “Tail-spin!”",
+"Everything he says is for fun. He is a dog, not a bookie."],
+lore:[
+"I once got kicked out of a Rockies game for barking at an umpire. In my defense, it was a terrible call.",
+"My first word was “ball.” My second word was “again.”",
+"The garage I grew up in, in Longmont, had a radio that only got one station. It was always the game. I never learned another.",
+"Every winter I check the weather before the schedule. Snow delay means I am in.",
+"I once chased a squirrel through an entire second quarter. I don’t know the score. I regret nothing.",
+"Professor Whiskers picked against me last week and lost. He has not mentioned it. I have mentioned it nine times.",
+"I own exactly one lucky treat. It is gone by kickoff. The luck stays.",
+"Longmont has a great view of the Front Range, and I have never once looked at it during a game."],
+hedge:["My tail wag count says so. Not science.","I had my lucky treat, so I feel good about it.","Same couch spot as last time, so the vibes are right.","Professor Whiskers picked the other side, which only makes me surer."],
+think:["Sniffing around…","Checking the standings…","Chasing a squirrel… I mean, the data…","Asking Professor Whiskers… never mind, he’s wrong…"],
+season:function(){var m=new Date().getMonth();return m<2||m===11?"Snow outside and playoffs on the screen. Perfect.":m<4?"Mud season and brackets. Paws filthy, brain full.":m<6?"Playoff hockey and hoops, and I am still not tired.":m<8?"Preseason hope. Every team has hope right now.":m<10?"Football weather. Crisp air, big games, one treat per quarter.":"Cold paws, hot takes and the stretch run. This is my season."}
+};
+var RALLY=[
+[/first down|4th down|fourth down|move the chains|get the sticks/,[["thinking","Okay. First down routine. Nobody move, nobody sneeze."],["wink","*sits in the exact couch spot from the last big win*"],["excited","*three tail wags* one… two… three…",1],["fired","*points the lucky paw at the TV* GET. THE. STICKS.",1],["laugh","*eats the lucky treat* The treat is gone but the luck stays. Results not guaranteed. I am a dog."]]],
+[/field goal|extra point|kicker|\bkick\b/,[["thinking","Field goal routine. Everybody hold your breath. Not the dog, the dog is panting."],["sleepy","*closes both eyes so the kicker can’t see me looking*"],["wink","*crosses paws, then crosses them back in case it was the wrong way*"],["excited","*one tiny tail wag* …wait for it…",1],["love","*opens one eye* It’s GOOD! …or I owe Professor Whiskers a treat, and I will never recover."]]],
+[/touchdown|red zone|goal line|end zone/,[["fired","Red zone routine. This is the big one. Everybody lean forward."],["thinking","*turns the jersey number 23 to face the TV*"],["excited","*pounds the couch cushion twice* thump, thump…",1],["wink","*whispers to the lucky treat* “Not yet. Save it.”"],["laugh","*spins in a circle three times* If it works, I’ll tell everyone it was me.",1]]],
+[/need a stop|defensive stop|get a stop|stop them|big stop|stand tall/,[["fired","Defensive stop routine. We need a wall."],["thinking","*plants all four paws on the floor like roots*"],["shocked","*stares at the other team’s quarterback without blinking*"],["fired","*one very loud bark* NOT TODAY.",1],["wink","*sits back down* That’s the whole trick. Stare hard, bark once, snack later."]]],
+[/free throw|three pointer|3 pointer|3pointer|buzzer/,[["thinking","Free throw routine. Total silence, please."],["wink","*bounces an imaginary ball three times with one paw* bounce… bounce… bounce…",1],["sleepy","*breathes out slowly through the nose* …and a little drool."],["excited","*tail wag on the release*",1],["love","*nothing but net, in my heart* If it misses, that was the other team’s doing."]]],
+[/power play|penalty kill|shootout|breakaway|empty net/,[["fired","Power play routine. Get the puck on the stick."],["thinking","*rubs both ears for luck, left then right*"],["excited","*taps the floor four times like a stick on the ice* tap tap tap tap",1],["wink","*whispers* “shoot, shoot, shoot”"],["laugh","*points at the goalie and barks once* Rude? Yes. Effective? We’ll see.",1]]],
+[/need a run|need runs|home run|bases loaded|strikeout|rally cap|walk off|penalty kick|corner kick|set piece/,[["thinking","Rally routine. Everybody turn your hat backwards."],["wink","*flips the headband to the back of the head* Rally headband. Don’t ask."],["excited","*wags the tail in a perfect circle like a windmill*",1],["fired","*points to the far end of the field* Called shot! …I mean, that’s the plan.",1],["laugh","*one lucky bark at the ref* I know, I know. I’m on thin ice."]]],
+[/overtime|sudden death|double overtime/,[["shocked","Overtime. Deep breaths, everybody."],["sleepy","*lies flat on the floor, nose on paws, one eye on the TV*"],["thinking","*refuses to blink for ten whole seconds*"],["fired","*springs up and spins around twice* This is the part where the luck kicks in!",1],["wink","*sits very still again* Nobody touch the remote. Nobody touch anything."]]],
+[/rally|routine|good luck|help us|need luck/,[["excited","Rally Buddy mode, activated! Here is the routine."],["wink","*three tail wags, one lucky treat, same couch spot*",1],["fired","*points at the TV* Do the thing!",1],["laugh","That’s all I’ve got. Tell me what you need, like a first down, a field goal or a stop, and I’ll do the real routine."]]]
+];
+var ASKRIT=null,ASKCB=null;
+function rallyFind(s){for(var i=0;i<RALLY.length;i++)if(RALLY[i][0].test(s))return RALLY[i][1];return null}
+function askRoutine(steps){
+  var i=0,top=$("askTop");
+  function next(){
+    if(i>=steps.length){if(top)top.classList.remove("rit");return}
+    var st=steps[i++];
+    askSay(st[1],st[0],"",next);
+    if(top){if(st[2])top.classList.add("rit");else top.classList.remove("rit")}
+  }
+  next();
+}
+var ASKN=0;
+function askLoreTail(a){ASKN++;if(ASKN%5===0&&a&&a.indexOf("Buddy fact")<0)return a+"\n\nBuddy fact: "+pickN(BUDLORE.lore,String(Date.now()));return a}
 var JOKES=["Why are basketball players messy eaters? They’re always dribbling.","Why was the football stadium so cool? It was full of fans.","Why did the soccer player bring string to the game? So he could tie the score.","Why did the hockey player bring a ladder? He heard the other team was going top shelf.","What did the baseball glove say to the ball? Catch you later.","What’s the loudest sport? Tennis. Everyone raises a racket.","Why do referees make terrible roommates? They keep calling fouls on the dishes.","What’s a hockey player’s favorite cheese? Swiss, because of all the holes in the defense.","Why did the Broncos fan bring a ladder? To get to Mile High.","Why did the scoreboard get a promotion? Great numbers.","My fantasy team is so bad that even I won’t sit for it, and I’m a dog.","Why can’t you trust a stadium with a secret? Too many people leaking it from the stands.","I’d be a great coach. I already know how to call a play and I never skip a walk."];
 var TAKES=["Hot take: the best seat in the house is the couch, and the best snack is whatever is closest to the couch.","Hot take: overtime should be called bonus football and every game should have some.","Hot take: halftime is the best part of the game, because that is when snacks happen.","Hot take: nobody has ever been mad at a team for scoring too much.","Hot take: the real MVP is whoever sets the thermostat right during a playoff game.","Hot take: a good tailgate beats a bad game, and a good game beats everything.","Hot take: defense wins championships, offense wins highlights, and highlights win the group chat."];
 function askTeams(){var m={};G.forEach(function(g){[[g.an,g.aa],[g.hn,g.ha]].forEach(function(p){var n=nrm(p[0]);if(!n||m[n])return;m[n]={lg:g.lg,ab:p[1],n:p[0]}})});Object.keys(SD).forEach(function(lg){((SD[lg]||{}).d||[]).forEach(function(r){var n=nrm(r.n);if(n&&!m[n])m[n]={lg:lg,ab:r.ab,n:r.n}})});return m}
@@ -3336,7 +3388,14 @@ function askAnswer(q){
     if(!s)return "Ask me something! Try “Who wins tonight?” or tap one of the buttons.";
     if(/^(hi|hey|hello|yo|sup|howdy)\b/.test(s))return "Woof! Buddy here, live from the news desk. Ask me about a team, tonight’s games, who’s hot, or a joke.";
     if(has("thank"))return "Anytime! *tail wags*";
-    if(has("who are you","your name","what are you"))return "I’m Buddy “The Sports Doodle.” I read the standings, sniff out big games and give opinions that are 100% for fun and 0% betting advice.";
+    if(/\b(bye|goodbye|see you|good night|goodnight)\b/.test(s))return "That’s the show. Keep your tail up!";
+    var rl=rallyFind(s);if(rl){ASKRIT=rl;return rl.map(function(x){return x[1]}).join("\n")}
+    if(has("who are you","your name","what are you","backstory","about you","where are you from","where do you live","longmont","where were you born","your story"))return "I’m Buddy “The Sports Doodle,” a goldendoodle from Longmont, Colorado. I’m a Colorado dog no matter whose game it is. I read the standings, sniff out big games and give opinions that are 100% for fun and 0% betting advice. Ask for “a story” and I’ll tell you more.";
+    if(has("jersey","number 23","your number","why 23"))return "My jersey is number 23, a hand-me-down from when I was a puppy. Why that number? You had to be there.";
+    if(has("lucky","ritual","superstit","squirrel"))return "Same couch spot, one lucky treat before kickoff and three tail wags. And if a squirrel shows up, all bets are off. I once missed an entire second quarter.";
+    if(has("whisker","rival","enemy")||/\bcat\b/.test(s))return "Professor Whiskers is a cat from across the street who covers the same games and picks against me on principle. He is right sometimes. I don’t like to talk about it.";
+    if(has("catchphrase","tagline","sign off","signoff","slogan"))return "I open with “Woof! Buddy ‘The Sports Doodle’ here, live from Longmont.” I close with “That’s the show. Keep your tail up!” And a big upset gets a loud “Tail-spin!”";
+    if(/\b(story|stories)\b/.test(s)||has("fun fact","about yourself","tell me something"))return pickN(BUDLORE.lore,String(Date.now()));
     if(has("outfit","wearing","suit","dressed"))return "I own a basketball jersey, a news desk suit, winter gear, a referee shirt and a game-day party hat. Right now I’m in: "+OUTS.filter(function(x){return x[0]===budOutfit()})[0][1].toLowerCase().replace("auto (by occasion)","my jersey")+". You can pick one in Settings.";
     if(has("joke","funny","laugh","pun"))return pickN(JOKES,String(Date.now()));
     var t=askFindTeam(q);if(t)return askTeam(t);
@@ -3370,19 +3429,20 @@ function askBlip(c){
     o.connect(g);g.connect(AUDX.destination);o.start(t);o.stop(t+0.08);
   }catch(e){}
 }
-function askSay(text,face,mode){
-  clearTimeout(ASKTM);ASKTYP=false;ASKTXT=String(text||"");
+function askSay(text,face,mode,cb){
+  clearTimeout(ASKTM);ASKTYP=false;ASKCB=cb||null;ASKTXT=String(text||"");
   var t=$("adt"),top=$("askTop"),dl=$("adlg");if(!t||!top)return;
   text=String(text||"");deskFace(face||"excited");
-  top.classList.remove("talk");
+  top.classList.remove("talk","rit");
+  function fin(){var c=ASKCB;ASKCB=null;if(c)setTimeout(c,700)}
   if(mode==="q"){dl.classList.remove("done");t.textContent=text;return}
-  if(mode==="i"||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)){dl.classList.add("done");t.textContent=text;return}
+  if(mode==="i"||(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)){dl.classList.add("done");t.textContent=text;fin();return}
   dl.classList.remove("done");top.classList.add("talk");t.textContent="";ASKTYP=true;
   var i=0,sp=text.length>220?14:28;
   function step(){
     i++;t.textContent=text.slice(0,i);var c=text.charAt(i-1);
     if(/[a-z0-9]/i.test(c)&&i%2)askBlip(c);
-    if(i>=text.length){ASKTYP=false;top.classList.remove("talk");dl.classList.add("done");return}
+    if(i>=text.length){ASKTYP=false;top.classList.remove("talk");dl.classList.add("done");fin();return}
     ASKTM=setTimeout(step,/[.!?]/.test(c)?230:/[,;:]/.test(c)?120:sp);
   }
   step();
@@ -3390,7 +3450,7 @@ function askSay(text,face,mode){
 function askSkip(){
   if(!ASKTYP)return;
   clearTimeout(ASKTM);ASKTYP=false;var t=$("adt"),top=$("askTop"),dl=$("adlg");
-  if(t)t.textContent=ASKTXT;if(top)top.classList.remove("talk");if(dl)dl.classList.add("done");
+  if(t)t.textContent=ASKTXT;if(top)top.classList.remove("talk");if(dl)dl.classList.add("done");var c=ASKCB;ASKCB=null;if(c)setTimeout(c,500);
 }
 var ASKTXT="";
 function renderAsk(){
@@ -3401,10 +3461,10 @@ function drawAsk(){
   var el=$("askScr");if(!el)return;var first=!el.getAttribute("data-b");
   if(!el.getAttribute("data-b")){
     el.setAttribute("data-b","1");
-    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
+    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div class="ralh">🍀 Rally Buddy: tell him what you need and he does his lucky routine</div><div class="views" id="askRal">'+RALCH.map(function(c){return '<button type="button" class="chip askch ral" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><details class="abt" id="abt"><summary>About Buddy</summary>'+BUDLORE.bio.map(function(p){return '<p>'+esc(p)+'</p>'}).join("")+'</details><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
     el.addEventListener("submit",function(e){e.preventDefault();var i=$("askIn");askRun(i.value);i.value=""});
     el.addEventListener("click",function(e){var sb=e.target.closest("[data-asnd]");if(sb){setPref("budsnd",!pref("budsnd",true));sb.textContent=pref("budsnd",true)?"\ud83d\udd0a":"\ud83d\udd07";askBlip("a");return}if(e.target.closest("#adlg")){askSkip();return}var b=e.target.closest("[data-ask]");if(b)askRun(b.getAttribute("data-ask"))});
-    if(!ASKL.length)ASKL.push({q:"Hi Buddy!",a:"Woof! Welcome to the news desk. Ask me about a team, tonight’s games, who’s hot, or tap a button below."});
+    if(!ASKL.length)ASKL.push({q:"Hi Buddy!",a:"Woof! Buddy “The Sports Doodle” here, live from Longmont. "+BUDLORE.season()+" Ask me about a team, tonight’s games, who’s hot, or ask who I am."});
   }
   renderAsk();
   if(!ASKTYP){var L=ASKL[ASKL.length-1];if(L&&L.a!==null)askSay(L.a,L.f||"excited",first?"":"i")}
@@ -3420,6 +3480,10 @@ function askFace(q,a){
   if(/joke|funny|laugh|pun/.test(s))return "laugh";
   if(/thank|love|good (dog|boy)|best (dog|buddy)|you rock/.test(s))return "love";
   if(/^i sniffed around/i.test(a||""))return "shocked";
+  if(/\b(story|stories|lucky|ritual|superstit|squirrel|fun fact)\b/.test(s))return "wink";
+  if(/whisker|\bcat\b|rival/.test(s))return "fired";
+  if(/\b(bye|goodbye|see you|good night|goodnight)\b/.test(s))return "sleepy";
+  if(/who are you|backstory|longmont|where are you from|about you|jersey/.test(s))return "excited";
   if(h<5&&/hi|hello|hey|tonight|game/.test(s))return "sleepy";
   if(/cold|cursed|worst|losing|slump/.test(s))return "sad";
   if(/hot|streak|fire|best team|top team/.test(s))return "fired";
@@ -3429,9 +3493,9 @@ function askFace(q,a){
 function askRun(q){
   q=String(q||"").trim();if(!q||ASKBUSY)return;
   ASKBUSY=true;var m={q:q,a:null};ASKL.push(m);if(ASKL.length>8)ASKL.shift();renderAsk();
-  askSay("Sniffing around\u2026","thinking","q");
-  askAnswer(q).then(function(a){m.a=a;m.f=askFace(q,a)},function(){m.a="Oops, I tripped over the cable. Try again.";m.f="sad"}).then(function(){
-    ASKBUSY=false;renderAsk();askSay(m.a,m.f||"excited");
+  askSay(pickN(BUDLORE.think,String(Date.now())),"thinking","q");
+  askAnswer(q).then(function(a){if(ASKRIT){m.a=a;m.f=ASKRIT[ASKRIT.length-1][0]}else{m.a=askLoreTail(a);m.f=askFace(q,a)}},function(){m.a="Oops, I tripped over the cable. Try again.";m.f="sad"}).then(function(){
+    ASKBUSY=false;renderAsk();var rt=ASKRIT;ASKRIT=null;if(rt)askRoutine(rt);else askSay(m.a,m.f||"excited");
   });
 }
 var budSeen=load("sp_budseen",{}),budTimer=null,budEl=null,magEl=null,budInsOn=false;
@@ -3482,11 +3546,12 @@ document.addEventListener("click",function(e){
   budInspect(false);budSay(msg,"excited",true);
 },true);
 function budHtml(){
-  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button><button class="btn" type="button" data-budset="outfit">Outfit: '+esc(budOutLab())+'</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
+  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button><button class="btn" type="button" data-budset="outfit">Outfit: '+esc(budOutLab())+'</button><button class="btn" type="button" data-budset="about">About Buddy</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
 }
 $("sheet").addEventListener("click",function(e){
   var b=e.target.closest("[data-budset]");if(!b)return;
   var k=b.getAttribute("data-budset");
+  if(k==="about"){closeSheet();setScr("ask");setTimeout(function(){var d=$("abt");if(d){d.open=true;try{d.scrollIntoView({block:"start"})}catch(e){}}},120);return}
   if(k==="buddy"){setPref("buddy",!budOn());if(!budOn())budHide()}
   else if(k==="mag"){setPref("mag",!magOn());budMag()}
   else if(k==="outfit"){budOutNext();toast("Buddy outfit: "+budOutLab())}
