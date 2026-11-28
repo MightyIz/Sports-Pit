@@ -218,6 +218,12 @@ dd{margin:0}
 .aa .bpic{position:relative;display:block;width:40px;flex:none;line-height:0}.aa .bpic>img:first-child{width:100%;display:block}.aa .bpic img.bface{width:36.76%}
 .dsbw{display:block;position:relative;width:136px;margin:0 auto;z-index:1}.dsbw .dsbud{margin:0}.dsbw img.bface{width:36.76%;z-index:2}
 .abt{margin:10px 0 6px;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:8px 14px}.abt summary{font-weight:700;cursor:pointer}.abt p{margin:8px 0;font-size:14.5px;line-height:1.45}
+.jface{position:absolute;left:20.59%;top:2.38%;width:73.53%;height:auto;image-rendering:pixelated;pointer-events:none}
+.bud .bw img.jface{position:absolute;display:block;left:20.59%;top:2.38%;width:73.53%;z-index:2;cursor:pointer}
+.abw img.jface{width:73.53%;z-index:2}
+.aa .bpic img.jface{width:73.53%}
+.adlg.jx{box-shadow:0 0 0 4px #0b1226,0 0 0 6px #35b6c0}.adlg.jx .adn{color:#7fe0e8}.adlg.jx .adc{color:#7fe0e8}
+.jsc{font-weight:700;font-size:14px;margin:8px 0 2px}
 .ralh{margin:10px 0 4px;font-weight:700;font-size:14px}.chip.ral{border-color:#2e8b4f}
 .atop.rit .abw{animation:abrit .45s ease-in-out infinite}@keyframes abrit{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(7deg) translateY(-6px)}}
 .atop{display:flex;gap:18px;align-items:flex-end;margin:12px 0 10px}
@@ -2728,9 +2734,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29q";
+var BUILD="2026-11-29r";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","New Rally Buddy mode on the Ask screen: tell Buddy what you need (a first down, a field goal, a stop, free throws, a power play, a run, overtime) and he performs his lucky routine step by step, with a new face for each step."],["Nov 29","Buddy has a backstory: a goldendoodle from Longmont, Colorado who is a Colorado dog no matter whose game it is. Ask him who he is, for a story, about his jersey number 23, his lucky rituals, his cat rival Professor Whiskers or his catchphrases. There is an About Buddy section on the Ask screen (and a button in Settings). He sneaks in a Buddy fact every few answers, adds his superstitions to his picks and says \u201cTail-spin!\u201d for big upsets."],["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","Meet Jax the Cat: a calm, brainy golden tabby in thick glasses who loves Colorado but keeps feelings out of the math. Flip cards now have a Jax says take next to Buddy\u2019s, the Ask screen has a Buddy vs Jax debate and a running scoreboard of whose picks were right, and Jax has his own outfits (Settings has a Jax outfit button) and a higher-pitched talking voice."],["Nov 29","New Rally Buddy mode on the Ask screen: tell Buddy what you need (a first down, a field goal, a stop, free throws, a power play, a run, overtime) and he performs his lucky routine step by step, with a new face for each step."],["Nov 29","Buddy has a backstory: a goldendoodle from Longmont, Colorado who is a Colorado dog no matter whose game it is. Ask him who he is, for a story, about his jersey number 23, his lucky rituals, his cat rival Professor Whiskers or his catchphrases. There is an About Buddy section on the Ask screen (and a button in Settings). He sneaks in a Buddy fact every few answers, adds his superstitions to his picks and says \u201cTail-spin!\u201d for big upsets."],["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -3050,7 +3056,7 @@ function bgSum(g){
   }).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(s){BGSUM[k]={at:Date.now(),s:s};return BGSUM[k]}).catch(function(){BGSUM[k]={at:Date.now(),s:null};return BGSUM[k]}).then(function(x){BGSUMP[k]=null;return x});
   return BGSUMP[k];
 }
-function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini" data-fcbud="'+g.id+'">\ud83d\udc36 Buddy\u2019s take</button><button type="button" class="mini">Flip back</button></div>'}
+function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini" data-fcbud="'+g.id+'">\ud83d\udc36 Buddy\u2019s take</button><button type="button" class="mini" data-fcjax="'+g.id+'">\ud83d\udc31 Jax says</button><button type="button" class="mini">Flip back</button></div>'}
 function bgBackHTML(g){
   var c=BGSUM[g.id],S=c&&c.s,done=isDone(g),live=isLive(g),h="";
   var e=bgFind(g),why=whyList(g).filter(function(x){return x!=="In progress now"}).concat(done?bgResultWhy(g,e):[]);
@@ -3186,6 +3192,7 @@ function drawBig(){
 $("bigScr").addEventListener("click",function(e){var b;
   if((b=e.target.closest("[data-bgt]"))){BGT=b.getAttribute("data-bgt");save("sp_bgt",BGT);drawBig();return}
   if(e.target.closest("a"))return;
+  if((b=e.target.closest("[data-fcjax]"))){var jg=GID[b.getAttribute("data-fcjax")];if(jg){var jk=jaxTake(jg);budSay(jk.t,jk.f||"calm",true,"jax")}return}
   if((b=e.target.closest("[data-fcbud]"))){var bg=GID[b.getAttribute("data-fcbud")];if(bg){var bk=budTake(bg);budSay(bk.t,bk.f||"excited",true)}return}
   if((b=e.target.closest("[data-fcdet]"))){openSheet(b.getAttribute("data-fcdet"));return}
   if((b=e.target.closest(".fc"))){bgFlip(b);return}
@@ -3246,7 +3253,7 @@ function budOutfit(){
 function budImg(mood){var o=budOutfit(),m=budBase(mood);if(o!=="jersey"&&BUDO[o])return BUDO[o][m]||BUDO[o].happy;return BUD[m]||BUD.happy}
 function budBase(m){return BUDF[m]?"happy":(m||"happy")}
 function budFaceTag(f){return BUDF[f]?'<img class="bface" alt="" src="'+BUDF[f]+'">':""}
-function budPic(base,f){return '<span class="bpic"><img alt="" src="'+base+'">'+budFaceTag(f)+'</span>'}
+function budPic(base,f,who){return who==="jax"?'<span class="bpic"><img alt="" src="'+jaxBaseImg()+'">'+jaxFaceTag(f)+'</span>':'<span class="bpic"><img alt="" src="'+base+'">'+budFaceTag(f)+'</span>'}
 function budOutLab(){var o=pref("budout","auto"),r=OUTS.filter(function(x){return x[0]===o})[0];return r?r[1]:OUTS[0][1]}
 function budOutNext(){var o=pref("budout","auto"),i=0;OUTS.forEach(function(x,k){if(x[0]===o)i=k});setPref("budout",OUTS[(i+1)%OUTS.length][0])}
 function hsh(s){var h=0;s=String(s);for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h)}
@@ -3265,7 +3272,7 @@ function budTake(g){
   var edge=g.lg==="NBA"?0.04:(g.lg==="MLS"?0.06:0.03);
   var fa=stFrac(g.lg,A),fh=stFrac(g.lg,H)+edge,d=fh-fa,ad=Math.abs(d),hp=d>=0;
   var P=hp?H:A,Q=hp?A:H,pa=hp?g.ha:g.aa,qa=hp?g.aa:g.ha;
-  o.pk=pa;
+  o.pk=pa;pickRec(g,"b",pa);
   var strength=ad<0.05?"a true coin flip":(ad<0.13?"a lean":"a strong lean");
   var notes=[budStreak(P,pa),budStreak(Q,qa)].filter(function(x){return x});
   var nt=notes.length?" "+notes.join(" and ")+".":"";
@@ -3292,11 +3299,11 @@ function budMvp(g,S){
 }
 function budTakeHTML(g,S){
   var t=budTake(g),m=budMvp(g,S);
-  return '<div class="bgs buds"><b>🐶 Buddy’s take</b><p>'+esc(t.t)+(m?'<br>'+esc(m):'')+'</p></div>';
+  var jt=jaxTake(g);return '<div class="bgs buds"><b>🐶 Buddy’s take</b><p>'+esc(t.t)+(m?'<br>'+esc(m):'')+'</p></div><div class="bgs buds"><b>🐱 Jax says</b><p>'+esc(jt.t)+'</p></div>';
 }
 var ASKL=[],ASKBUSY=false;
 var RALCH=["We need a first down!","Field goal time!","Touchdown!","Need a stop!","Free throws!","Power play!","We need a run!","Overtime!"];
-var ASKCH=["Who are you?","Tell me a story","Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
+var ASKCH=["Who are you?","Tell me a story","Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","What does Jax think?","Buddy vs Jax","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
 var BUDLORE={
 bio:[
 "Buddy “The Sports Doodle” is a goldendoodle from Longmont, Colorado, and he is a Colorado dog no matter where you are watching from. New York, Texas or Tokyo, he is still a Longmont dog.",
@@ -3304,25 +3311,25 @@ bio:[
 "His jersey is number 23, a hand-me-down from when he was a puppy. He has never explained why the number matters. He just says “you had to be there.”",
 "Rituals: the same spot on the couch, one lucky treat before every kickoff and three tail wags for luck. He trusts the wag count more than the stats.",
 "Flaws: he gets way too excited, hates early kickoffs and loses the plot the second a squirrel shows up.",
-"Rival: Professor Whiskers, a cat from across the street who covers the same games and picks against him on principle. Whiskers is right sometimes. Buddy does not like to talk about it.",
+"Jax the Cat: a golden tabby in thick glasses who lives across the street. He is calm, brainy and neutral. He loves Colorado but keeps his feelings out of the math, so he often disagrees with Buddy. He is right more often than Buddy admits.",
 "Catchphrases: he opens with “Woof! Buddy ‘The Sports Doodle’ here, live from Longmont.” He closes with “That’s the show. Keep your tail up!” And a big upset gets a loud “Tail-spin!”",
-"Everything he says is for fun. He is a dog, not a bookie."],
+"Everything they say is for fun. Buddy is a dog and Jax is a cat, and neither one is a bookie."],
 lore:[
 "I once got kicked out of a Rockies game for barking at an umpire. In my defense, it was a terrible call.",
 "My first word was “ball.” My second word was “again.”",
 "The garage I grew up in, in Longmont, had a radio that only got one station. It was always the game. I never learned another.",
 "Every winter I check the weather before the schedule. Snow delay means I am in.",
 "I once chased a squirrel through an entire second quarter. I don’t know the score. I regret nothing.",
-"Professor Whiskers picked against me last week and lost. He has not mentioned it. I have mentioned it nine times.",
+"Jax picked against me last week and lost. He has not mentioned it. I have mentioned it nine times.",
 "I own exactly one lucky treat. It is gone by kickoff. The luck stays.",
 "Longmont has a great view of the Front Range, and I have never once looked at it during a game."],
-hedge:["My tail wag count says so. Not science.","I had my lucky treat, so I feel good about it.","Same couch spot as last time, so the vibes are right.","Professor Whiskers picked the other side, which only makes me surer."],
-think:["Sniffing around…","Checking the standings…","Chasing a squirrel… I mean, the data…","Asking Professor Whiskers… never mind, he’s wrong…"],
+hedge:["My tail wag count says so. Not science.","I had my lucky treat, so I feel good about it.","Same couch spot as last time, so the vibes are right.","Jax picked the other side, which only makes me surer."],
+think:["Sniffing around…","Checking the standings…","Chasing a squirrel… I mean, the data…","Asking Jax… he says to check the sample size…"],
 season:function(){var m=new Date().getMonth();return m<2||m===11?"Snow outside and playoffs on the screen. Perfect.":m<4?"Mud season and brackets. Paws filthy, brain full.":m<6?"Playoff hockey and hoops, and I am still not tired.":m<8?"Preseason hope. Every team has hope right now.":m<10?"Football weather. Crisp air, big games, one treat per quarter.":"Cold paws, hot takes and the stretch run. This is my season."}
 };
 var RALLY=[
 [/first down|4th down|fourth down|move the chains|get the sticks/,[["thinking","Okay. First down routine. Nobody move, nobody sneeze."],["wink","*sits in the exact couch spot from the last big win*"],["excited","*three tail wags* one… two… three…",1],["fired","*points the lucky paw at the TV* GET. THE. STICKS.",1],["laugh","*eats the lucky treat* The treat is gone but the luck stays. Results not guaranteed. I am a dog."]]],
-[/field goal|extra point|kicker|\bkick\b/,[["thinking","Field goal routine. Everybody hold your breath. Not the dog, the dog is panting."],["sleepy","*closes both eyes so the kicker can’t see me looking*"],["wink","*crosses paws, then crosses them back in case it was the wrong way*"],["excited","*one tiny tail wag* …wait for it…",1],["love","*opens one eye* It’s GOOD! …or I owe Professor Whiskers a treat, and I will never recover."]]],
+[/field goal|extra point|kicker|\bkick\b/,[["thinking","Field goal routine. Everybody hold your breath. Not the dog, the dog is panting."],["sleepy","*closes both eyes so the kicker can’t see me looking*"],["wink","*crosses paws, then crosses them back in case it was the wrong way*"],["excited","*one tiny tail wag* …wait for it…",1],["love","*opens one eye* It’s GOOD! …or I owe Jax a treat, and I will never recover."]]],
 [/touchdown|red zone|goal line|end zone/,[["fired","Red zone routine. This is the big one. Everybody lean forward."],["thinking","*turns the jersey number 23 to face the TV*"],["excited","*pounds the couch cushion twice* thump, thump…",1],["wink","*whispers to the lucky treat* “Not yet. Save it.”"],["laugh","*spins in a circle three times* If it works, I’ll tell everyone it was me.",1]]],
 [/need a stop|defensive stop|get a stop|stop them|big stop|stand tall/,[["fired","Defensive stop routine. We need a wall."],["thinking","*plants all four paws on the floor like roots*"],["shocked","*stares at the other team’s quarterback without blinking*"],["fired","*one very loud bark* NOT TODAY.",1],["wink","*sits back down* That’s the whole trick. Stare hard, bark once, snack later."]]],
 [/free throw|three pointer|3 pointer|3pointer|buzzer/,[["thinking","Free throw routine. Total silence, please."],["wink","*bounces an imaginary ball three times with one paw* bounce… bounce… bounce…",1],["sleepy","*breathes out slowly through the nose* …and a little drool."],["excited","*tail wag on the release*",1],["love","*nothing but net, in my heart* If it misses, that was the other team’s doing."]]],
@@ -3338,11 +3345,77 @@ function askRoutine(steps){
   function next(){
     if(i>=steps.length){if(top)top.classList.remove("rit");return}
     var st=steps[i++];
-    askSay(st[1],st[0],"",next);
+    askSay(st[1],st[0],"",next,st[3]);
     if(top){if(st[2])top.classList.add("rit");else top.classList.remove("rit")}
   }
   next();
 }
+var JAXB={"sweater": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAAA2PlbgmEgmLEAbGCr67M7EeDJOWHTigITW7Pp4PhrONDx2xFT6+voUEh76xCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADsJG8uAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAANMSURBVHja7dphQ7QgDADgTA876+r//9v3JcJtMAREr7Hch7o7dD4J4o58ebniiuaYJhk5pECm6fW1Nc0ROWRB2tK0Z5AI2Z+odX+5EJuqNpndA/bWB6lNt39PyRCf7O2tNiEw/L5NFIGQOgpm6IWUUyhDM6SMEjJ0Q3DaVKT30AqBDkoHt71miE+9LPxvfmutENwBKQi/j04IHZLbkKfMrL8KiS/SHOTkeuQXIHG5Vw/ZU2b2AOGjDHLAV4oL0hUEF0AcJCyQ9EFwwlRZ6CGpdtfWPyRM9XiEqUvazRr1Cz0yIbAYN033Ox1893tJO4bsooiBwFKtD/5A+XZg6IDAiY8PjD/ZbneYQ9ZYhUE+/sfnp/0JB8q1w3DtGxJOTu2QnRSxEDiUPRAeirl2jRA4+T45vM61G6MTgk8/PuBtDb7dGL0QrhS8kYjbjdENoZgbG7Rw1geBFDGJh9BtdEG2v4TfkpGGnLIa8ERICYMudceUE6+ap0K4yy/VLTEDU4yJKRVfKoRAYKqiixKpYRozgEIJxsC01xMEhil/WdZB6KeVQ1YIJCwR81NY6gYIh3YdU7loIwQSF4j5qZ2H0MEaFknLkqEIgfDlYTuEKxs3KWIg9CE2D8kNUe5VXEBShIvNcyIEgqd4nIbrGrel/Qmv4q7h/hQP2ZzcxEDipV46jENi+IpO8X5vXAQAoxcIHbh+U0+7FQV98NRC8DvPKKSIgcSP1pdS4n+c4Xe7Fm/EQLjumudtxjznbvOHLGgJgdgk83ekEDbyj1UuS/VFLBgyrEER8Hk+8SGjRCAkFWWPI2NKvxB7YY7ZKPne0j/E3cKH4sgvQGBKb5A6QsjRBtmPyGH6g9QOz9qh2xfkOEK6k3AxIBvipvHhlMDTf7ZrREDgpnYWBG6K8iH0Fj8M83wswuajpQJQ5EHigudsiMNIhXDlHwdpm/RjiI1+IZbw/h17Mfog72scCSE3PdGQccQQx3issYcyz9xRsl0jEOKmHgf5+vKQsSK0Qf7eGEmd5uMvX/44/ULap3gtkLC8G6tDG+S4UvGClEHWMuCCdDtGxubIQX4WKrqBnN81F+SCaIOcffmui8BCIOlC51ld80O5IBekY8h8elyQjiD/AIp2zgXRldIUAAAAAElFTkSuQmCC", "blazer": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAABgRi58XD7gmEgbGCr67M7EeDL6+vrigITONDzW7Pp4PhqWdFJ2xFSWHigUEh76xCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+2TZCAAAAIHRSTlMA/////////////////////wAAAAAAAAAAAAAAAAAAAEzjGe4AAAOnSURBVHja7drrYuogDADg1VWcdhff/2l3MGISCLdSXeA0P3a0QPqdchky39722KM55llHDi2QeX5/b02zRQ5dkLY07Rk0QtYnam2vF2JT1SazLbD1eJDadOtbaoa4ZB8ftQmR4do2URRC6iiUMS6knMIZI0PKKD5jbAhNG4t4i1Eh2EHxkOqPDHGpl0X+V649KoR2QAwitxkTwodkGvKSlfVPIeEkzUGevB/5A0i43auHrNlm9gCRowyywUeKHdIVhG6AJIi/QRoPQhPGtoUOEiuHsv4hfqrTyU9dUm4eUX/QoxOCh3HzfLnwwXe5lJRTyCqKGgge1bqQb5QvR8YYEHzw4Y3plXQ5YDY5Y1UG+foXPz/2J94oV47DtW+Ivzi1Q1ZS1ELwVvZGdCjmykeE4MN3yfF1rtyYMSH08dMbHh8hlxszLkTaCh5ZhOXGjA3hmKMYfOM8HgRThCQZwuuMBUl/CD9GIw55ymnACyElDH7UHVKeOGteCpGmX6xbQgalGBNSKj5UKIHgUsUPJWLDNGQghROMwWWvJwgOU3la1kH41cohqwTibxHzS1jsFyDeGjqm8tBGCSTcIOaXdhnCB6u/SVqWDEUJRN4etkOkbWOSogbCv8TmILkhKr0KN5AcAZF8JkogdImnaaSugZr2J74Ku0b6rzhIcnFTAwmPevkw9on+K77Eu9Z0E4CMXiB84LqqjnYsCv7FUwuh7xyjkKIGEn61vpQS/uGMvlt1eKMGIg/kNCO/Qd7kQEsJBDlxREn7ZamexIoh83y6B0e4q2WUTQasOogcZWk5pV+IHYzTdDjEGYfDNJUM2f4hsEzZ21jI+SwzzmdXo25Z6w0CBLgFxPkW9tbftwCEDaxjW6QwvUIcgjIcxAZA8D2tBe1imP4gbnj6iHIIx/icviBI2AYidRLdDOiGuGU8D0lP3xDCl/9s16iAAEJK4EOmKVzg4XoaYgMw+iGIgASfnymKDZ/hAiarz7D5/Dp6IRzRArGZYNj6SwCHQF2tEB/RBsHFLQexMRaEUiiDfrTYIQC5Xksh7Jeeasg0lUAcBSdkqmuk9tmuUQixCUoh6ek7CiTdNZbCl+34Et8LRGb4kFTn+FfcNoC3lyFAGQsSjx3yf0Po9XydUSEHMUqvxyCPbUB3kFjEIH5s1jWqILAl4HG9tkLuBxVdQsK43mKHKOwaRZD26TsqRJraJZDHIbASSIzxuq65UzqDpB57rMRvMxZkHyM7ZIfcIb/7wt3JgBI+wQAAAABJRU5ErkJggg==", "winter": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAAAuXKoeQH7gmEgbGCr67M7EeDL6+vrONDzigITW7Pp4PhpWhM6WHih2xFQUEh4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADVGa1YAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAAM/SURBVHja7dvbYqQgDADQapWuY7v9/7/tZimGQLh4GRto8tCxg4TTERGp8/KioXE6pqlUDnEuR0uQaXp9TacBwtv/yGHyOVqEpNI4hIvUXukM7UL4RDWQXP22IZAqTFaCQA2s3R8kTpeH5Gq2C3HJlsU/QDRwQKPhari6pygCITbdHyZss1yJX7NHCCSE9B8ftpnSK0BcvV4hy7IP4mopRCEKUQhC3naFQn4bBF73QZ44H/khSDzdo7Gu/CsNf5rZD4SPOsgFtxQKaQri30BxkPgGqzeInzB1W+kg6dtOm6d1SJjK3miHrFK52aK8LNwGBBfjpunxoJ3v8agp9yGHKGIguFTrgm+oXI6MPiD4wccN++/kyy3mkjVWYZC//+LzE35iQ6Vy7K5tQ8LB6TzkIEUsBJuChvyuWCrvEYIfvkuO26VyY/qE+B+/3+C8BV9uTL8Qbio4k4jLjekbQjEzG3Ti3B8EU8QkHkL36QuSvwmfk5GGPGU14EZIDWMhEVOeeNbcCuFOv9RhiRk+xZiYsuOmQggEhyq6KJHqpjEDKZRgDA57LUGwm/Kn5T4IfXdnlxUCCaeI5SEsdQHEpu2B2bloIwQSTxDLQzsPoZ01nCSta4EiBMJPD89DuGljliIGQh9ic5BSF+W24gkkRdjIfiZCIP4Q76fhDo3dE37iVnxouD/FQbKDmxhIvNRLu3FIDLfoEO9q+5MAZLQCoR3X7epoc1XQB08B4v/mGJUUMZD40fpaCvfIqb99YEItBsJ35DyjPEG+ZEFLACS3SMMv1qQzrevuk1gcxD08ax9SsdsUge/nv8Rw8uCIhuS3c5CQohCFlCitQWBwGob9kGHID2ttQiwC4ggEIoVpD2IvXMMWRyEOE381qiUIJdRDaIQZKMafDMiGwO7jOFSHv6//RR9+X3qTkT00IiAWAfEsCITFyIcgwkLe36+FQD7MT/8hKw9CEcchuZOXQixGKiRE3AWBUEjLkPFA+KdvXU5y0RMNGcfrBzSuleKhUUhnkPzp2wqEZ9wFsRSFKOT3QnLRPuSu2KYB4iHaR34O8r1QoRCFKEQhByHbIrAQSPqSdxfkm9IA5L5oBaJ9RCEKYSBf4Wf1eS2WsMQAAAAASUVORK5CYII=", "ref": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAADgmEgUEh76+vobGCooJjT67M7EeDLigITW7Pp4PhrIyNJGRlp2xFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADSDO9dAAAAIHRSTlMA/////////////////wAAAAAAAAAAAAAAAAAAAAAAAMhUwNYAAANTSURBVHja7dprW+sgDABgt15wVf//31VEloSEW9vVwEM+eDppw3sGZSnu7W3EiMMxzzpyaIHM8+12NM0ZOXRBjqU5nkEjZH+io9frhdhUtcnsFXB1f5DadPuv1Azxyd7faxMCw197iKIQUkfBjH4h5RTK6BlSRgkZfUNw2ljEr+gVAgMUD+n8niE+9bbJ/8pn9wrBAxCDyNf0CaFTMg25ZGX9Vwi/SXOQF9cj/wDh5V49ZE+Z2QJEjjLICY8UA9IUBBdAEiQskPqD4ISxstBDYu2urX1ImGqawtQl7eYZ9Rs9OiGwGTfPjwedfI9HSTuG7KKogcBWrQ+5o3w7MPqAwBvPO8a/Sbc7zCl7rMogXz9xv9uf0FGuHaZr25BwcToO2UlRC4GubEd4Kubae4TAm++Tw3Gu3Zg+Ifjtxx2uz5DbjekXIpWCKwnebkzfEIpZxaCFc38QSMFJMoSe0xck/RC+RiMOecluwIWQEgbd6uaUF941l0Kk2y82LJyBKcZwSsVDhRIILFV0UyI2TTkDKJRgDCx7LUFgmsq3ZR2E/rZyyiqBhCVifgmLfQBC125gKjdtlEB4gZhf2mUInaxhkbRtGYoSiFweHodIZWOSogZCv8TmIbkpKh3xApIiXCTfEyUQvMTjNNLQuDPtTzjiQyP9VzwkubipgfCtXjqNQ2J4RJd4fzUuAoDRCoROXH+qp61FQb94aiH4lWcUUtRA+FfrSyn8D2f41a7NGzUQeSKnGfkC+ZQNLSUQj5kmGTFN7k9quQzbVn0TK4U4hAu+dTVN0JbLc3Bw1EBsCtwdjnIGp7QL4V3ef4Pz+oe49FK3/LU7p2ZZaw0CBB+0a86A8+KYViEcwSkxRhrTHgRPTyk+PkoY8anbFiRN8JDUNM0PEi4GdEPs6cuSZ+ApW8KwsSz0ISM5NCogDmGjDOIopQwLseEw+iGAcBD3prsE4bFn4GFJnW+PPz89xGOAog9CEXWQVOdxiMNohYSIHMQu7mdAbAzIgOQg5ENPNWRZYoldQbQHIvWSHZoBaQ7iS+aeITLjKoijtAuxH/8D4gaExoDYx8t5HpBrIM8yoDHIuGuuhPxtVDQFOeN4QAZkQM6CPDeBlUBijOsgf5QBGZABGZA+IN9nzetxoSN56wAAAABJRU5ErkJggg==", "party": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAAAolpbgmEgbGCqgKFT67M7EeDL60jzigITW7Pp4PhrcRnj6+vrONDx2xFQYZGT6xCgUEh4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABUshWxAAAAIHRSTlMA//////////////////////8AAAAAAAAAAAAAAAAAAFCw8GQAAAOASURBVHja7dttg9ogDABgKytT5+28//9nV+RoCIS3Fr2QNR9uTtrwTFKkXHc67Qyl/jxDqdPPBhOIY/w45a2QXAe1kC5IJhClzud0mjpIPseIkBpKniEPkk6k1O9npNvz548LManiZIZhBoammDPgbHkQKl0Okj9zVIhLdrlQCV2husBt7gx37i4KQ0hMAca0BKb4DLmQkJKGYIZkiE8JCxUKNmTIhkBa06mbynCkzpALsYlDCLymj5cNuVziAfFR4dGyIVCq6aDPkQmpYcQUqZBzFLcb/acfsiDxcq8dklpmjg6how7S4ZbigAwFUWvQEL9dJsRPqKLAkFS7bRsfEqa638PUNe16DWqjZ0QIbMYpdb3i4rtea9p9yCYKGwhs1bqgOyq3A0MGBD74uGP/nXy7xXTZY2UG+bvE15f5CR2V2qFcx4aEk9N+yEYKWwh0ZTryS7HULhECH75LDq9L7VrLhPgfv9/hvAbdrrVcCLUUnFHE7VrLhmDMTAZeOMuDQIqYREPwMbIg+ZvwORlpyEt2A94IqWHgre6Y8sKr5q0Q6vJLDUvM8Clax5SGmwomEJiq8KZEqkxjBlAwQWuY9kaCQJnSl2UbBL/bWLJMIOESsTyFpb4AoWs7MI2bNkwg8QKxPLXTEFys4SLpditQmEDo5eF+CLVszFLYQPBDbA5SKlHqVbyAxAgb2c+ECcSf4v001NDYI81PeBUPDfVPcZDs5MYGEm/14jIOieErPMW7s/1FADBGgeDChYfcLGauCvzgqYH4f3OMSgobSPxofS0l/sUZfqByw4KaDYQarmnKM6ap9DXfZUOLCcQkmZ6RQpgopYZLuOEiZg+JMfB+OXGXKmEISUVNYkwZF2IuzM9i1Ny3jA+xX+FTdZQ3IHzKaJA2QsiRBtmOKGHGg7SWZ2vpjgXpR0gPkr8Y4A1JIe5L9MQUh4YFxBz2a4nXQUx2i+EPcYgUpE+4HvAvZPlBfMR7IBbDFYIRaUiPST/saVyIIXw8Yx9GAuSxhIF8rNEGMf8tKg1BX3psITiRgVjGfY0WCoaElOzQMIXYUrWQxyMPqflilAUpDY0MSN0Ev/3yrZnSxoT0meLlQHotA2RB+i8WD0hqIXBAZNVIuNDZD/neqDggYiD9i/WAjAbp1aG9VS1T1k1gJpDXDUwt5JsiBLJtcjsg/xOkz5R2QBhD/gFUzs61OUqLdQAAAABJRU5ErkJggg==", "scholar": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACoCAMAAAAMyFZWAAAAYFBMVEUAAAAXFSUiHjLgmEj67M7IMjzEeDL6+vrigITW7PpGPmB4Phr6xCiWHih2xFQUEh4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABlDzpuAAAAIHRSTlMA////////////////////AAAAAAAAAAAAAAAAAAAAAEGSIDkAAANvSURBVHja7dzbetsgDADg4mTk4HR9/7fdqEqEQICw03wCo4vUMwb+moMJafbxMWPG7jCmlu5iXxk9QYw5nXLFmCi2lNEnhCvGZENaQt+QsCAjinz+USCuqNaguUeDmM0xFsQPvXI8qrGbogxyOl2v25vmeh0T4qK9y0K+cSGOIsXQXI4yJkTaQHGOsSGSoUyvn5BjQWQDOM4zLkS6SEpzPR7jQU5JrCv/Mwx46EHsoCiB4JsBjiGDuLwjQviQQVxHnZAjQcJJi4PEk9p4kLDA3FTuIbl0SNvx2FMCiYu6XOKiJen2GfVt4T4g4UbN7UY77u0mSQ8hmyhqIOk2DV9RPR0ZY0DwxqcVh2fK6YB5yR6rMsjf//H15V6xolo6dte+IfHktB+ykaIWglW5isKuWEsfEYI33xeOx7V0a8eEhLc/rPD8DD7d2nEh3FLwTCJNt3ZsCMWc2aAL5/EgWERK4iH0mrEg5Tfh52zkIb+yG/BGiIRBt7pTyi+OmrdCuOGXa5aUEVKsTSkNbyqUQHCqopsSuW6aMpBCCdbitNcTBLspPyzbIPRsY5dVAomXiPUpLPcAxKqhYRo3bZRA0gVifWrnIbSzxoukda1QlED45eF+CLdsLFLUQGB6jyG1LsodpQtIioAo3hMlkHCKD4vhmgaudK94lDYN96t4SHFyUwNJt3ppN46J8RGd4n3ucBGAjF4gtOP6Sz3tLArf0X3ecFoHSsPyUQ0k/dN6KSX9A7jwX5s2b9RA+I5cZtQXyC/Z0FICQU4eIcm/rs2DWDHET1Lc1pVPqZfxkg6rAOIqcR+s5r664M5fLvDRawulTwggIIxZ2MArgDsyBG69HNI2rfUFgSLTG19rGDiT5/QIQUK+Kkla7mtifUFiQq26WrMBp09I2iA5CFbJn+UxdBENoRnih92ySCgcpJwXXgVNowSCD/RlkVOkDN80fsGgHUKXOMtyv5cgf57x+YnHJYgrL/eBrD5IuugrQVyBPKTUMD1BuGVwGbIsPITrmiWIpxwB4srwzQWYCYm7MA8hDz3VEGP2QIBBJ/77naul2jTKITgYZZDHY0KUNk0TJPclt30Qbvjy9RwHkk7xx4Zwy4AJiZeKEyKDPJcBEzL7SBbys3UzIRMyIROyEfLcGFcCyf9XFe+DfFMmZEImZELGgPwDwKLJqXvVekEAAAAASUVORK5CYII="};
+var JAXF={"smug": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABcBAMAAABq5Q2nAAAAMFBMVEUAAAAaGCx4PhrgmEj67M4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACSjSH7AAAAEHRSTlMA/////wAAAAAAAAAAAAAANgXDwwAAAHVJREFUeNrt1sENgCAMheFfN+gKXcEVur4rsIIreFAvKh5IlZi870IogQZIAyAiIpJveBp0gHKOju1Z/Ajsi3rxmwStWUS+q5dpa+ZaP6NeAANY6n3Vi4hIR0bWH6b3lEjMcjmlgDAgageW8orZfh9mL+7lz1ZCTQmz7ATfbgAAAABJRU5ErkJggg==", "thinking": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABcBAMAAABq5Q2nAAAAMFBMVEUAAAAaGCzW7Pp2xFT6+voUEh4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABONh0eAAAAEHRSTlMA//////8AAAAAAAAAAAAALD5QaQAAAH9JREFUeNrt1jEOgCAQRNGP2ljuFWgtub5XsLX0ClzBkmhCzIpamHkVU8CEUCwBD4NMh1twlSRY8o2WP20Jn7yLr+L961uy2y3f3EVERJxTLAJs9fzIrIxksHLsObe0DGWZY2S2em5o6cuhk42wVnNLy0G6yP/7XGnui4iIPG4H3K8TJteSxd0AAAAASUVORK5CYII=", "amused": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABcBAMAAABq5Q2nAAAAMFBMVEUAAADW7PoUEh76+voaGCzigIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeRepsAAAAEHRSTlMA//////8AAAAAAAAAAAAALD5QaQAAAJVJREFUeNrtlsENAyEMBPfQNbC1pAXKpgW3kBbcQj4hJ6O7xymG5LHzQPgBxmvEAgghhBBCZLIdUwKAX8edcj9LiZu+x7M4J8vMJTuCREEgngr25cGIZxBojJP64vTQlxgn1eLDlXKkKbYt6YsQQixxZABA/bxcbHkuNmbBo09sor1WI41GWsW8Wmr3LUf76Vfhb/3lBQbdGWVE6KebAAAAAElFTkSuQmCC", "surprised": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABcBAMAAABq5Q2nAAAAMFBMVEUAAAAaGCx2xFR4PhrW7PoUEh767M76+voAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADVu+0UAAAAEHRSTlMA/////////wAAAAAAAAAAhDaLNgAAAKtJREFUeNrtlLENgzAQRV9IlfKv4BVYwSuwgrfNHJS0KSkiEWPZIMGBUtyr/Cz5fnHWB8dxHMex55FLD7yrktMdT+mpDa3edr6bW4mS4oab7CUqhJCNLd3ij4EEME0tP5PyXE4fDa+RselWP3nY8eMp9zz5oUAgqOk220daL7t0mxQEq6Gle485jnMeoYtrPIG+FZYuaf4lRgi1Q2zaMiFthZxt/p3G//vmnwESRB32uqdk7QAAAABJRU5ErkJggg==", "unimpressed": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABcBAMAAABq5Q2nAAAAMFBMVEUAAAAaGCx4PhrgmEj67M4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACSjSH7AAAAEHRSTlMA/////wAAAAAAAAAAAAAANgXDwwAAAG9JREFUeNrt1TEKgDAMheFfnTJ6Ba/g6pjre4VeoaujQ1sEoSBowcL7hoQESqCkFERERHo15LyURqDayUbdmvx3k2FNaa/Vbzb5msIMEOu13ouIiDw23WqPZnbMZraFypEv/hcHT4GGU3AvoeWUfp3YMAu/lbX37QAAAABJRU5ErkJggg=="};
+var JOUTS=[["auto","Auto (by occasion)"],["sweater","Sweater"],["blazer","Blazer and bow tie"],["winter","Winter gear"],["ref","Referee"],["party","Party hat"],["scholar","Cap and gown"]];
+var ASKWHO="buddy",ASKONE=null;
+function jaxOutfit(){
+  var o=pref("jaxout","auto");if(o!=="auto"&&JAXB[o])return o;
+  if(SCR==="ask")return "scholar";
+  if(SCR==="news"||SCR==="big"||SCR==="stand")return "blazer";
+  if(SCR==="scores")return "ref";
+  if(budMyToday())return "party";
+  var m=new Date().getMonth();return (m>=10||m<=2)?"winter":"sweater";
+}
+function jaxBaseImg(){return JAXB[jaxOutfit()]||JAXB.sweater}
+function jaxFaceTag(f){return JAXF[f]?'<img class="jface" alt="" src="'+JAXF[f]+'">':""}
+function jaxOutLab(){var o=pref("jaxout","auto"),r=JOUTS.filter(function(x){return x[0]===o})[0];return r?r[1]:JOUTS[0][1]}
+function jaxOutNext(){var o=pref("jaxout","auto"),i=0;JOUTS.forEach(function(x,k){if(x[0]===o)i=k});setPref("jaxout",JOUTS[(i+1)%JOUTS.length][0])}
+function pickRec(g,k,pk){
+  if(!g||!pk||isDone(g)||isLive(g))return;
+  var P=load("sp_picks",{}),e=P[g.id]||(P[g.id]={t:Date.now()});if(e[k])return;e[k]=pk;
+  var ks=Object.keys(P);if(ks.length>80){ks.sort(function(a,b){return P[a].t-P[b].t});ks.slice(0,ks.length-80).forEach(function(x){delete P[x]})}
+  save("sp_picks",P);
+}
+function jaxScore(){
+  var P=load("sp_picks",{}),b=0,j=0,n=0;
+  Object.keys(P).forEach(function(id){var g=GID[id],e=P[id];if(!g||!e.b||!e.j||!isDone(g)||!g.sc||g.sc.h===g.sc.a)return;var w=g.sc.h>g.sc.a?g.ha:g.aa;n++;if(e.b===w)b++;if(e.j===w)j++});
+  return {b:b,j:j,n:n};
+}
+function jaxScoreText(){var s=jaxScore();return s.n?"Scoreboard: Buddy "+s.b+", Jax "+s.j+" ("+s.n+" game"+(s.n>1?"s":"")+" judged)":"Scoreboard: Buddy 0, Jax 0. Picks they both make count once the game is final."}
+function jaxTake(g){
+  var o={t:"",pk:"",f:"calm",agree:false};
+  if(STCFG[g.lg]&&!SD[g.lg])stLoad(g.lg,false);
+  var A=stFind(g.lg,g.aa,g.an),H=stFind(g.lg,g.ha,g.hn),co=isCO(g)?"I love Colorado as much as anyone, but I try to keep my feelings out of the math. ":"";
+  if(!A||!H){o.f="thinking";o.t="Not enough data yet. I decline to guess, which is more than I can say for certain dogs.";return o}
+  function adj(r){var f=0.5+0.75*(stFrac(g.lg,r)-0.5),m=/^([WL])(\d+)$/.exec(r.sk||"");if(m&&+m[2]>=3)f+=(m[1]==="W"?-0.012:0.012)*Math.min(+m[2],6);return f}
+  var hp=adj(H)+0.01>=adj(A),P=hp?H:A,Q=hp?A:H,pa=hp?g.ha:g.aa,qa=hp?g.aa:g.ha;
+  o.pk=pa;var bt=budTake(g);o.agree=bt.pk===pa;
+  var mq=/^([WL])(\d+)$/.exec(Q.sk||""),mp=/^([WL])(\d+)$/.exec(P.sk||""),why;
+  if(mq&&mq[1]==="W"&&+mq[2]>=3)why=qa+"’s "+mq[2]+"-game win streak is exciting, but streaks usually cool off.";
+  else if(mp&&mp[1]==="L"&&+mp[2]>=3)why=pa+"’s "+mp[2]+"-game skid should ease, because slumps rarely last forever.";
+  else why=pickN(["records are noisy, so I trust the whole season more than one week.","one game rarely tells you much, so I lean on the full sample.","the home edge is real but small, and I weigh it that way."],g.id);
+  if(isDone(g)&&g.sc&&showSc(g)){
+    var wa=g.sc.h>g.sc.a?g.ha:g.aa,ok=wa===pa;
+    o.f=ok?"smug":"unimpressed";o.t=co+"Result check: "+wa+" won. I had "+pa+" and Buddy had "+bt.pk+". "+(ok?"The numbers held up. I will try not to gloat.":"The reasoning was sound and the game disagreed anyway. That is sports.");return o;
+  }
+  pickRec(g,"j",pa);
+  if(o.agree){o.f="unimpressed";o.t=co+"For once, Buddy and I agree on "+pa+". I checked the numbers twice. I did not enjoy it."}
+  else{o.f="smug";o.t=co+"Respectfully, I disagree with Buddy. I like "+pa+" ("+stRec(g.lg,P)+" vs "+stRec(g.lg,Q)+") because "+why+" Just my read, not betting advice."}
+  return o;
+}
+function jaxDebate(g){
+  var b=budTake(g),j=jaxTake(g);
+  if(!b.pk||!j.pk)return null;
+  var st=[["excited",b.t,0,"buddy"],[j.f,j.t,0,"jax"]];
+  if(j.agree){st.push(["shocked","We agree?! Quick, somebody write this down.",1,"buddy"]);st.push(["unimpressed","Please do not make a thing of it.",0,"jax"])}
+  else{
+    st.push([pickN(["shocked","fired"],g.id),pickN(["Jax! You can’t just ignore the wag count!","That is a lot of words for a no.","Numbers are fine, but my tail does not lie."],g.id),1,"buddy"]);
+    st.push([pickN(["smug","amused"],g.id),pickN(["Your tail is charming. It is not a data source.","Noted. I will check back after the final whistle.","I will be here, calmly, when the scoreboard speaks."],g.id),0,"jax"]);
+  }
+  st.push(["love","That’s the show. Keep your tail up!",0,"buddy"]);st.push(["amused","And keep your sample size up.",0,"jax"]);
+  return st;
+}
+var JAXDEB=[
+[["excited","Hot take: my three-wag routine helps teams win.",1,"buddy"],["smug","Hot take: a team’s winning percentage helps teams win. The wags are optional.",0,"jax"],["shocked","Optional?! I wag every single game.",1,"buddy"],["amused","And some of those games your team lost. That is called a sample.",0,"jax"],["fired","Fine. Let the scoreboard decide.",1,"buddy"],["calm","It always does.",0,"jax"]],
+[["fired","Early kickoffs are the worst. Nobody should play before the second breakfast.",1,"buddy"],["calm","Statistically, early kickoffs are fine. The only casualty is your mood.",0,"jax"],["sad","My mood matters!",0,"buddy"],["amused","I will send a note to the league.",0,"jax"],["laugh","Please send treats with it.",1,"buddy"],["unimpressed","No.",0,"jax"]],
+[["excited","Best game day snack: a lucky treat, one per kickoff.",1,"buddy"],["thinking","Interesting claim. Sample size of one dog.",0,"jax"],["shocked","It works every time I do it!",1,"buddy"],["smug","It also works if you do nothing. That is how luck works.",0,"jax"],["laugh","I choose to believe in the treat.",1,"buddy"],["amused","I choose to believe in a snack plan with a backup.",0,"jax"]]
+];
 var ASKN=0;
 function askLoreTail(a){ASKN++;if(ASKN%5===0&&a&&a.indexOf("Buddy fact")<0)return a+"\n\nBuddy fact: "+pickN(BUDLORE.lore,String(Date.now()));return a}
 var JOKES=["Why are basketball players messy eaters? They’re always dribbling.","Why was the football stadium so cool? It was full of fans.","Why did the soccer player bring string to the game? So he could tie the score.","Why did the hockey player bring a ladder? He heard the other team was going top shelf.","What did the baseball glove say to the ball? Catch you later.","What’s the loudest sport? Tennis. Everyone raises a racket.","Why do referees make terrible roommates? They keep calling fouls on the dishes.","What’s a hockey player’s favorite cheese? Swiss, because of all the holes in the defense.","Why did the Broncos fan bring a ladder? To get to Mile High.","Why did the scoreboard get a promotion? Great numbers.","My fantasy team is so bad that even I won’t sit for it, and I’m a dog.","Why can’t you trust a stadium with a secret? Too many people leaking it from the stands.","I’d be a great coach. I already know how to call a play and I never skip a walk."];
@@ -3371,6 +3444,10 @@ function askTeam(t){
   return L.join("\n");
 }
 function askTop(){var now=Date.now(),l=visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)});l.sort(function(a,b){return rk(a)-rk(b)||a.s-b.s});return l[0]}
+function askScan(){
+  var now=Date.now();
+  visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)&&!isLive(g)}).slice(0,8).forEach(function(g){try{jaxTake(g)}catch(e){}});
+}
 function askStreaks(kind){
   var all=[];Object.keys(SD).forEach(function(lg){((SD[lg]||{}).d||[]).forEach(function(r){var m=/^([WL])(\d+)$/.exec(r.sk||"");if(m&&m[1]===kind&&+m[2]>=3)all.push({lg:lg,n:r.n,k:+m[2],rec:stRec(lg,r)})})});
   all.sort(function(a,b){return b.k-a.k});return all.slice(0,5);
@@ -3389,11 +3466,25 @@ function askAnswer(q){
     if(/^(hi|hey|hello|yo|sup|howdy)\b/.test(s))return "Woof! Buddy here, live from the news desk. Ask me about a team, tonight’s games, who’s hot, or a joke.";
     if(has("thank"))return "Anytime! *tail wags*";
     if(/\b(bye|goodbye|see you|good night|goodnight)\b/.test(s))return "That’s the show. Keep your tail up!";
+    if(has("jax")&&!/debate|argue|fight|\bvs\b|versus/.test(s)){
+      var jg0=askTop();
+      if(has("think","pick","take","predict","who wins","who will","opinion","say")){
+        if(!jg0)return "Jax is not weighing in yet. I don’t see an upcoming game for your leagues.";
+        var jt0=jaxTake(jg0);ASKONE={who:"jax",f:jt0.f};return "On "+jg0.an+" at "+jg0.hn+": "+jt0.t;
+      }
+      ASKONE={who:"jax",f:"smug"};
+      return "I am Jax. I live across the street from Buddy and I read the standings the way other cats read the weather. I love Colorado, but I try to keep my feelings out of the math. I disagree with Buddy often, and I am right slightly more often. Ask me what I think of tonight’s game, or ask for Buddy vs Jax.";
+    }
+    if(/debate|\bargue\b|\bfight\b|buddy (vs|versus)|(vs|versus) jax|jax (vs|versus)/.test(s)){
+      var dg=askTop(),ds=dg?jaxDebate(dg):null;
+      if(!ds)ds=pickN(JAXDEB,String(Date.now()));
+      ASKRIT=ds;return ds.map(function(x){return (x[3]==="jax"?"Jax: ":"Buddy: ")+x[1]}).join("\n");
+    }
     var rl=rallyFind(s);if(rl){ASKRIT=rl;return rl.map(function(x){return x[1]}).join("\n")}
     if(has("who are you","your name","what are you","backstory","about you","where are you from","where do you live","longmont","where were you born","your story"))return "I’m Buddy “The Sports Doodle,” a goldendoodle from Longmont, Colorado. I’m a Colorado dog no matter whose game it is. I read the standings, sniff out big games and give opinions that are 100% for fun and 0% betting advice. Ask for “a story” and I’ll tell you more.";
     if(has("jersey","number 23","your number","why 23"))return "My jersey is number 23, a hand-me-down from when I was a puppy. Why that number? You had to be there.";
     if(has("lucky","ritual","superstit","squirrel"))return "Same couch spot, one lucky treat before kickoff and three tail wags. And if a squirrel shows up, all bets are off. I once missed an entire second quarter.";
-    if(has("whisker","rival","enemy")||/\bcat\b/.test(s))return "Professor Whiskers is a cat from across the street who covers the same games and picks against me on principle. He is right sometimes. I don’t like to talk about it.";
+    if(has("rival","enemy")||/\bcat\b/.test(s))return "That would be Jax, the cat across the street. Calm, brainy, thick glasses, always with a spreadsheet. He is right sometimes. I don’t like to talk about it. Ask “What does Jax think?” to hear him.";
     if(has("catchphrase","tagline","sign off","signoff","slogan"))return "I open with “Woof! Buddy ‘The Sports Doodle’ here, live from Longmont.” I close with “That’s the show. Keep your tail up!” And a big upset gets a loud “Tail-spin!”";
     if(/\b(story|stories)\b/.test(s)||has("fun fact","about yourself","tell me something"))return pickN(BUDLORE.lore,String(Date.now()));
     if(has("outfit","wearing","suit","dressed"))return "I own a basketball jersey, a news desk suit, winter gear, a referee shirt and a game-day party hat. Right now I’m in: "+OUTS.filter(function(x){return x[0]===budOutfit()})[0][1].toLowerCase().replace("auto (by occasion)","my jersey")+". You can pick one in Settings.";
@@ -3420,19 +3511,19 @@ function askTopHTML(){
 }
 var ASKTM=null,ASKTYP=false,AUDX=null;
 function askBlip(c){
-  if(!pref("budsnd",true)||SCR!=="ask")return;
+  if(!pref("budsnd",true)||SCR!=="ask")return;var jx=ASKWHO==="jax";
   try{
     AUDX=AUDX||new (window.AudioContext||window.webkitAudioContext)();if(AUDX.state==="suspended")AUDX.resume();
     var o=AUDX.createOscillator(),g=AUDX.createGain(),t=AUDX.currentTime;
-    o.type="square";o.frequency.value=230+(String(c||"a").charCodeAt(0)%11)*26;
+    o.type=jx?"triangle":"square";o.frequency.value=(jx?520:230)+(String(c||"a").charCodeAt(0)%11)*(jx?34:26);
     g.gain.setValueAtTime(0.045,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.07);
     o.connect(g);g.connect(AUDX.destination);o.start(t);o.stop(t+0.08);
   }catch(e){}
 }
-function askSay(text,face,mode,cb){
+function askSay(text,face,mode,cb,who){
   clearTimeout(ASKTM);ASKTYP=false;ASKCB=cb||null;ASKTXT=String(text||"");
   var t=$("adt"),top=$("askTop"),dl=$("adlg");if(!t||!top)return;
-  text=String(text||"");deskFace(face||"excited");
+  text=String(text||"");deskWho(who||"buddy");deskFace(face||"excited");
   top.classList.remove("talk","rit");
   function fin(){var c=ASKCB;ASKCB=null;if(c)setTimeout(c,700)}
   if(mode==="q"){dl.classList.remove("done");t.textContent=text;return}
@@ -3454,24 +3545,35 @@ function askSkip(){
 }
 var ASKTXT="";
 function renderAsk(){
-  var el=$("askLog");if(!el)return;
-  el.innerHTML=ASKL.slice().reverse().map(function(m){return '<div class="aq">'+esc(m.q)+'</div><div class="aa">'+budPic(BUDO.anchor.happy,m.a===null?"thinking":m.f)+'<div>'+(m.a===null?'<span class="note">Buddy is thinking…</span>':esc(m.a).replace(/\n/g,"<br>"))+'</div></div>'}).join("");
+  var el=$("askLog");if(!el)return;var sc=$("jaxsc");if(sc)sc.textContent="\ud83d\udc36 vs \ud83d\udc31  "+jaxScoreText();
+  el.innerHTML=ASKL.slice().reverse().map(function(m){return '<div class="aq">'+esc(m.q)+'</div><div class="aa">'+budPic(BUDO.anchor.happy,m.a===null?"thinking":m.f,m.who)+'<div>'+(m.a===null?'<span class="note">Buddy is thinking…</span>':esc(m.a).replace(/\n/g,"<br>"))+'</div></div>'}).join("");
 }
 function drawAsk(){
   var el=$("askScr");if(!el)return;var first=!el.getAttribute("data-b");
   if(!el.getAttribute("data-b")){
     el.setAttribute("data-b","1");
-    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div class="ralh">🍀 Rally Buddy: tell him what you need and he does his lucky routine</div><div class="views" id="askRal">'+RALCH.map(function(c){return '<button type="button" class="chip askch ral" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><details class="abt" id="abt"><summary>About Buddy</summary>'+BUDLORE.bio.map(function(p){return '<p>'+esc(p)+'</p>'}).join("")+'</details><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
+    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div class="ralh">🍀 Rally Buddy: tell him what you need and he does his lucky routine</div><div class="views" id="askRal">'+RALCH.map(function(c){return '<button type="button" class="chip askch ral" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><details class="abt" id="abt"><summary>About Buddy</summary>'+BUDLORE.bio.map(function(p){return '<p>'+esc(p)+'</p>'}).join("")+'</details><div class="jsc" id="jaxsc"></div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
     el.addEventListener("submit",function(e){e.preventDefault();var i=$("askIn");askRun(i.value);i.value=""});
     el.addEventListener("click",function(e){var sb=e.target.closest("[data-asnd]");if(sb){setPref("budsnd",!pref("budsnd",true));sb.textContent=pref("budsnd",true)?"\ud83d\udd0a":"\ud83d\udd07";askBlip("a");return}if(e.target.closest("#adlg")){askSkip();return}var b=e.target.closest("[data-ask]");if(b)askRun(b.getAttribute("data-ask"))});
     if(!ASKL.length)ASKL.push({q:"Hi Buddy!",a:"Woof! Buddy “The Sports Doodle” here, live from Longmont. "+BUDLORE.season()+" Ask me about a team, tonight’s games, who’s hot, or ask who I am."});
   }
   renderAsk();
-  if(!ASKTYP){var L=ASKL[ASKL.length-1];if(L&&L.a!==null)askSay(L.a,L.f||"excited",first?"":"i")}
+  Promise.all(Object.keys(STCFG).map(function(l){return stLoad(l,false)})).then(function(){askScan();renderAsk()}).catch(function(){});
+  if(!ASKTYP){var L=ASKL[ASKL.length-1];if(L&&L.a!==null)askSay(L.a,L.f||"excited",first?"":"i",null,L.who)}
+}
+function deskWho(w){
+  var top=$("askTop"),dl=$("adlg");if(!top||!dl)return;var wr=top.querySelector(".abw");if(!wr)return;
+  var jx=w==="jax";ASKWHO=jx?"jax":"buddy";
+  if(wr.getAttribute("data-w")===ASKWHO)return;
+  wr.setAttribute("data-w",ASKWHO);dl.classList.toggle("jx",jx);
+  var nm=dl.querySelector(".adn span");if(nm)nm.textContent=jx?"JAX":"BUDDY";
+  wr.innerHTML=jx?'<img class="dsbud" alt="Jax the Cat" src="'+jaxBaseImg()+'">':'<img class="dsbud" alt="Buddy The Sports Doodle" src="'+budImg("excited")+'">';
 }
 function deskFace(f){
   var im=document.querySelector("#askScr .dsbud");if(!im)return;
-  var w=im.parentNode,o=w.querySelector(".bface");
+  var w=im.parentNode,o;
+  if(ASKWHO==="jax"){o=w.querySelector(".jface");if(JAXF[f]){if(!o){o=document.createElement("img");o.className="jface";o.alt="";w.appendChild(o)}o.src=JAXF[f];o.style.display=""}else if(o)o.style.display="none";return}
+  o=w.querySelector(".bface");
   im.src=budImg(f==="thinking"?"thinking":(f==="excited"?"excited":"happy"));
   if(BUDF[f]){if(!o){o=document.createElement("img");o.className="bface";o.alt="";w.appendChild(o)}o.src=BUDF[f];o.style.display=""}else if(o)o.style.display="none";
 }
@@ -3481,7 +3583,7 @@ function askFace(q,a){
   if(/thank|love|good (dog|boy)|best (dog|buddy)|you rock/.test(s))return "love";
   if(/^i sniffed around/i.test(a||""))return "shocked";
   if(/\b(story|stories|lucky|ritual|superstit|squirrel|fun fact)\b/.test(s))return "wink";
-  if(/whisker|\bcat\b|rival/.test(s))return "fired";
+  if(/jax|whisker|\bcat\b|rival/.test(s))return "fired";
   if(/\b(bye|goodbye|see you|good night|goodnight)\b/.test(s))return "sleepy";
   if(/who are you|backstory|longmont|where are you from|about you|jersey/.test(s))return "excited";
   if(h<5&&/hi|hello|hey|tonight|game/.test(s))return "sleepy";
@@ -3492,21 +3594,22 @@ function askFace(q,a){
 }
 function askRun(q){
   q=String(q||"").trim();if(!q||ASKBUSY)return;
-  ASKBUSY=true;var m={q:q,a:null};ASKL.push(m);if(ASKL.length>8)ASKL.shift();renderAsk();
+  ASKBUSY=true;ASKONE=null;var m={q:q,a:null};ASKL.push(m);if(ASKL.length>8)ASKL.shift();renderAsk();
   askSay(pickN(BUDLORE.think,String(Date.now())),"thinking","q");
-  askAnswer(q).then(function(a){if(ASKRIT){m.a=a;m.f=ASKRIT[ASKRIT.length-1][0]}else{m.a=askLoreTail(a);m.f=askFace(q,a)}},function(){m.a="Oops, I tripped over the cable. Try again.";m.f="sad"}).then(function(){
-    ASKBUSY=false;renderAsk();var rt=ASKRIT;ASKRIT=null;if(rt)askRoutine(rt);else askSay(m.a,m.f||"excited");
+  askAnswer(q).then(function(a){var o1=ASKONE;ASKONE=null;if(ASKRIT){m.a=a;m.f=ASKRIT[ASKRIT.length-1][0];m.who=ASKRIT[ASKRIT.length-1][3]||"buddy"}else if(o1){m.a=a;m.f=o1.f;m.who=o1.who}else{m.a=askLoreTail(a);m.f=askFace(q,a);m.who="buddy"}},function(){m.a="Oops, I tripped over the cable. Try again.";m.f="sad"}).then(function(){
+    ASKBUSY=false;renderAsk();var rt=ASKRIT;ASKRIT=null;if(rt)askRoutine(rt);else askSay(m.a,m.f||"excited","",null,m.who);
   });
 }
 var budSeen=load("sp_budseen",{}),budTimer=null,budEl=null,magEl=null,budInsOn=false;
 function budOn(){return pref("buddy",true)}
 function magOn(){return pref("mag",true)}
 function budHide(){if(budEl){budEl.remove();budEl=null}clearInterval(budTimer)}
-function budSay(text,mood,force){
+function budSay(text,mood,force,who){
   if(!force&&!budOn())return;
   budHide();
   var d=document.createElement("div");d.className="bud"+(mood==="excited"||mood==="fired"||mood==="laugh"||mood==="love"?" hype":"");d.setAttribute("role","status");
   d.innerHTML='<div class="bw"><svg class="btail" viewBox="0 0 40 44" aria-hidden="true"><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#1a182c" stroke-width="7" stroke-linecap="round"/><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#e6b880" stroke-width="4" stroke-linecap="round"/><g fill="#e6b880" stroke="#1a182c" stroke-width="1.6"><circle cx="19.2" cy="12.0" r="4.4"/><circle cx="17.1" cy="17.1" r="4.4"/><circle cx="12.0" cy="19.2" r="4.4"/><circle cx="6.9" cy="17.1" r="4.4"/><circle cx="4.8" cy="12.0" r="4.4"/><circle cx="6.9" cy="6.9" r="4.4"/><circle cx="12.0" cy="4.8" r="4.4"/><circle cx="17.1" cy="6.9" r="4.4"/></g><circle cx="12" cy="12" r="8" fill="#e6b880"/><path d="M8 9q3-3 6 0M7 14q4 3 8 0" fill="none" stroke="#d4a268" stroke-width="1.4" stroke-linecap="round"/></svg><img alt="Buddy The Sports Doodle" src="'+budImg(mood)+'">'+budFaceTag(mood)+'</div><div class="bal"><div class="bn">Buddy \u201cThe Sports Doodle\u201d</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button><a data-bud="off">Turn Buddy off</a></div></div>';
+  if(who==="jax"){d.className="bud";d.innerHTML='<div class="bw"><img alt="Jax the Cat" src="'+jaxBaseImg()+'">'+jaxFaceTag(mood)+'</div><div class="bal"><div class="bn">Jax the Cat</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button></div></div>'}
   document.body.appendChild(d);budEl=d;
   var bt=d.querySelector(".bt"),i=0;
   budTimer=setInterval(function(){i+=2;bt.textContent=text.slice(0,i);if(i>=text.length){clearInterval(budTimer);bt.textContent=text}},22);
@@ -3546,7 +3649,7 @@ document.addEventListener("click",function(e){
   budInspect(false);budSay(msg,"excited",true);
 },true);
 function budHtml(){
-  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button><button class="btn" type="button" data-budset="outfit">Outfit: '+esc(budOutLab())+'</button><button class="btn" type="button" data-budset="about">About Buddy</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
+  return '<div class="ulh">Buddy the helper</div><div class="actions"><button class="btn" type="button" data-budset="buddy">Buddy tips: '+(budOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="mag">Magnifying glass: '+(magOn()?"On":"Off")+'</button><button class="btn" type="button" data-budset="replay">Replay tips</button><button class="btn" type="button" data-budset="outfit">Outfit: '+esc(budOutLab())+'</button><button class="btn" type="button" data-budset="jax">Jax outfit: '+esc(jaxOutLab())+'</button><button class="btn" type="button" data-budset="about">About Buddy</button></div><div class="meta" style="margin-top:8px">Buddy pops up once per screen with a short tip. The magnifying glass lets you tap anything to learn what it is. Both can be turned off any time.</div>';
 }
 $("sheet").addEventListener("click",function(e){
   var b=e.target.closest("[data-budset]");if(!b)return;
@@ -3555,6 +3658,7 @@ $("sheet").addEventListener("click",function(e){
   if(k==="buddy"){setPref("buddy",!budOn());if(!budOn())budHide()}
   else if(k==="mag"){setPref("mag",!magOn());budMag()}
   else if(k==="outfit"){budOutNext();toast("Buddy outfit: "+budOutLab())}
+  else if(k==="jax"){jaxOutNext();toast("Jax outfit: "+jaxOutLab())}
   else{budSeen={};save("sp_budseen",budSeen);setPref("buddy",true);toast("Tips will pop up again as you visit each screen.")}
   var sy=$("sheet").scrollTop;openSettings();$("sheet").scrollTop=sy;
 });
