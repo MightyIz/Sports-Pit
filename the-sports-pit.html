@@ -223,6 +223,11 @@ dd{margin:0}
 .abw img.jface{width:73.53%;z-index:2}
 .aa .bpic img.jface{width:73.53%}
 .adlg.jx{box-shadow:0 0 0 4px #0b1226,0 0 0 6px #35b6c0}.adlg.jx .adn{color:#7fe0e8}.adlg.jx .adc{color:#7fe0e8}
+.pface{position:absolute;left:48.53%;top:17.86%;width:42.65%;height:auto;image-rendering:auto;pointer-events:none}
+.bud .bw img.pface{position:absolute;display:block;left:48.53%;top:17.86%;width:42.65%;z-index:2;cursor:pointer}
+.abw img.pface{width:42.65%;z-index:2}
+.aa .bpic img.pface{width:42.65%}
+.adlg.px{box-shadow:0 0 0 4px #0b1226,0 0 0 6px #f0a030}.adlg.px .adn{color:#ffc26b}.adlg.px .adc{color:#ffc26b}
 .jsc{font-weight:700;font-size:14px;margin:8px 0 2px}
 .ralh{margin:10px 0 4px;font-weight:700;font-size:14px}.chip.ral{border-color:#2e8b4f}
 .atop.rit .abw{animation:abrit .45s ease-in-out infinite}@keyframes abrit{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(7deg) translateY(-6px)}}
@@ -2734,9 +2739,9 @@ function liveCatch(manual){
 setTimeout(liveCatch,800);
 
 /* ---------- settings: Update button and log ---------- */
-var BUILD="2026-11-29r";
+var BUILD="2026-11-29s";
 function ulog(m){ULOG.unshift({t:Date.now(),m:m});ULOG=ULOG.slice(0,60);save("sp_ulog",ULOG)}
-var SITELOG=[["Nov 29","Meet Jax the Cat: a calm, brainy golden tabby in thick glasses who loves Colorado but keeps feelings out of the math. Flip cards now have a Jax says take next to Buddy\u2019s, the Ask screen has a Buddy vs Jax debate and a running scoreboard of whose picks were right, and Jax has his own outfits (Settings has a Jax outfit button) and a higher-pitched talking voice."],["Nov 29","New Rally Buddy mode on the Ask screen: tell Buddy what you need (a first down, a field goal, a stop, free throws, a power play, a run, overtime) and he performs his lucky routine step by step, with a new face for each step."],["Nov 29","Buddy has a backstory: a goldendoodle from Longmont, Colorado who is a Colorado dog no matter whose game it is. Ask him who he is, for a story, about his jersey number 23, his lucky rituals, his cat rival Professor Whiskers or his catchphrases. There is an About Buddy section on the Ask screen (and a button in Settings). He sneaks in a Buddy fact every few answers, adds his superstitions to his picks and says \u201cTail-spin!\u201d for big upsets."],["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
+var SITELOG=[["Nov 29","Meet Parlay the Pigeon (Pidge): a city pigeon who treats every game like a street crossing and loves a bold pick. He interrupts with stats and stadium facts, has a Pidge says take on flip cards, joins the Buddy vs Jax debate, builds a Pidge\u2019s parlay from the next few games and has his own spot on the scoreboard. He bets pretend bird seed only, never money."],["Nov 29","Meet Jax the Cat: a calm, brainy golden tabby in thick glasses who loves Colorado but keeps feelings out of the math. Flip cards now have a Jax says take next to Buddy\u2019s, the Ask screen has a Buddy vs Jax debate and a running scoreboard of whose picks were right, and Jax has his own outfits (Settings has a Jax outfit button) and a higher-pitched talking voice."],["Nov 29","New Rally Buddy mode on the Ask screen: tell Buddy what you need (a first down, a field goal, a stop, free throws, a power play, a run, overtime) and he performs his lucky routine step by step, with a new face for each step."],["Nov 29","Buddy has a backstory: a goldendoodle from Longmont, Colorado who is a Colorado dog no matter whose game it is. Ask him who he is, for a story, about his jersey number 23, his lucky rituals, his cat rival Professor Whiskers or his catchphrases. There is an About Buddy section on the Ask screen (and a button in Settings). He sneaks in a Buddy fact every few answers, adds his superstitions to his picks and says \u201cTail-spin!\u201d for big upsets."],["Nov 29","Ask Buddy: the flying desk graphic is gone. Buddy and his current face now sit at the top with a retro game text box that types out each answer letter by letter with little talking blips (tap the box to skip, speaker button to mute). Chat history stays below."],["Nov 29","Standings team details now say games back in the conference for NBA teams (it was labeled as a division gap)."],["Nov 29","Buddy now has seven new faces: sad, shocked, laughing, winking, fired up, sleepy and love-eyes. He shows them in his picks (laughs when he called it, looks shocked at an upset, sad when a coin flip goes the wrong way) and at the Ask desk (laughs at jokes, gets fired up about hot teams, winks at predictions)."],["Nov 29","New Ask Buddy screen: Buddy runs a flying sports news desk in a suit. Ask about a team, who wins tonight, who is hot or cold, a hot take or a joke. Flip cards now have Buddy\u2019s take and an MVP vote, and Buddy has outfits: a suit, winter gear, a referee shirt and a game-day party hat that change by screen and season (or pick one in Settings)."],["Nov 29","Big Games cards now flip with a tap to show team stats, storyline, win probability, top players and highlights, plus a new Last week tab. The Ticker has a When setting: All, Yesterday, Today, Tomorrow or Next week."],["Nov 29","New Standings screen with divisions, playoff picture, hot and cold streaks and team details, plus a new icon menu to switch screens."],["Nov 29","TV mode asks for full screen right away, and retries on your first tap if the browser said no."],["Nov 29","Fixed the league buttons (NFL, NBA, NHL, MLB, MLS) in the team color picker not switching."],["Nov 29","Fixed the Close button in Settings not working after picking a team color."],["Nov 29","Buddy\u2019s tail is now fur-colored with an outlined pom-pom."],["Nov 29","Buddy\u2019s tail wags extra fast when he\u2019s excited about a big game."],["Nov 29","Buddy now has a wagging pom-pom tail."],["Nov 29","Team colors in Settings are now tap buttons: pick a league, then tap your team and the whole site changes to its colors."],["Nov 29","Buddy now introduces himself as Buddy \u201cThe Sports Doodle\u201d every time he pops up."],["Nov 29","Meet Buddy: a basketball-jersey dog who pops up once per screen with a short tip, plus a floating magnifying glass \u2014 tap it, then tap anything to learn what it is. Both can be turned off in Settings."],["Nov 28","New Ticker window button (Ticker controls): opens a small ticker strip in its own window that you can park over a picture-in-picture area on a TV."],["Nov 28","TV mode is full screen: just the giant ticker and a small \u2715 to exit. The bar that stays at the bottom of the page is now called Anchored ticker bar."],["Nov 28","A game in progress now still shows why it is a big game."],["Nov 28","TV mode is now one giant scrolling ticker: bigger text, no news crawl or extra bars."],["Nov 28","New Big Games screen: the biggest games Yesterday (scores, highlights, why they were big), Today and This week (why they matter), plus Players of the week. The top tabs now wrap to two lines on phones."],["Nov 28","New Scores screen: Yesterday, Last 7 days and Standings (NFL, NBA, NHL), with a My teams filter. The menu button for the live feed is now called Live scores."],["Nov 27","Yesterday and Last 7 days now have a clear title (\u201cYesterday\u2019s scores\u201d) with the game count and date."],["Nov 27","MLS teams added to the team colors list."],["Nov 27","Team colors: pick any NFL, NBA, NHL or MLB team in Settings and the site takes on its colors."],["Nov 27","Color palettes in Settings: Blue & Red, Scoreboard Green, Violet & Gold, Broncos, Nuggets, Avalanche, Rockies, Rapids, CU Buffs, or your own custom colors. Scoreboard-style numbers and a colored header bar."],["Nov 26","Swappable data layer: all feed calls go through one provider (ESPN today) so a licensed source can replace it."],["Nov 26","Game reminders, share button, favorite-team alerts, Jump to now button, standings that update themselves, remembered view and filters, light/dark switch in Settings."],["Nov 26","Arrow buttons under Today\u2019s pick to step through the picks. Settings gear with an Update button and update log."],["Nov 25","New games are added automatically as leagues publish them. Live & next up strip, wider schedule board, My teams chip, news sorted newest first, calendar links on Games of the week."],["Earlier","Leagues popup shared across screens, 4-button navigation, full-screen TV mode, grouped ticker controls, Games of the week."]];
 function siteBuild(){return fetch(location.pathname+"?x="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(s){var m=/var BUILD="([^"]+)"/.exec(s);return m?m[1]:""})}
 function newsOnce(){return Promise.all(PROV.leagues.map(function(lg){return newsFetch(lg).catch(function(){return null})})).then(function(rs){var got=[];rs.forEach(function(r){if(r)got=got.concat(r)});if(got.length){got.sort(function(a,b){return b.p-a.p});NEWS=got.concat(NEWS_KEEP);NEWS_AT=Date.now();tkAll();if(SCR==="news")drawNews()}return got.length})}
 function palHtml(){
@@ -3056,7 +3061,7 @@ function bgSum(g){
   }).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(s){BGSUM[k]={at:Date.now(),s:s};return BGSUM[k]}).catch(function(){BGSUM[k]={at:Date.now(),s:null};return BGSUM[k]}).then(function(x){BGSUMP[k]=null;return x});
   return BGSUMP[k];
 }
-function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini" data-fcbud="'+g.id+'">\ud83d\udc36 Buddy\u2019s take</button><button type="button" class="mini" data-fcjax="'+g.id+'">\ud83d\udc31 Jax says</button><button type="button" class="mini">Flip back</button></div>'}
+function bgBackAct(g){return '<div class="act"><button type="button" class="mini primary" data-fcdet="'+g.id+'">Game details and channels</button><button type="button" class="mini" data-fcbud="'+g.id+'">\ud83d\udc36 Buddy\u2019s take</button><button type="button" class="mini" data-fcjax="'+g.id+'">\ud83d\udc31 Jax says</button><button type="button" class="mini" data-fcpid="'+g.id+'">\ud83d\udc26 Pidge says</button><button type="button" class="mini">Flip back</button></div>'}
 function bgBackHTML(g){
   var c=BGSUM[g.id],S=c&&c.s,done=isDone(g),live=isLive(g),h="";
   var e=bgFind(g),why=whyList(g).filter(function(x){return x!=="In progress now"}).concat(done?bgResultWhy(g,e):[]);
@@ -3192,6 +3197,7 @@ function drawBig(){
 $("bigScr").addEventListener("click",function(e){var b;
   if((b=e.target.closest("[data-bgt]"))){BGT=b.getAttribute("data-bgt");save("sp_bgt",BGT);drawBig();return}
   if(e.target.closest("a"))return;
+  if((b=e.target.closest("[data-fcpid]"))){var pg=GID[b.getAttribute("data-fcpid")];if(pg){var pk=pidgeTake(pg);budSay(pk.t,pk.f||"cocky",true,"pidge")}return}
   if((b=e.target.closest("[data-fcjax]"))){var jg=GID[b.getAttribute("data-fcjax")];if(jg){var jk=jaxTake(jg);budSay(jk.t,jk.f||"calm",true,"jax")}return}
   if((b=e.target.closest("[data-fcbud]"))){var bg=GID[b.getAttribute("data-fcbud")];if(bg){var bk=budTake(bg);budSay(bk.t,bk.f||"excited",true)}return}
   if((b=e.target.closest("[data-fcdet]"))){openSheet(b.getAttribute("data-fcdet"));return}
@@ -3253,7 +3259,7 @@ function budOutfit(){
 function budImg(mood){var o=budOutfit(),m=budBase(mood);if(o!=="jersey"&&BUDO[o])return BUDO[o][m]||BUDO[o].happy;return BUD[m]||BUD.happy}
 function budBase(m){return BUDF[m]?"happy":(m||"happy")}
 function budFaceTag(f){return BUDF[f]?'<img class="bface" alt="" src="'+BUDF[f]+'">':""}
-function budPic(base,f,who){return who==="jax"?'<span class="bpic"><img alt="" src="'+jaxBaseImg()+'">'+jaxFaceTag(f)+'</span>':'<span class="bpic"><img alt="" src="'+base+'">'+budFaceTag(f)+'</span>'}
+function budPic(base,f,who){return (who==="jax"||who==="pidge")?'<span class="bpic"><img alt="" src="'+whoImg(who)+'">'+whoFaceTag(who,f)+'</span>':'<span class="bpic"><img alt="" src="'+base+'">'+budFaceTag(f)+'</span>'}
 function budOutLab(){var o=pref("budout","auto"),r=OUTS.filter(function(x){return x[0]===o})[0];return r?r[1]:OUTS[0][1]}
 function budOutNext(){var o=pref("budout","auto"),i=0;OUTS.forEach(function(x,k){if(x[0]===o)i=k});setPref("budout",OUTS[(i+1)%OUTS.length][0])}
 function hsh(s){var h=0;s=String(s);for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h)}
@@ -3299,11 +3305,11 @@ function budMvp(g,S){
 }
 function budTakeHTML(g,S){
   var t=budTake(g),m=budMvp(g,S);
-  var jt=jaxTake(g);return '<div class="bgs buds"><b>🐶 Buddy’s take</b><p>'+esc(t.t)+(m?'<br>'+esc(m):'')+'</p></div><div class="bgs buds"><b>🐱 Jax says</b><p>'+esc(jt.t)+'</p></div>';
+  var jt=jaxTake(g);return '<div class="bgs buds"><b>🐶 Buddy’s take</b><p>'+esc(t.t)+(m?'<br>'+esc(m):'')+'</p></div><div class="bgs buds"><b>🐱 Jax says</b><p>'+esc(jt.t)+'</p></div><div class="bgs buds"><b>🐦 Pidge says</b><p>'+esc(pidgeTake(g).t)+'</p></div>';
 }
 var ASKL=[],ASKBUSY=false;
 var RALCH=["We need a first down!","Field goal time!","Touchdown!","Need a stop!","Free throws!","Power play!","We need a run!","Overtime!"];
-var ASKCH=["Who are you?","Tell me a story","Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","What does Jax think?","Buddy vs Jax","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
+var ASKCH=["Who are you?","Tell me a story","Who wins tonight?","Best game to watch?","Who’s hot right now?","Hot take","What does Jax think?","What does Pidge think?","Pidge’s parlay","Buddy vs Jax","Tell me a joke","Broncos?","Nuggets?","Who’s cold?"];
 var BUDLORE={
 bio:[
 "Buddy “The Sports Doodle” is a goldendoodle from Longmont, Colorado, and he is a Colorado dog no matter where you are watching from. New York, Texas or Tokyo, he is still a Longmont dog.",
@@ -3312,8 +3318,9 @@ bio:[
 "Rituals: the same spot on the couch, one lucky treat before every kickoff and three tail wags for luck. He trusts the wag count more than the stats.",
 "Flaws: he gets way too excited, hates early kickoffs and loses the plot the second a squirrel shows up.",
 "Jax the Cat: a golden tabby in thick glasses who lives across the street. He is calm, brainy and neutral. He loves Colorado but keeps his feelings out of the math, so he often disagrees with Buddy. He is right more often than Buddy admits.",
+"Parlay the Pigeon, Pidge for short: a city pigeon with a green visor and a gold chain who treats every game like a street crossing. He loves a bold pick, a parlay and a stat about turf. He only bets pretend bird seed.",
 "Catchphrases: he opens with “Woof! Buddy ‘The Sports Doodle’ here, live from Longmont.” He closes with “That’s the show. Keep your tail up!” And a big upset gets a loud “Tail-spin!”",
-"Everything they say is for fun. Buddy is a dog and Jax is a cat, and neither one is a bookie."],
+"Everything they say is for fun. Buddy is a dog, Jax is a cat and Pidge is a pigeon, and none of them is a bookie."],
 lore:[
 "I once got kicked out of a Rockies game for barking at an umpire. In my defense, it was a terrible call.",
 "My first word was “ball.” My second word was “again.”",
@@ -3373,11 +3380,13 @@ function pickRec(g,k,pk){
   save("sp_picks",P);
 }
 function jaxScore(){
-  var P=load("sp_picks",{}),b=0,j=0,n=0;
-  Object.keys(P).forEach(function(id){var g=GID[id],e=P[id];if(!g||!e.b||!e.j||!isDone(g)||!g.sc||g.sc.h===g.sc.a)return;var w=g.sc.h>g.sc.a?g.ha:g.aa;n++;if(e.b===w)b++;if(e.j===w)j++});
-  return {b:b,j:j,n:n};
+  var P=load("sp_picks",{}),b=0,j=0,p=0,n=0;
+  Object.keys(P).forEach(function(id){var g=GID[id],e=P[id];if(!g||!e.b||!e.j||!isDone(g)||!g.sc||g.sc.h===g.sc.a)return;var w=g.sc.h>g.sc.a?g.ha:g.aa;n++;if(e.b===w)b++;if(e.j===w)j++;if(e.p===w)p++});
+  var ph=0,pn=0;
+  load("sp_parl",[]).forEach(function(q){var ok=true,dn=true;q.ids.forEach(function(id,i){var g=GID[id];if(!g||!isDone(g)||!g.sc||g.sc.h===g.sc.a){dn=false;return}var w=g.sc.h>g.sc.a?g.ha:g.aa;if(w!==q.pk[i])ok=false});if(dn){pn++;if(ok)ph++}});
+  return {b:b,j:j,p:p,n:n,ph:ph,pn:pn};
 }
-function jaxScoreText(){var s=jaxScore();return s.n?"Scoreboard: Buddy "+s.b+", Jax "+s.j+" ("+s.n+" game"+(s.n>1?"s":"")+" judged)":"Scoreboard: Buddy 0, Jax 0. Picks they both make count once the game is final."}
+function jaxScoreText(){var s=jaxScore();return s.n?"Scoreboard: Buddy "+s.b+", Jax "+s.j+", Pidge "+s.p+" ("+s.n+" game"+(s.n>1?"s":"")+" judged)"+(s.pn?". Pidge’s parlays: "+s.ph+" of "+s.pn+" hit":""):"Scoreboard: Buddy 0, Jax 0, Pidge 0. Picks they make count once the game is final."}
 function jaxTake(g){
   var o={t:"",pk:"",f:"calm",agree:false};
   if(STCFG[g.lg]&&!SD[g.lg])stLoad(g.lg,false);
@@ -3402,13 +3411,13 @@ function jaxTake(g){
 function jaxDebate(g){
   var b=budTake(g),j=jaxTake(g);
   if(!b.pk||!j.pk)return null;
-  var st=[["excited",b.t,0,"buddy"],[j.f,j.t,0,"jax"]];
+  var pt=pidgeTake(g),st=[["excited",b.t,0,"buddy"],[j.f,j.t,0,"jax"],[pt.f,pt.line,1,"pidge"]];
   if(j.agree){st.push(["shocked","We agree?! Quick, somebody write this down.",1,"buddy"]);st.push(["unimpressed","Please do not make a thing of it.",0,"jax"])}
   else{
     st.push([pickN(["shocked","fired"],g.id),pickN(["Jax! You can’t just ignore the wag count!","That is a lot of words for a no.","Numbers are fine, but my tail does not lie."],g.id),1,"buddy"]);
     st.push([pickN(["smug","amused"],g.id),pickN(["Your tail is charming. It is not a data source.","Noted. I will check back after the final whistle.","I will be here, calmly, when the scoreboard speaks."],g.id),0,"jax"]);
   }
-  st.push(["love","That’s the show. Keep your tail up!",0,"buddy"]);st.push(["amused","And keep your sample size up.",0,"jax"]);
+  st.push(["love","That’s the show. Keep your tail up!",0,"buddy"]);st.push(["amused","And keep your sample size up.",0,"jax"]);st.push([pickN(["grin","smug"],g.id),pickN(["And keep your parlay slip dry. Seeds on the line, folks.","Nobody ever got rich walking the sidewalk. Step into the street."],g.id),0,"pidge"]);
   return st;
 }
 var JAXDEB=[
@@ -3416,6 +3425,54 @@ var JAXDEB=[
 [["fired","Early kickoffs are the worst. Nobody should play before the second breakfast.",1,"buddy"],["calm","Statistically, early kickoffs are fine. The only casualty is your mood.",0,"jax"],["sad","My mood matters!",0,"buddy"],["amused","I will send a note to the league.",0,"jax"],["laugh","Please send treats with it.",1,"buddy"],["unimpressed","No.",0,"jax"]],
 [["excited","Best game day snack: a lucky treat, one per kickoff.",1,"buddy"],["thinking","Interesting claim. Sample size of one dog.",0,"jax"],["shocked","It works every time I do it!",1,"buddy"],["smug","It also works if you do nothing. That is how luck works.",0,"jax"],["laugh","I choose to believe in the treat.",1,"buddy"],["amused","I choose to believe in a snack plan with a backup.",0,"jax"]]
 ];
+var PIDB="pidge/base.png";
+var PIDF={"wide":"pidge/wide.png","grin":"pidge/grin.png","thinking":"pidge/thinking.png","shocked":"pidge/shocked.png","smug":"pidge/smug.png"};
+function whoImg(w){return w==="pidge"?PIDB:jaxBaseImg()}
+function whoFaceTag(w,f){if(w==="pidge")return PIDF[f]?'<img class="pface" alt="" src="'+PIDF[f]+'">':"";return jaxFaceTag(f)}
+var PIDPOOL={
+NFL:["Some NFL stadiums use natural grass and some use artificial turf, and the surface changes how the ball bounces and how fast the field dries.","Green Bay and Chicago have played each other more times than any other pair in NFL history.","Kickers love thin air, because the ball travels farther up high."],
+NBA:["An NBA court is 94 feet long and 50 feet wide.","The Celtics and Lakers have met in the NBA Finals more than any other pair.","A basketball hoop is 10 feet high, the same in every gym."],
+NHL:["An NHL rink is 200 feet long and 85 feet wide.","The Original Six teams are Boston, Chicago, Detroit, Montreal, the New York Rangers and Toronto.","Ice is kept around 24 degrees so it stays fast but not too brittle."],
+MLB:["Fenway Park’s Green Monster is about 37 feet tall.","Yankees and Red Sox is one of the oldest rivalries in baseball.","Every ballpark has different outfield walls, so no two parks play the same."],
+MLS:["Some MLS stadiums use natural grass and some use artificial turf.","A pro soccer pitch can be 110 to 120 yards long.","Soccer clocks count up, not down, and the referee decides on stoppage time."],
+CFB:["College football has no ties: overtime keeps going until someone wins.","College rivalry games can matter more than the standings.","Home crowds in college stadiums are some of the loudest in sports."],
+ANY:["Home teams win a bit more than half of their games, but only a bit.","A pigeon can find its way home from hundreds of miles away, which is more than I can say for most favorites.","A great record in the first month does not always hold up in the second."],
+CO:["Ball Arena in Denver is home to both the Nuggets and the Avalanche.","Coors Field stores its baseballs in a humidor so they don’t dry out in the thin air.","Empower Field at Mile High sits about a mile above sea level, and the air there is thin."]
+};
+function pidgeFact(g){
+  var p=isCO(g)?PIDPOOL.CO.concat(PIDPOOL[g.lg]||[]):(PIDPOOL[g.lg]||[]).concat(PIDPOOL.ANY);
+  if(!p.length)p=PIDPOOL.ANY;return pickN(p,g.id+"p");
+}
+function pidgeTake(g){
+  var o={t:"",pk:"",f:"cocky",fact:pidgeFact(g),line:"",p:0.5,risk:false};
+  if(STCFG[g.lg]&&!SD[g.lg])stLoad(g.lg,false);
+  var A=stFind(g.lg,g.aa,g.an),H=stFind(g.lg,g.ha,g.hn);
+  if(!A||!H){o.f="thinking";o.line="Interrupting! "+o.fact;o.t="Hold on, my napkin is empty. "+o.fact+" No standings yet, so no parlay leg.";return o}
+  var fa=stFrac(g.lg,A),fh=stFrac(g.lg,H)+0.03,gap=Math.abs(fh-fa),hp=fh>=fa;
+  var fav=hp?g.ha:g.aa,dog=hp?g.aa:g.ha,bold=gap<0.12,pa=bold?dog:fav;
+  var sh=fh/(fh+fa),pr=(pa===g.ha)?sh:1-sh;
+  o.pk=pa;o.risk=bold;o.p=pr;
+  if(isDone(g)&&g.sc&&showSc(g)){
+    var wa=g.sc.h>g.sc.a?g.ha:g.aa,hit=wa===pa;
+    o.f=hit?"grin":"shocked";o.line="Interrupting! "+o.fact;
+    o.t="Parlay check: "+wa+" won. My leg was "+pa+". "+(hit?"Leg hit. Pay the pigeon, in seeds.":"Leg busted. A good pigeon steps back to the curb and tries again.")+" Also, "+o.fact;return o;
+  }
+  pickRec(g,"p",pa);
+  o.f=bold?"cocky":"smug";
+  o.line="Interrupting! "+o.fact+" My parlay leg is "+pa+(bold?", and yes, it is spicy.":".");
+  o.t="Interrupting with a fact: "+o.fact+" My leg: "+pa+(bold?", the underdog, because the numbers are close and the payoff is bigger. ":", the favorite, because the gap is wide enough to trust. ")+"Napkin math says about "+Math.round(pr*100)+"%. Pretend bird seed only.";
+  return o;
+}
+function pidgeParlay(){
+  var now=Date.now(),L=visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)&&!isLive(g)});
+  L.sort(function(a,b){return rk(a)-rk(b)||a.s-b.s});
+  var legs=[];for(var i=0;i<L.length&&legs.length<3;i++){var t=pidgeTake(L[i]);if(t.pk)legs.push({g:L[i],t:t})}
+  if(legs.length<2)return null;
+  var pr=1;legs.forEach(function(x){pr*=x.t.p});
+  var PL=load("sp_parl",[]),key=legs.map(function(x){return x.g.id}).join(",");
+  if(!PL.some(function(p){return p.k===key})){PL.push({k:key,ids:legs.map(function(x){return x.g.id}),pk:legs.map(function(x){return x.t.pk}),t:Date.now()});if(PL.length>30)PL.shift();save("sp_parl",PL)}
+  return "Parlay time! "+legs.map(function(x,i){return "Leg "+(i+1)+": "+x.t.pk+" ("+x.g.an+" at "+x.g.hn+")"+(x.t.risk?" (spicy)":"")}).join(". ")+". All "+legs.length+" legs have to hit. Napkin math says about "+Math.round(pr*100)+"%. The prize is 12 pretend seeds and bragging rights. Not real money, not advice, I’m a pigeon.";
+}
 var ASKN=0;
 function askLoreTail(a){ASKN++;if(ASKN%5===0&&a&&a.indexOf("Buddy fact")<0)return a+"\n\nBuddy fact: "+pickN(BUDLORE.lore,String(Date.now()));return a}
 var JOKES=["Why are basketball players messy eaters? They’re always dribbling.","Why was the football stadium so cool? It was full of fans.","Why did the soccer player bring string to the game? So he could tie the score.","Why did the hockey player bring a ladder? He heard the other team was going top shelf.","What did the baseball glove say to the ball? Catch you later.","What’s the loudest sport? Tennis. Everyone raises a racket.","Why do referees make terrible roommates? They keep calling fouls on the dishes.","What’s a hockey player’s favorite cheese? Swiss, because of all the holes in the defense.","Why did the Broncos fan bring a ladder? To get to Mile High.","Why did the scoreboard get a promotion? Great numbers.","My fantasy team is so bad that even I won’t sit for it, and I’m a dog.","Why can’t you trust a stadium with a secret? Too many people leaking it from the stands.","I’d be a great coach. I already know how to call a play and I never skip a walk."];
@@ -3446,7 +3503,7 @@ function askTeam(t){
 function askTop(){var now=Date.now(),l=visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)});l.sort(function(a,b){return rk(a)-rk(b)||a.s-b.s});return l[0]}
 function askScan(){
   var now=Date.now();
-  visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)&&!isLive(g)}).slice(0,8).forEach(function(g){try{jaxTake(g)}catch(e){}});
+  visible({a:now-3*3600000,b:now+40*3600000}).filter(function(g){return !isDone(g)&&!isLive(g)}).slice(0,8).forEach(function(g){try{jaxTake(g);pidgeTake(g)}catch(e){}});
 }
 function askStreaks(kind){
   var all=[];Object.keys(SD).forEach(function(lg){((SD[lg]||{}).d||[]).forEach(function(r){var m=/^([WL])(\d+)$/.exec(r.sk||"");if(m&&m[1]===kind&&+m[2]>=3)all.push({lg:lg,n:r.n,k:+m[2],rec:stRec(lg,r)})})});
@@ -3466,6 +3523,15 @@ function askAnswer(q){
     if(/^(hi|hey|hello|yo|sup|howdy)\b/.test(s))return "Woof! Buddy here, live from the news desk. Ask me about a team, tonight’s games, who’s hot, or a joke.";
     if(has("thank"))return "Anytime! *tail wags*";
     if(/\b(bye|goodbye|see you|good night|goodnight)\b/.test(s))return "That’s the show. Keep your tail up!";
+    if(has("pidge","pigeon","parlay")&&!/debate|argue|fight|\bvs\b|versus/.test(s)){
+      if(has("parlay","bet","slip")){var pp=pidgeParlay();ASKONE={who:"pidge",f:"grin"};return pp||"Parlay needs at least two upcoming games with standings. Check back when more games are on."}
+      if(has("think","pick","take","predict","who wins","who will","opinion","say")){
+        var pg0=askTop();if(!pg0)return "Pidge has no upcoming game to chew on right now.";
+        var pt0=pidgeTake(pg0);ASKONE={who:"pidge",f:pt0.f};return "On "+pg0.an+" at "+pg0.hn+": "+pt0.t;
+      }
+      ASKONE={who:"pidge",f:"cocky"};
+      return "Name’s Parlay. Friends call me Pidge. I’m a city pigeon who has stepped in front of a hundred buses and lived. I live for the next parlay, I will interrupt you with a stat about turf, and I bet bird seed only. Ask me for my parlay or what I think of tonight’s game.";
+    }
     if(has("jax")&&!/debate|argue|fight|\bvs\b|versus/.test(s)){
       var jg0=askTop();
       if(has("think","pick","take","predict","who wins","who will","opinion","say")){
@@ -3478,7 +3544,7 @@ function askAnswer(q){
     if(/debate|\bargue\b|\bfight\b|buddy (vs|versus)|(vs|versus) jax|jax (vs|versus)/.test(s)){
       var dg=askTop(),ds=dg?jaxDebate(dg):null;
       if(!ds)ds=pickN(JAXDEB,String(Date.now()));
-      ASKRIT=ds;return ds.map(function(x){return (x[3]==="jax"?"Jax: ":"Buddy: ")+x[1]}).join("\n");
+      ASKRIT=ds;return ds.map(function(x){return ({jax:"Jax: ",pidge:"Pidge: "}[x[3]]||"Buddy: ")+x[1]}).join("\n");
     }
     var rl=rallyFind(s);if(rl){ASKRIT=rl;return rl.map(function(x){return x[1]}).join("\n")}
     if(has("who are you","your name","what are you","backstory","about you","where are you from","where do you live","longmont","where were you born","your story"))return "I’m Buddy “The Sports Doodle,” a goldendoodle from Longmont, Colorado. I’m a Colorado dog no matter whose game it is. I read the standings, sniff out big games and give opinions that are 100% for fun and 0% betting advice. Ask for “a story” and I’ll tell you more.";
@@ -3511,11 +3577,11 @@ function askTopHTML(){
 }
 var ASKTM=null,ASKTYP=false,AUDX=null;
 function askBlip(c){
-  if(!pref("budsnd",true)||SCR!=="ask")return;var jx=ASKWHO==="jax";
+  if(!pref("budsnd",true)||SCR!=="ask")return;var jx=ASKWHO==="jax",pj=ASKWHO==="pidge";
   try{
     AUDX=AUDX||new (window.AudioContext||window.webkitAudioContext)();if(AUDX.state==="suspended")AUDX.resume();
     var o=AUDX.createOscillator(),g=AUDX.createGain(),t=AUDX.currentTime;
-    o.type=jx?"triangle":"square";o.frequency.value=(jx?520:230)+(String(c||"a").charCodeAt(0)%11)*(jx?34:26);
+    o.type=pj?"sawtooth":(jx?"triangle":"square");o.frequency.value=(pj?390:(jx?520:230))+(String(c||"a").charCodeAt(0)%11)*(pj?22:(jx?34:26));
     g.gain.setValueAtTime(0.045,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.07);
     o.connect(g);g.connect(AUDX.destination);o.start(t);o.stop(t+0.08);
   }catch(e){}
@@ -3552,7 +3618,7 @@ function drawAsk(){
   var el=$("askScr");if(!el)return;var first=!el.getAttribute("data-b");
   if(!el.getAttribute("data-b")){
     el.setAttribute("data-b","1");
-    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div class="ralh">🍀 Rally Buddy: tell him what you need and he does his lucky routine</div><div class="views" id="askRal">'+RALCH.map(function(c){return '<button type="button" class="chip askch ral" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><details class="abt" id="abt"><summary>About Buddy</summary>'+BUDLORE.bio.map(function(p){return '<p>'+esc(p)+'</p>'}).join("")+'</details><div class="jsc" id="jaxsc"></div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds.</div>';
+    el.innerHTML='<h2 class="gh">Ask the Doodle</h2>'+askTopHTML()+'<form id="askForm" class="askf" autocomplete="off"><input id="askIn" type="text" maxlength="120" placeholder="Ask Buddy about a team, a game or just for a laugh" aria-label="Ask Buddy"><button class="btn" type="submit">Ask</button></form><div class="views" id="askCh">'+ASKCH.map(function(c){return '<button type="button" class="chip askch" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><div class="ralh">🍀 Rally Buddy: tell him what you need and he does his lucky routine</div><div class="views" id="askRal">'+RALCH.map(function(c){return '<button type="button" class="chip askch ral" data-ask="'+esc(c)+'">'+esc(c)+'</button>'}).join("")+'</div><details class="abt" id="abt"><summary>About Buddy</summary>'+BUDLORE.bio.map(function(p){return '<p>'+esc(p)+'</p>'}).join("")+'</details><div class="jsc" id="jaxsc"></div><div id="askLog"></div><div class="meta">Buddy’s picks come from team records and streaks. They are opinions for fun, not betting advice, and they use no odds. Pidge’s parlays are pretend bird seed, never real money.</div>';
     el.addEventListener("submit",function(e){e.preventDefault();var i=$("askIn");askRun(i.value);i.value=""});
     el.addEventListener("click",function(e){var sb=e.target.closest("[data-asnd]");if(sb){setPref("budsnd",!pref("budsnd",true));sb.textContent=pref("budsnd",true)?"\ud83d\udd0a":"\ud83d\udd07";askBlip("a");return}if(e.target.closest("#adlg")){askSkip();return}var b=e.target.closest("[data-ask]");if(b)askRun(b.getAttribute("data-ask"))});
     if(!ASKL.length)ASKL.push({q:"Hi Buddy!",a:"Woof! Buddy “The Sports Doodle” here, live from Longmont. "+BUDLORE.season()+" Ask me about a team, tonight’s games, who’s hot, or ask who I am."});
@@ -3563,16 +3629,16 @@ function drawAsk(){
 }
 function deskWho(w){
   var top=$("askTop"),dl=$("adlg");if(!top||!dl)return;var wr=top.querySelector(".abw");if(!wr)return;
-  var jx=w==="jax";ASKWHO=jx?"jax":"buddy";
+  var jx=w==="jax",px=w==="pidge";ASKWHO=jx?"jax":(px?"pidge":"buddy");
   if(wr.getAttribute("data-w")===ASKWHO)return;
-  wr.setAttribute("data-w",ASKWHO);dl.classList.toggle("jx",jx);
-  var nm=dl.querySelector(".adn span");if(nm)nm.textContent=jx?"JAX":"BUDDY";
-  wr.innerHTML=jx?'<img class="dsbud" alt="Jax the Cat" src="'+jaxBaseImg()+'">':'<img class="dsbud" alt="Buddy The Sports Doodle" src="'+budImg("excited")+'">';
+  wr.setAttribute("data-w",ASKWHO);dl.classList.toggle("jx",jx);dl.classList.toggle("px",px);
+  var nm=dl.querySelector(".adn span");if(nm)nm.textContent=jx?"JAX":(px?"PIDGE":"BUDDY");
+  wr.innerHTML=(jx||px)?'<img class="dsbud" alt="'+(jx?"Jax the Cat":"Parlay the Pigeon")+'" src="'+whoImg(ASKWHO)+'">':'<img class="dsbud" alt="Buddy The Sports Doodle" src="'+budImg("excited")+'">';
 }
 function deskFace(f){
   var im=document.querySelector("#askScr .dsbud");if(!im)return;
   var w=im.parentNode,o;
-  if(ASKWHO==="jax"){o=w.querySelector(".jface");if(JAXF[f]){if(!o){o=document.createElement("img");o.className="jface";o.alt="";w.appendChild(o)}o.src=JAXF[f];o.style.display=""}else if(o)o.style.display="none";return}
+  if(ASKWHO==="jax"||ASKWHO==="pidge"){var cls=ASKWHO==="pidge"?"pface":"jface",MP=ASKWHO==="pidge"?PIDF:JAXF;o=w.querySelector("."+cls);if(MP[f]){if(!o){o=document.createElement("img");o.className=cls;o.alt="";w.appendChild(o)}o.src=MP[f];o.style.display=""}else if(o)o.style.display="none";return}
   o=w.querySelector(".bface");
   im.src=budImg(f==="thinking"?"thinking":(f==="excited"?"excited":"happy"));
   if(BUDF[f]){if(!o){o=document.createElement("img");o.className="bface";o.alt="";w.appendChild(o)}o.src=BUDF[f];o.style.display=""}else if(o)o.style.display="none";
@@ -3583,7 +3649,7 @@ function askFace(q,a){
   if(/thank|love|good (dog|boy)|best (dog|buddy)|you rock/.test(s))return "love";
   if(/^i sniffed around/i.test(a||""))return "shocked";
   if(/\b(story|stories|lucky|ritual|superstit|squirrel|fun fact)\b/.test(s))return "wink";
-  if(/jax|whisker|\bcat\b|rival/.test(s))return "fired";
+  if(/jax|whisker|\bcat\b|rival|pidge|pigeon|parlay/.test(s))return "fired";
   if(/\b(bye|goodbye|see you|good night|goodnight)\b/.test(s))return "sleepy";
   if(/who are you|backstory|longmont|where are you from|about you|jersey/.test(s))return "excited";
   if(h<5&&/hi|hello|hey|tonight|game/.test(s))return "sleepy";
@@ -3609,7 +3675,7 @@ function budSay(text,mood,force,who){
   budHide();
   var d=document.createElement("div");d.className="bud"+(mood==="excited"||mood==="fired"||mood==="laugh"||mood==="love"?" hype":"");d.setAttribute("role","status");
   d.innerHTML='<div class="bw"><svg class="btail" viewBox="0 0 40 44" aria-hidden="true"><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#1a182c" stroke-width="7" stroke-linecap="round"/><path d="M36 43C32 34 24 30 18 20" fill="none" stroke="#e6b880" stroke-width="4" stroke-linecap="round"/><g fill="#e6b880" stroke="#1a182c" stroke-width="1.6"><circle cx="19.2" cy="12.0" r="4.4"/><circle cx="17.1" cy="17.1" r="4.4"/><circle cx="12.0" cy="19.2" r="4.4"/><circle cx="6.9" cy="17.1" r="4.4"/><circle cx="4.8" cy="12.0" r="4.4"/><circle cx="6.9" cy="6.9" r="4.4"/><circle cx="12.0" cy="4.8" r="4.4"/><circle cx="17.1" cy="6.9" r="4.4"/></g><circle cx="12" cy="12" r="8" fill="#e6b880"/><path d="M8 9q3-3 6 0M7 14q4 3 8 0" fill="none" stroke="#d4a268" stroke-width="1.4" stroke-linecap="round"/></svg><img alt="Buddy The Sports Doodle" src="'+budImg(mood)+'">'+budFaceTag(mood)+'</div><div class="bal"><div class="bn">Buddy \u201cThe Sports Doodle\u201d</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button><a data-bud="off">Turn Buddy off</a></div></div>';
-  if(who==="jax"){d.className="bud";d.innerHTML='<div class="bw"><img alt="Jax the Cat" src="'+jaxBaseImg()+'">'+jaxFaceTag(mood)+'</div><div class="bal"><div class="bn">Jax the Cat</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button></div></div>'}
+  if(who==="jax"||who==="pidge"){d.className="bud";d.innerHTML='<div class="bw"><img alt="'+(who==="jax"?"Jax the Cat":"Parlay the Pigeon")+'" src="'+whoImg(who)+'">'+whoFaceTag(who,mood)+'</div><div class="bal"><div class="bn">'+(who==="jax"?"Jax the Cat":"Parlay the Pigeon")+'</div><div class="bt"></div><div class="bk"><button type="button" class="mini primary" data-bud="ok">Got it!</button></div></div>'}
   document.body.appendChild(d);budEl=d;
   var bt=d.querySelector(".bt"),i=0;
   budTimer=setInterval(function(){i+=2;bt.textContent=text.slice(0,i);if(i>=text.length){clearInterval(budTimer);bt.textContent=text}},22);
